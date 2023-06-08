@@ -31,11 +31,14 @@ do
     simulator:setProperty("Altitude Unit", "1")
     simulator:setProperty("Speed Unit", 3.6)
 
+
     -- Runs every tick just before onTick; allows you to simulate the inputs changing
     ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
     ---@param ticks     number Number of ticks since simulator started
     function onLBSimulatorTick(simulator, ticks)
-
+        simulator:setInputNumber(4, simulator:getSlider(4)*math.pi*2)
+        simulator:setInputNumber(5, simulator:getSlider(5)*math.pi*2)
+        simulator:setInputNumber(6, simulator:getSlider(6)*math.pi*2)
     end;
 end
 ---@endsection
@@ -106,14 +109,8 @@ function convert()
     Phys.tilt_z = math.atan(matrix12, math.sqrt(matrix11*matrix11 + matrix10*matrix10)) / (math.pi * 2)
 
     -- Compute compasses.
-    Phys.compass_x = math.atan(matrix00, matrix20) / -(math.pi * 2)
-    Phys.compass_y = math.atan(matrix01, matrix21) / -(math.pi * 2)
-    Phys.compass_z = math.atan(matrix02, matrix22) / -(math.pi * 2)
-
-    --local compassSensor = -math.atan(sx * sz + cx * sy * cz,cx * cy) / 2 / math.pi
-    temp = (((1 - Phys.compass_y) % 1) * (math.pi * 2))
-    Phys.compass_y = isInteger(temp)
-    --Phys.compass_y = type(temp) == "number" and temp or 0
+    local compassSensor = -math.atan(math.sin(phyX)*math.sin(phyZ) + math.cos(phyX)*math.sin(phyY)*math.cos(phyZ), math.cos(phyX)*math.cos(phyY)) /2/math.pi
+    Phys.compass=((((1-compassSensor)%1)*(math.pi*2)))
 
 
 
@@ -240,17 +237,17 @@ function compassBar(targetangle)    --targetangle = degrees
 
     screen.setColor(255, 255, 225)
     --print(tonumber(math.floor(math.deg(Phys.compass_y))))
-    drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass_y)))))
+    drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass)))))
 
     screen.setColor(5, 70, 5)
     for i = 0, 72, 1 do
-        screen.drawLine(math.floor(((math.floor(math.deg(Phys.compass_y)-i*5+360)%360)/360)*compassBarSpase), 29+i%2,
-                        math.floor(((math.floor(math.deg(Phys.compass_y)-i*5+360)%360)/360)*compassBarSpase), 33)
+        screen.drawLine(math.floor(((math.floor(math.deg(Phys.compass)-i*5+360)%360)/360)*compassBarSpase), 29+i%2,
+                        math.floor(((math.floor(math.deg(Phys.compass)-i*5+360)%360)/360)*compassBarSpase), 33)
     end
     
     screen.setColor(250, 250, 40)
-    screen.drawLine(math.floor(((math.floor(math.deg(Phys.compass_y)-targetangle+360)%360)/360)*compassBarSpase), 29,
-                    math.floor(((math.floor(math.deg(Phys.compass_y)-targetangle+360)%360)/360)*compassBarSpase), 33)
+    screen.drawLine(math.floor(((math.floor(math.deg(Phys.compass)-targetangle+360)%360)/360)*compassBarSpase), 29,
+                    math.floor(((math.floor(math.deg(Phys.compass)-targetangle+360)%360)/360)*compassBarSpase), 33)
 end
 function Indicator(boolA,boolB,boolC,boolD) --四角4つ
     colorTable=split(indicatorColor,",")
