@@ -57,20 +57,7 @@ end
 --定義部---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Phys = {}
 
-SkyColorR,SkyColorG,SkyColorB = Colorconv16("SkyColor")
-LandColorR,SkyColorG,SkyColorB = Colorconv16("LandColor")
-SkyColorR,SkyColorG,SkyColorB = Colorconv16("CenterLineColor")
 
-indicatorColor = property.getText("indicatorColor")
---indicatorColor = "200,100,100,100,200,100,100,100,200,255,255,255"
-
-altunit = property.getNumber("Altitude Unit")
-spdunit = property.getNumber("Speed Unit")
-
-firstTick = true
-monitorPower = true
-
-indicatorbool = {false, false, false, false}
 
 
 
@@ -242,7 +229,7 @@ function horizon()  --水平儀
     --screen.setColor(0,0,0)
     --screen.drawRectF(0,0,4,32)
     screen.setColor(255,255,255)
-    screen.drawText(16,25,pitch)
+    screen.drawText(16,25,tostring(pitch))
 end
 function compassBar(targetangle)    --targetangle = degrees
     local compassBarSpase = 300
@@ -325,7 +312,20 @@ end
 
 
 --------------実行部------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SkyColorR,SkyColorG,SkyColorB = Colorconv16("SkyColor")
+LandColorR,SkyColorG,SkyColorB = Colorconv16("LandColor")
+SkyColorR,SkyColorG,SkyColorB = Colorconv16("CenterLineColor")
 
+indicatorColor = property.getText("indicatorColor")
+--indicatorColor = "200,100,100,100,200,100,100,100,200,255,255,255"
+
+altunit = property.getNumber("Altitude Unit")
+spdunit = property.getNumber("Speed Unit")
+
+firstTick = true
+monitorPower = true
+
+indicatorbool = {false, false, false, false}
 
 function onTick()					--[====[ onTick ]====]--
     if firstTick then
