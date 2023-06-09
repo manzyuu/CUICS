@@ -123,6 +123,7 @@ end
 
 
 
+
 do-------------------------------------[====[ 処理系 ]====]----------------------------------------
 function split(str, delim)
     if string.find(str, delim) == nil then
