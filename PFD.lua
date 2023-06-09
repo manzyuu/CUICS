@@ -117,7 +117,7 @@ function convert()
     Phys.angular_z = matrix02*phyAngX + matrix12*phyAngY + matrix22*phyAngZ
 
 
-    Phys.roll  = math.atan(Phys.tilt_y, Phys.tilt_x)
+    Phys.roll  = math.atan(-Phys.tilt_y, Phys.tilt_x)
     Phys.pitch = Phys.tilt_z
 end
 
