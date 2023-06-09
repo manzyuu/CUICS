@@ -84,6 +84,8 @@ function convert()
     local phyAngY = input.getNumber(11)
     local phyAngZ = input.getNumber(12)
 
+    Phys.speed = input.getNumber(13)
+
     -- sin, 'cos I like it.
     local cx, sx = math.cos(phyX), math.sin(phyX)
     local cy, sy = math.cos(phyY), math.sin(phyY)
@@ -225,9 +227,11 @@ function compassBar(targetangle)            --targetangle = degrees
     temp =                          ((-Phys.compass / math.pi / 2 + 1.00) * (linedeg / linespace) + 4 * linespace) % overblock
     screen.drawText(temp-1, 25, "N")
 
-    screen.setColor(5,5,5,50)
-    screen.drawRectF(10,23,11,7)                 --現在方位表示の背景
-    screen.drawRectF(9,24,13,5)
+
+    screen.setColor(3, 2, 2)
+    screen.drawRectF(0, 29, 32, 3)
+    screen.drawRectF(10, 23, 11, 7)                 --現在方位表示の背景
+    screen.drawRectF(9, 24, 13, 5)
 
     screen.setColor(255, 255, 225)
     drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass)))))       --現在方位を三桁表示
@@ -297,6 +301,22 @@ function altimeter()
     screen.setColor(255,255,255)    --高度の数字
     screen.drawTextBox(6, 0, 26, 32, string.format("%04d", math.floor(Phys.alt * altunit)), 0, 0)
 end
+function speedmeter()
+    screen.setColor(2, 2, 2)
+    screen.drawRectF(11, 12, 18, 7)
+
+    screen.setColor(255, 255, 255)
+    screen.drawLine(29, 0, 29, 20)
+
+    screen.setColor(255, 180, 0)
+    screen.drawLine(27,15, 27,16)
+    screen.drawLine(28,14, 28,17)
+    screen.drawLine(29,13, 29,18)
+    screen.drawLine(30,13, 30,18)
+
+    screen.setColor(255, 255, 255)
+    screen.drawText(12, 13, string.format("%03d", math.floor(Phys.speed * spdunit)))
+end
 --------------------------------------------描画系終わり-------------------------------------------
 end
 
@@ -327,6 +347,12 @@ function onTick()----------------------[====[ onTick ]====]---------------------
     monitorID = 1
 
     convert()
+    indicatorbool = {
+                    input.getBool(1),
+                    input.getBool(2),
+                    input.getBool(3),
+                    input.getBool(4)
+                }
     monitorPower = false
 end-----------------------------------------onTick終わり-------------------------------------------
 
@@ -338,6 +364,7 @@ function onDraw()----------------------[====[ onDraw ]====]---------------------
         w, h = 32, 32	--画面の縦横を取得
 
         compassBar(0)
+        speedmeter()
         
         Indicator(indicatorbool[1], indicatorbool[2], indicatorbool[3], indicatorbool[4])
         

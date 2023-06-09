@@ -1,5 +1,5 @@
 
-if true then
+do
 -- Author: <Authorname> (Please change this in user settings, Ctrl+Comma)
 -- GitHub: <GithubLink>
 -- Workshop: <WorkshopLink>
@@ -20,7 +20,7 @@ do
     ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
     simulator = simulator
     simulator:setScreen(1, "1x1")
-    simulator:setScreen(2, "5x5")
+    simulator:setScreen(2, "1x1")
     simulator:setProperty("F1","0000044404AA000AEAEA4E4E4A248A26E624800048884844480A4A004E400004800E000000422488EAAAEC444EE2E8EE2E2EAAE22E8E2EE8EAEE2244EAEAE")
     simulator:setProperty("F2","EAE2E0404004048248420E0E084248E26048CEC8EAEAAEACAEE888ECAAADE8C8EE8C88E8BBEBBEBBE444EE444CBBCBB8888EEEEBBBEEEBEAAAEEBE88EBBC6")
     simulator:setProperty("F3","EAECBE8E2EE4444AAAAEAAAA4AAEEAAA4AAAAE44E248EC888C88422622264A0000000E84000006AE88EAE00E8E22EAE00ECE64E446AE2E88EAA404444044C")
@@ -32,11 +32,14 @@ do
     simulator:setProperty("Altitude Unit", "1")
     simulator:setProperty("Speed Unit", 3.6)
 
+
     -- Runs every tick just before onTick; allows you to simulate the inputs changing
     ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
     ---@param ticks     number Number of ticks since simulator started
     function onLBSimulatorTick(simulator, ticks)
-
+        simulator:setInputNumber(4, simulator:getSlider(4)*math.pi*2-math.pi)
+        simulator:setInputNumber(5, simulator:getSlider(5)*math.pi*2-math.pi)
+        simulator:setInputNumber(6, simulator:getSlider(6)*math.pi*2-math.pi)
     end;
 end
 ---@endsection
@@ -51,31 +54,16 @@ end
 -- Tick function that will be executed every logic tick
 end
 
-m = math
---min,max,abs,cos,sin,tan,acos,asin,atan,pi,(math.pi * 2) = m.min,m.max,m.abs,m.cos,m.sin,m.tan,m.acos,m.asin,m.atan,m.pi,m.pi*2
-function compassBar(targetangle)    --targetangle = degrees
-    local compassBarSpase = 300
 
-    screen.setColor(5,5,5)
-    screen.drawRectF(10,23,11,7)
-    screen.drawRectF(9,24,13,5)
 
-    screen.setColor(255, 255, 225)
-    --print(tonumber(math.floor(math.deg(Phys.compass_y))))
-    drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass_y)))))
+---------[====[ 定義部 ]====]----------
+Phys = {}
 
-    screen.setColor(5, 70, 5)
-    for i = 0, 72, 1 do
-        screen.drawLine(math.floor(((math.floor(math.deg(Phys.compass_y)-i*5+360)%360)/360)*compassBarSpase), 29+i%2,
-                        math.floor(((math.floor(math.deg(Phys.compass_y)-i*5+360)%360)/360)*compassBarSpase), 33)
-    end
-    
-    screen.setColor(250, 250, 40)
-    screen.drawLine(math.floor(((math.floor(math.deg(Phys.compass_y)-targetangle+360)%360)/360)*compassBarSpase), 29,
-                    math.floor(((math.floor(math.deg(Phys.compass_y)-targetangle+360)%360)/360)*compassBarSpase), 33)
-end
+
+
+--コンバータ--
 function convert()
-    Phys = {}
+    
     -- This uses the game's basis. That is,
     --     vehicle   world   color
     -- x   right     east    red
@@ -83,71 +71,89 @@ function convert()
     -- z   forward   north   blue
 
     -- Get angles.
-    local x = input.getNumber(4)
-    local y = input.getNumber(5)
-    local z = input.getNumber(6)
+    Phys.x     = input.getNumber(1)
+    Phys.alt   = input.getNumber(2)
+    Phys.y     = input.getNumber(3)
+    
+
+    local phyX = input.getNumber(4)
+    local phyY = input.getNumber(5)
+    local phyZ = input.getNumber(6)
+    
+    -- Get global angular velocities.
+    local phyAngX = input.getNumber(10)
+    local phyAngY = input.getNumber(11)
+    local phyAngZ = input.getNumber(12)
 
     -- sin, 'cos I like it.
-    local cx, sx = math.cos(x), math.sin(x)
-    local cy, sy = math.cos(y), math.sin(y)
-    local cz, sz = math.cos(z), math.sin(z)
+    local cx, sx = math.cos(phyX), math.sin(phyX)
+    local cy, sy = math.cos(phyY), math.sin(phyY)
+    local cz, sz = math.cos(phyZ), math.sin(phyZ)
 
     -- Build matrix.
-    local m00 =  cy*cz
-    local m01 = -cx*sz + sx*sy*cz
-    local m02 =  sx*sz + cx*sy*cz
-    local m10 =  cy*sz
-    local m11 =  cx*cz + sx*sy*sz
-    local m12 = -sx*cz + cx*sy*sz
-    local m20 = -sy
-    local m21 =  sx*cy
-    local m22 =  cx*cy
-    --[[
-    -- Compute tilts. Less stable near gimbal lock. m11 and m12 can exceed asin's domain.
-    Phys.tilt_x = math.asin(m10) / math.pi * 2
-    Phys.tilt_y = math.asin(m11) / math.pi * 2
-    Phys.tilt_z = math.asin(m12) / math.pi * 2
+    local matrix00 =  cy*cz
+    local matrix01 = -cx*sz + sx*sy*cz
+    local matrix02 =  sx*sz + cx*sy*cz
+    local matrix10 =  cy*sz
+    local matrix11 =  cx*cz + sx*sy*sz
+    local matrix12 = -sx*cz + cx*sy*sz
+    local matrix20 = -sy
+    local matrix21 =  sx*cy
+    local matrix22 =  cx*cy
 
-    -- Alternatively, compute tilts stably.
-    Phys.tilt_x = math.atan(m10, math.sqrt(m00*m00 + m20*m20)) / math.pi * 2
-    Phys.tilt_y = math.atan(m11, math.sqrt(m01*m01 + m21*m21)) / math.pi * 2
-    Phys.tilt_z = math.atan(m12, math.sqrt(m02*m02 + m22*m22)) / math.pi * 2
-    ]]
+
     -- Equally good alternative if you prefer.
-    Phys.tilt_x = math.atan(m10, math.sqrt(m12*m12 + m11*m11)) / (math.pi * 2)
-    Phys.tilt_y = math.atan(m11, math.sqrt(m10*m10 + m12*m12)) / (math.pi * 2)
-    Phys.tilt_z = math.atan(m12, math.sqrt(m11*m11 + m10*m10)) / (math.pi * 2)
+    Phys.tilt_x = math.atan(matrix10, math.sqrt(matrix12*matrix12 + matrix11*matrix11)) / (math.pi * 2)
+    Phys.tilt_y = math.atan(matrix11, math.sqrt(matrix10*matrix10 + matrix12*matrix12)) / (math.pi * 2)
+    Phys.tilt_z = math.atan(matrix12, math.sqrt(matrix11*matrix11 + matrix10*matrix10)) / (math.pi * 2)
 
     -- Compute compasses.
-    Phys.compass_x = math.atan(m00, m20) / -(math.pi * 2)
-    --Phys.compass_y = math.atan(m01, m21) / -(math.pi * 2)
-    Phys.compass_z = math.atan(m02, m22) / -(math.pi * 2)
+    local compassSensor = -math.atan(math.sin(phyX)*math.sin(phyZ) + math.cos(phyX)*math.sin(phyY)*math.cos(phyZ), math.cos(phyX)*math.cos(phyY)) /2/math.pi
+    Phys.compass=((((1-compassSensor)%1)*(math.pi*2)))
 
-    local compassSensor = -math.atan(math.sin(x) * math.sin(z) + math.cos(x) * math.sin(y) * math.cos(z),
-    math.cos(x) * math.cos(y)) / 2 / math.pi
-    temp = (((1 - compassSensor) % 1) * (math.pi * 2))
-    Phys.compass_y = isInteger(temp)
-    --Phys.compass_y = type(temp) == "number" and temp or 0
-
-    -- Get global angular velocities.
-    local ax = input.getNumber(10)
-    local ay = input.getNumber(11)
-    local az = input.getNumber(12)
 
     -- Transform them to the local frame.
-    Phys.angular_x = m00*ax + m10*ay + m20*az
-    Phys.angular_y = m01*ax + m11*ay + m21*az
-    Phys.angular_z = m02*ax + m12*ay + m22*az
+    Phys.angular_x = matrix00*phyAngX + matrix10*phyAngY + matrix20*phyAngZ
+    Phys.angular_y = matrix01*phyAngX + matrix11*phyAngY + matrix21*phyAngZ
+    Phys.angular_z = matrix02*phyAngX + matrix12*phyAngY + matrix22*phyAngZ
 
-    Phys.x     = input.getNumber(1)
-    Phys.y     = input.getNumber(3)
-    Phys.alt   = input.getNumber(2)
-    --Phys.compass_y   = Phys.compass_y
-    ----@diagnostic disable-next-line: redundant-parameter
-    Phys.roll  = math.atan(Phys.tilt_y, Phys.tilt_x)
-    --Phys.roll = 0
-    Phys.pitch = Phys.tilt_z
+
+    Phys.roll  = math.atan(-Phys.tilt_y, Phys.tilt_x)
+    Phys.pitch = -Phys.tilt_z
 end
+
+
+
+do-------------------------------------[====[ 処理系 ]====]----------------------------------------
+function split(str, delim)
+    if string.find(str, delim) == nil then
+        return { str }
+    end
+
+    local result = {}
+    local pat = "(.-)" .. delim .. "()"
+    local lastPos
+    for part, pos in string.gmatch(str, pat) do
+        table.insert(result, part)
+        lastPos = pos
+    end
+    table.insert(result, string.sub(str, lastPos))
+    return result
+end
+function Colorconv16(name)	--16進数のカラーコードをRGBに変換する
+	local Color = tonumber(property.getText(name),16)
+	return (Color>>16) & 0xff, (Color>>8) & 0xff, Color & 0xff --R,G,B
+end
+function lerp(MIN,MAX,X)        --  0~1  f(x)と同じ挙動
+    return (1 - X) * MIN + X * MAX
+end
+-------------------------------------------処理系終わり--------------------------------------------
+end
+
+
+
+do-------------------------------------[====[ 描画系 ]====]----------------------------------------
+----------------------FONT----------------------
 function drawNewFont(NewFontX,NewFontY,NewFontZ)
 	local NewFontC,NewFontD,NewFontF,NewFontP,NewFontQ
 	if type(NewFontZ)=="number"then
@@ -167,6 +173,76 @@ function drawNewFont(NewFontX,NewFontY,NewFontZ)
 			end
 		end
 	end
+end
+
+function horizon()  --水平儀
+    local XPos = 0
+    local YPos = 0
+
+    local lineangle = 10 									--何度ごとに線を描画するかの指定
+    local maxlinelength = 8							    	--↑の線の幅を指定
+    for i=-360 // lineangle, 360 // lineangle do	        --lineangleに合わせた線を引くためのfor文
+        local offsetX = math.cos(Phys.roll) * (i - Phys.pitch / math.pi * 360) + w / 2		--┬─ピッチ方向に線を動かすためのやつ
+        local offsetY = math.sin(Phys.roll) * (i - Phys.pitch / math.pi * 360) + h / 2		--┘
+        local X, Y = math.cos(Phys.roll) * i * lineangle + offsetX, math.sin(Phys.roll) * i * lineangle + offsetY    
+                                                            --画面中心からロール角分傾けた線を描画したい線の半径まで引く
+        local line1 =  Phys.roll + math.pi / 2				--┬─↑でひいた線の先端に垂直な線の角度　左右分。
+        local line2 = -Phys.roll + math.pi / 2				--┘
+
+        local linelength = math.cos(lerp(0, math.pi/2, (i + Phys.pitch / (math.pi * 2)) * h)) * maxlinelength  --端に行くほど線が短くなる
+
+        if i == 0 then								        --水平線の色
+            screen.setColor(255,255,255)
+            local linelength = 20
+        elseif i < 0 then							        --地面の色
+            screen.setColor(50,255,50)
+        else									        	--空の色
+            screen.setColor(50,50,255)
+        end
+
+        local pixelX_1, pixelY_1 = math.cos(line1) * linelength + X,  math.sin(line1) * linelength + Y    --┬─描画する線の座標計算
+        local pixelX_2, pixelY_2 = math.cos(line2) * linelength + X, -math.sin(line2) * linelength + Y    --┘
+        
+        screen.drawLine(pixelX_1 + XPos, pixelY_1 + YPos, pixelX_2 + XPos, pixelY_2 + YPos)	--線を描画する
+    end
+    --screen.setColor(255,255,255)
+    --screen.drawText(16,25,tostring(Phys.pitch))
+end
+function compassBar(targetangle)            --targetangle = degrees
+    local temp = 0
+    local linespace = 4                          --線と線の感覚
+    local linedeg = 360 * linespace / 5 * 4      --n度ごとの線
+    local targetangle = targetangle - math.pi / 2
+
+    local overblock = 360 * linespace   --↓らは線の上にNESWを表示する
+    temp =                          ((-Phys.compass / math.pi / 2 + 0.00) * (linedeg / linespace) + 4 * linespace) % overblock
+    screen.drawText(temp-1, 25, "N")
+    temp =                          ((-Phys.compass / math.pi / 2 + 0.25) * (linedeg / linespace) + 4 * linespace) % overblock
+    screen.drawText(temp-1, 25, "E")
+    temp =                          ((-Phys.compass / math.pi / 2 + 0.50) * (linedeg / linespace) + 4 * linespace) % overblock
+    screen.drawText(temp-1, 25, "S")
+    temp =                          ((-Phys.compass / math.pi / 2 + 0.75) * (linedeg / linespace) + 4 * linespace) % overblock
+    screen.drawText(temp-1, 25, "W")
+    temp =                          ((-Phys.compass / math.pi / 2 + 1.00) * (linedeg / linespace) + 4 * linespace) % overblock
+    screen.drawText(temp-1, 25, "N")
+
+    screen.setColor(5,5,5,50)
+    screen.drawRectF(10,23,11,7)                 --現在方位表示の背景
+    screen.drawRectF(9,24,13,5)
+
+    screen.setColor(255, 255, 225)
+    drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass)))))       --現在方位を三桁表示
+
+    screen.setColor(5, 70, 5)
+    for i = 0, 32 / linespace do                 --方位線の描画
+        local temp = (-Phys.compass / math.pi / 2 * (linedeg / linespace) + i * linespace) % 32
+        screen.drawLine(temp, 29 + i % 2,temp ,33)
+    end
+
+    
+    screen.setColor(250, 250, 40)                --目標の角度
+    local temp = (-targetangle / math.pi / 2 * (linedeg / linespace) + 2 * linespace) % 32
+    screen.drawLine(temp, 29,temp ,33)
 end
 function Indicator(boolA,boolB,boolC,boolD) --四角4つ
     colorTable=split(indicatorColor,",")
@@ -205,81 +281,6 @@ function Indicator(boolA,boolB,boolC,boolD) --四角4つ
     end
     screen.drawRectF(0,22,4,3)--
 end
-function split(str, delim)
-    if string.find(str, delim) == nil then
-        return { str }
-    end
-
-    local result = {}
-    local pat = "(.-)" .. delim .. "()"
-    local lastPos
-    for part, pos in string.gmatch(str, pat) do
-        table.insert(result, part)
-        lastPos = pos
-    end
-    table.insert(result, string.sub(str, lastPos))
-    return result
-end
-function Colorconv16(name)	--16進数のカラーコードをRGBに変換する
-	local Color = tonumber(property.getText(name),16)
-	return (Color>>16) & 0xff, (Color>>8) & 0xff, Color & 0xff --R,G,B
-end
-function lerp(MIN,MAX,X)        --  0~1  f(x)と同じ挙動
-    return (1 - X) * MIN + X * MAX
-end
-function isInteger(inVal)
-    local temp
-    if type(inVal)~="number" then
-        temp = false
-    else
-        temp = inVal%1 ..""=="0"
-    end
-    if temp then
-        return inVal
-    else
-        return 0
-    end
-end
-function horizon()  --水平儀
-    local roll  = Phys.roll * (math.pi * 2)
-    local pitch = Phys.pitch * (math.pi * 2)
-
-    local XPos = 0
-    local YPos = 0
-
-    local lineangle = 10 									--何度ごとに線を描画するかの指定
-    local maxlinelength = 8							    	--↑の線の幅を指定
-    for i=-360 // lineangle, 360 // lineangle do	        --lineangleに合わせた線を引くためのfor文
-        local offsetX = math.cos(roll) * (i + pitch) + w / 2		--┬─ピッチ方向に線を動かすためのやつ
-        local offsetY = math.sin(roll) * (i + pitch) + h / 2		--┘
-        local X, Y = math.cos(roll) * i * lineangle + offsetX, math.sin(roll) * i * lineangle + offsetY    
-                                                            --画面中心からロール角分傾けた線を描画したい線の半径まで引く
-        local line1 =  roll + math.pi / 2						--┬─↑でひいた線の先端に垂直な線の角度　左右分。
-        local line2 = -roll + math.pi / 2						--┘
-
-        local linelength = math.cos(lerp(0, math.pi/2, (i + pitch) / 360 * h)) * maxlinelength  --端に行くほど線が短くなる
-
-        if i == 0 then								        --水平線の色
-            screen.setColor(255,255,255)
-            local linelength = 20
-        elseif i < 0 then							        --地面の色
-            screen.setColor(50,255,50)
-        else									        	--空の色
-            screen.setColor(50,50,255)
-        end
-
-        local pixelX_1, pixelY_1 = math.cos(line1) * linelength + X,  math.sin(line1) * linelength + Y    --┬─描画する線の座標計算
-        local pixelX_2, pixelY_2 = math.cos(line2) * linelength + X, -math.sin(line2) * linelength + Y    --┘
-        
-        screen.drawLine(pixelX_1 + XPos, pixelY_1 + YPos, pixelX_2 + XPos, pixelY_2 + YPos)	--線を描画する
-        --screen.setColor(255,0,0,100)
-        --screen.drawText(X,Y,i)
-    end
-    --screen.setColor(0,0,0)
-    --screen.drawRectF(0,0,4,32)
-    screen.setColor(255,255,255)
-    screen.drawText(16,25,pitch)
-end
 function altimeter()
     screen.setColor(255,10,50,100)  --背景
     screen.drawRectF(0,12,32,7)
@@ -297,7 +298,29 @@ function altimeter()
     screen.setColor(255,255,255)    --高度の数字
     screen.drawTextBox(6, 0, 26, 32, string.format("%04d", math.floor(Phys.alt * altunit)), 0, 0)
 end
+function speedmeter()
+    screen.setColor(2, 2, 2)
+    screen.drawRectF(11, 12, 18, 7)
 
+    screen.setColor(255, 255, 255)
+    screen.drawLine(29, 0, 29, 20)
+
+    screen.setColor(255, 180, 0)
+    screen.drawLine(27,15, 27,16)
+    screen.drawLine(28,14, 28,17)
+    screen.drawLine(29,13, 29,18)
+    screen.drawLine(30,13, 30,18)
+
+    screen.setColor(255, 255, 255)
+    screen.drawText(12, 13, 220)
+    --drawNewFont(10,0,"e")
+end
+--------------------------------------------描画系終わり-------------------------------------------
+end
+
+
+
+do-------------------------------------[====[ 実行部 ]====]----------------------------------------
 SkyColorR,SkyColorG,SkyColorB = Colorconv16("SkyColor")
 LandColorR,SkyColorG,SkyColorB = Colorconv16("LandColor")
 SkyColorR,SkyColorG,SkyColorB = Colorconv16("CenterLineColor")
@@ -313,7 +336,7 @@ monitorPower = true
 
 indicatorbool = {false, false, false, false}
 
-function onTick()					--[====[ onTick ]====]--
+function onTick()----------------------[====[ onTick ]====]----------------------------------------
     if firstTick then
         
         firstTick = false
@@ -322,17 +345,24 @@ function onTick()					--[====[ onTick ]====]--
     monitorID = 1
 
     convert()
+    indicatorbool = {
+                    input.getBool(1),
+                    input.getBool(2),
+                    input.getBool(3),
+                    input.getBool(4)
+                }
     monitorPower = false
-end-------------------------------------------onTick終わり-------------------------------------------
+end-----------------------------------------onTick終わり-------------------------------------------
 
 
-function onDraw()					--[====[ onDraw ]====]--
+function onDraw()----------------------[====[ onDraw ]====]----------------------------------------
     if (monitorID == 1) then		--[====[ 左のモニター用の描画 ]====]--
         if monitorPower == true then return end
         monitorPower = true
         w, h = 32, 32	--画面の縦横を取得
 
         compassBar(0)
+        speedmeter()
         
         Indicator(indicatorbool[1], indicatorbool[2], indicatorbool[3], indicatorbool[4])
         
@@ -342,6 +372,12 @@ function onDraw()					--[====[ onDraw ]====]--
         horizon()
         altimeter()
     end
-end-------------------------------------------onDraw終わり-------------------------------------------
+end-----------------------------------------onDraw終わり-------------------------------------------
+--------------------------------------------実行部終わり-------------------------------------------
+end
 
---compass_y = compass_y == nil and 0
+
+
+--テンプレ--
+---------------------------------------[====[        ]====]----------------------------------------
+------------------------------------------        終わり-------------------------------------------
