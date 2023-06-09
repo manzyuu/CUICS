@@ -118,9 +118,8 @@ function convert()
 
 
     Phys.roll  = math.atan(-Phys.tilt_y, Phys.tilt_x)
-    Phys.pitch = Phys.tilt_z
+    Phys.pitch = -Phys.tilt_z
 end
-
 
 
 
@@ -182,8 +181,8 @@ function horizon()  --水平儀
     local lineangle = 10 									--何度ごとに線を描画するかの指定
     local maxlinelength = 8							    	--↑の線の幅を指定
     for i=-360 // lineangle, 360 // lineangle do	        --lineangleに合わせた線を引くためのfor文
-        local offsetX = math.cos(Phys.roll) * (i + Phys.pitch / math.pi * 360) + w / 2		--┬─ピッチ方向に線を動かすためのやつ
-        local offsetY = math.sin(Phys.roll) * (i + Phys.pitch / math.pi * 360) + h / 2		--┘
+        local offsetX = math.cos(Phys.roll) * (i - Phys.pitch / math.pi * 360) + w / 2		--┬─ピッチ方向に線を動かすためのやつ
+        local offsetY = math.sin(Phys.roll) * (i - Phys.pitch / math.pi * 360) + h / 2		--┘
         local X, Y = math.cos(Phys.roll) * i * lineangle + offsetX, math.sin(Phys.roll) * i * lineangle + offsetY    
                                                             --画面中心からロール角分傾けた線を描画したい線の半径まで引く
         local line1 =  Phys.roll + math.pi / 2				--┬─↑でひいた線の先端に垂直な線の角度　左右分。
@@ -194,7 +193,7 @@ function horizon()  --水平儀
         if i == 0 then								        --水平線の色
             screen.setColor(255,255,255)
             local linelength = 20
-        elseif i > 0 then							        --地面の色
+        elseif i < 0 then							        --地面の色
             screen.setColor(50,255,50)
         else									        	--空の色
             screen.setColor(50,50,255)
