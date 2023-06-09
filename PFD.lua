@@ -18,7 +18,7 @@ do
 do
     ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
     simulator = simulator
-    simulator:setScreen(1, "5x1")
+    simulator:setScreen(1, "1x1")
     simulator:setScreen(2, "1x1")
     simulator:setProperty("F1","0000044404AA000AEAEA4E4E4A248A26E624800048884844480A4A004E400004800E000000422488EAAAEC444EE2E8EE2E2EAAE22E8E2EE8EAEE2244EAEAE")
     simulator:setProperty("F2","EAE2E0404004048248420E0E084248E26048CEC8EAEAAEACAEE888ECAAADE8C8EE8C88E8BBEBBEBBE444EE444CBBCBB8888EEEEBBBEEEBEAAAEEBE88EBBC6")
@@ -181,14 +181,14 @@ function horizon()  --水平儀
     local lineangle = 10 									--何度ごとに線を描画するかの指定
     local maxlinelength = 8							    	--↑の線の幅を指定
     for i=-360 // lineangle, 360 // lineangle do	        --lineangleに合わせた線を引くためのfor文
-        local offsetX = math.cos(-Phys.roll) * (i + Phys.pitch / math.pi * 200) + w / 2		--┬─ピッチ方向に線を動かすためのやつ
-        local offsetY = math.sin(-Phys.roll) * (i + Phys.pitch / math.pi * 200) + h / 2		--┘
-        local X, Y = math.cos(-Phys.roll) * i * lineangle + offsetX, math.sin(-Phys.roll) * i * lineangle + offsetY    
+        local offsetX = math.cos(Phys.roll) * (i + Phys.pitch / math.pi * 360) + w / 2		--┬─ピッチ方向に線を動かすためのやつ
+        local offsetY = math.sin(Phys.roll) * (i + Phys.pitch / math.pi * 360) + h / 2		--┘
+        local X, Y = math.cos(Phys.roll) * i * lineangle + offsetX, math.sin(Phys.roll) * i * lineangle + offsetY    
                                                             --画面中心からロール角分傾けた線を描画したい線の半径まで引く
-        local line1 = -Phys.roll + math.pi / 2				--┬─↑でひいた線の先端に垂直な線の角度　左右分。
-        local line2 =  Phys.roll + math.pi / 2				--┘
+        local line1 =  Phys.roll + math.pi / 2				--┬─↑でひいた線の先端に垂直な線の角度　左右分。
+        local line2 = -Phys.roll + math.pi / 2				--┘
 
-        local linelength = math.cos(lerp(0, math.pi/2, (i + Phys.pitch) / 360 * h)) * maxlinelength  --端に行くほど線が短くなる
+        local linelength = math.cos(lerp(0, math.pi/2, (i + Phys.pitch / (math.pi * 2)) * h)) * maxlinelength  --端に行くほど線が短くなる
 
         if i == 0 then								        --水平線の色
             screen.setColor(255,255,255)
