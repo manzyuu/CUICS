@@ -34,57 +34,52 @@ end
 
 local _builder = LifeBoatAPI.Tools.Builder:new(rootDirs, outputDir, luaDocsMCPath, luaDocsAddonPath)
 
-if onLBBuildStarted then onLBBuildStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]])) end
+if onLBBuildStarted then onLBBuildStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]])) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[Start.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Start.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[MyMicrocontroller.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\MyMicrocontroller.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[Start.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Start.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[Start.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Start.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[MyMicrocontroller.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\MyMicrocontroller.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[MyMicrocontroller.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\MyMicrocontroller.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[Start (1).lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Start (1).lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\Start.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\Start.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[Start (1).lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Start (1).lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[Start (1).lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Start (1).lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[lua program\Start.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\Start.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\Start.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\Start.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[Physics sensor converter.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Physics sensor converter.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\Start (1).lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\Start (1).lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[Physics sensor converter.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Physics sensor converter.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[Physics sensor converter.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\Physics sensor converter.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[lua program\Start (1).lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\Start (1).lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\Start (1).lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\Start (1).lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[PFD.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\PFD.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\PFD.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\PFD.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[PFD.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\PFD.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[PFD.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\PFD.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[lua program\PFD.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\PFD.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\PFD.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\PFD.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[MyMicrocontroller.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\MyMicrocontroller.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\MainController.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\MainController.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[MyMicrocontroller.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\MyMicrocontroller.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[MyMicrocontroller.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\MyMicrocontroller.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[lua program\MainController.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\MainController.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[lua program\MainController.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\lua program\MainController.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[mainSystem.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\mainSystem.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\Physics sensor converter.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\Physics sensor converter.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[mainSystem.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\mainSystem.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[mainSystem.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\mainSystem.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[module\Physics sensor converter.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\Physics sensor converter.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\Physics sensor converter.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\Physics sensor converter.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[MainController.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\MainController.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\horizon.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\horizon.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[MainController.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\MainController.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[MainController.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\MainController.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[module\horizon.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\horizon.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\horizon.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\horizon.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[horizon.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\horizon.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\hex convert.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\hex convert.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[horizon.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\horizon.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[horizon.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\horizon.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[module\hex convert.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\hex convert.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\hex convert.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\hex convert.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[hex convert.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\hex convert.lua]])) end
+if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\compassBar momij.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\compassBar momij.lua]])) end
 
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[hex convert.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\hex convert.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[hex convert.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\hex convert.lua]]), outFile, combinedText, outText) end
+local combinedText, outText, outFile = _builder:buildMicrocontroller([[module\compassBar momij.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\compassBar momij.lua]]), params)
+if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]]), [[module\compassBar momij.lua]], LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS\module\compassBar momij.lua]]), outFile, combinedText, outText) end
 
-if onLBBuildFileStarted then onLBBuildFileStarted(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[compassBar momij.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\compassBar momij.lua]])) end
-
-local combinedText, outText, outFile = _builder:buildMicrocontroller([[compassBar momij.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\compassBar momij.lua]]), params)
-if onLBBuildFileComplete then onLBBuildFileComplete(LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]]), [[compassBar momij.lua]], LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS\compassBar momij.lua]]), outFile, combinedText, outText) end
-
-if onLBBuildComplete then onLBBuildComplete(_builder, params, LifeBoatAPI.Tools.Filepath:new([[c:\Users\toshi\Documents\stormworksLua\GitHub\CUICS\MAKIOS-CUICS]])) end
+if onLBBuildComplete then onLBBuildComplete(_builder, params, LifeBoatAPI.Tools.Filepath:new([[d:\Stormworks\Git Hub\Stormworks\MAKIOS-CUICS]])) end
 --- @diagnostic enable: undefined-global

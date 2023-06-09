@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-doc-param
+do
 -- Author: <Authorname> (Please change this in user settings, Ctrl+Comma)
 -- GitHub: <GithubLink>
 -- Workshop: <WorkshopLink>
@@ -26,7 +26,9 @@ do
 	simulator:setProperty("F4","88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
 
     -- Runs every tick just before onTick; allows you to simulate the inputs changing
+---@diagnostic disable-next-line: undefined-doc-param
     ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
+---@diagnostic disable-next-line: undefined-doc-param
     ---@param ticks     number Number of ticks since simulator started
 	function lerp(min, max, data)
 		return (1 - data) * min  + data * max
@@ -84,10 +86,10 @@ end
 
 -- try require("Folder.Filename") to include code from another file in this, so you can store code in libraries
 -- the "LifeBoatAPI" is included by default in /_build/libs/ - you can use require("LifeBoatAPI") to get this, and use all the LifeBoatAPI.<functions>!
+end
 
 
-
-
+do
 screenpower = true
 centering   = false
 
@@ -104,6 +106,11 @@ Phys.oldalt = 0
 radio        = {
   ["sendch"] = 0
 }
+target  = {
+	["x"] = 0,
+	["y"] = 0
+  }
+  
 receive    = {
   ["vis"]  = {},
   ["dir"]  = {},
@@ -127,20 +134,23 @@ touch       = {
 
 
 firstTick = true
+end
 function onTick()					--[====[ onTick ]====]--
 	if firstTick then
-		Phys.x = input.getNumber(9)
-		Phys.y = input.getNumber(10)
 		firstTick = false
 	end
+	if screenpower == false then return	end
+	screenpower = false
+
+	Phys.x = input.getNumber(9)
+	Phys.y = input.getNumber(10)
+
+	autopilotDist = (target.x - Phys.x)^2 + (target.y - Phys.x)^2
 	output.setBool(13, screenpower)
 	output.setBool(14, input.getBool(1)or input.getBool(2))
-	if screenpower == false then
-		return
-	end
+	
 
-
-	screenpower = false
+	
 	monitorID = 1
 	touch["x"][1], touch["y"][1], touch["touch"][1] = input.getNumber(1),input.getNumber(2),input.getBool(1)
 	touch["x"][2], touch["y"][2], touch["touch"][2] = input.getNumber(3),input.getNumber(4),input.getBool(2)
@@ -161,7 +171,7 @@ function onTick()					--[====[ onTick ]====]--
 	KeypadY = input.getNumber(30)
 
 	radioswitch = input.getBool(3)
-	autopilot = input.getBool(4)
+	becon = input.getBool(4)
 
 	receivekeypad = input.getNumber(13)
 	receivelist = input.getNumber(14)
@@ -175,13 +185,14 @@ function onTick()					--[====[ onTick ]====]--
 
 
 
-	if (button(22,20,4,6,1) == false) then							--右のモニターをどの表示にするか選択
+	do															--右のモニターをどの表示にするか選択
 		if touch["touch"][1]   then RMonitorID = 0 end--reset
-		if button(0,12,12,6,1) then RMonitorID = 1 end--Map
-		if button(14,12,8,6,1) then RMonitorID = 2 end--Ch
-		if button(0,20,20,6,1) then RMonitorID = 3 end--Engine
+		if button(0,15,12,6,1) then RMonitorID = 1 end--Map
+		if button(15,15,6,6,1) then RMonitorID = 2 end--Ch
+		if button(0,24,16,6,1) then RMonitorID = 3 end--State
+		if button(15,24,16,6,1) then RMonitorID = 4 end--Ex
+		output.setBool(13, button(15,24,16,6,1))
 	end
-
 
 
 	if (RMonitorID == 1) then										--MAPのタッチ操作
@@ -198,22 +209,20 @@ function onTick()					--[====[ onTick ]====]--
 	end
 
 
-
 	if (RMonitorID == 2) then										--MFM無線操作
-		output.setBool(1,button(27,0,5,6,2))--送信チャンネル設定ボタン
-		output.setBool(2,button(27,7,5,5,2))--受信チャンネル追加
-		output.setBool(3,button(2,14,5,5,2))--vision
-		output.setBool(4,button(8,14,5,5,2))--direction
-		output.setBool(5,button(14,14,5,5,2))--waypoint
-		output.setBool(6,button(20,14,5,5,2))--waiypoint2
-		output.setBool(7,button(27,14,5,5,2))--チャンネル上
-		output.setBool(8,button(27,20,5,5,2))--チャンネル下
-		output.setBool(9,button(0,20,5,5,2))--チャンネル削除
-		output.setBool(10,button(27,27,5,5,2))--無線ON/OFF
-		output.setBool(11,button(0,26,9,6,2))--受信チャンネル全削除
-	end	output.setBool(12,button(22,20,4,6,1))--オートパイロット
-
-
+		output.setBool(1, button(27,0,5,6,2))--送信チャンネル設定ボタン
+		output.setBool(2, button(27,7,5,5,2))--受信チャンネル追加
+		output.setBool(3, button(2,14,5,5,2))--vision
+		output.setBool(4, button(8,14,5,5,2))--direction
+		output.setBool(5, button(14,14,5,5,2))--waypoint
+		output.setBool(6, button(20,14,5,5,2))--waiypoint2
+		output.setBool(7, button(27,14,5,5,2))--チャンネル上
+		output.setBool(8, button(27,20,5,5,2))--チャンネル下
+		output.setBool(9, button(0,20,5,5,2))--チャンネル削除
+		output.setBool(10, button(27,27,5,5,2))--無線ON/OFF
+		output.setBool(11, button(0,26,9,6,2))--受信チャンネル全削除
+		output.setBool(12, button(22,20,4,6,1))--オートパイロット
+	end
 
 	if (input.getNumber(21) == property.getNumber("Passcode")) then	--MFMの受信
 		temp = input.getNumber(20)
@@ -229,62 +238,97 @@ end-------------------------------------------onTick終わり-------------------
 
 
 
-
 function onDraw()					--[====[ onDraw ]====]--
 	screenpower = true
-							--monitorID = 2 --debug = -- : not debug = 1
 	if (monitorID == 1) then		--[====[ 左のモニター用の描画 ]====]--
 		screen.setColor(10,10,10)
 		screen.drawClear()
-		--GPS
-		if (Phys.x < 0) then screen.setColor(255,10,20)screen.drawLine(0,2,2,2)else screen.setColor(20,50,200)end
-		drawNewFont(2,0,string.format("%03d",math.abs(math.floor(Phys.x / 100))))--3桁表示し左を0埋め
-		if (Phys.y < 0) then screen.setColor(255,10,20)screen.drawLine(0,8,2,8)else screen.setColor(20,50,200)end
-		drawNewFont(2,6,string.format("%03d",math.abs(math.floor(Phys.y / 100))))
 		
-		screen.setColor(20,255,20)
-		drawNewFont(14,0,"X")
-		drawNewFont(14,6,"Y")
-		
+		do											--GPSX,Y座標表示
+		screen.setColor(200,50,20)
+		drawNewFont(29,1,"X")
+		drawNewFont(17, 1, string.format("%03d", math.abs(math.floor(Phys.x / 100))))--3桁表示し左を0埋め
 
-		--Target Distance
-		drawNewFont(20,0,string.format("%03d",math.abs(math.floor(autopilotDist / 100))))
+		screen.setColor(20,50,200)
+		drawNewFont(29,7,"Y")
+		drawNewFont(17, 7, string.format("%03d", math.abs(math.floor(Phys.y / 100))))
+		end
 
-		--[[Target Pos
-		if (Phy.x < 0) then screen.setColor(255,10,20)screen.drawLine(18,2,20,2)else screen.setColor(20,50,200)end
-		drawNewFont(20,0,string.format("%03d",math.abs(math.floor(Phy.x / 100))))--3桁表示し左を0埋め
-		if (Phy.y < 0) then screen.setColor(255,10,20)screen.drawLine(18,8,20,8)else screen.setColor(20,50,200)end
-		drawNewFont(20,6,string.format("%03d",math.abs(math.floor(Phy.y / 100))))
-		]]
-		
-		--右モニタ操作用ボタン
-		screen.setColor(30,30,30)						--マップ
-		screen.drawRectF(0,12,13,7)
-		screen.setColor(50,50,50)
-		screen.drawRect(0,12,12,6)
+		do											--Target Distance
 		screen.setColor(255,255,255)
-		drawNewFont(1,13,"MAP")
-	
-	
+		drawNewFont(0, 1, string.format("%02d",math.abs(math.floor(autopilotDist / 100))))
+		screen.drawText(7, 1, ".")
+		drawNewFont(10, 1, string.format("%01d",math.abs(math.floor(autopilotDist / 1))))
+		drawNewFont(8, 7, "KM")
+		end
 		
+		screen.setColor(5, 5, 5)
+		screen.drawLine(15,0, 15,13)
+		screen.setColor(1, 1, 1)
+		screen.drawLine(0, 13, 32, 13)
+					--右モニタ操作用ボタン
+		do											--マップ
 		screen.setColor(30,30,30)
-		screen.drawRectF(14,12,9,7)
+		screen.drawRectF(0,15,13,7)
 		screen.setColor(50,50,50)
-		screen.drawRect(14,12,8,6)
+		screen.drawRect(0,15,12,6)
 		screen.setColor(255,255,255)
-		drawNewFont(15,13,"CH")
+		drawNewFont(1,16,"MAP")
+		end
 		
-		
-		
-		screen.setColor(30,30,30)						--エンジン、バッテリ、燃料
-		screen.drawRectF(0,20,21,7)
+		do											--チャンネル設定
+		screen.setColor(30,30,30)
+		screen.drawRectF(15,15,7,7)
 		screen.setColor(50,50,50)
-		screen.drawRect(0,20,20,6)
+		screen.drawRect(15,15,6,6)
 		screen.setColor(255,255,255)
-		drawNewFont(1,21,"STATE")
+		screen.drawLine(16,19, 16,21)
+		screen.drawLine(16,19, 19,16)
+		screen.drawLine(19,16, 21,16)
+
+		screen.drawLine(18,19, 18,21)
+		screen.drawLine(19,18, 21,18)
+
+		screen.drawLine(20,20, 21,20)
+		end
+
+		do											--ビーコン
+		if (becon) then								--オートパイロット
+			screen.setColor(70,70,70)
+			screen.drawRectF(23,15,8,7)
+			screen.setColor(50,50,50)
+			screen.drawRect(23,15,8,6)
+			screen.setColor(255,20,50)
+			drawNewFont(24,16,"Be")
+		else
+			screen.setColor(30,30,30)
+			screen.drawRectF(23,15,8,7)
+			screen.setColor(50,50,50)
+			screen.drawRect(23,15,8,6)
+			screen.setColor(255,255,255)
+			drawNewFont(24,16,"Be")
+		end
+		end
+
+		do											--エンジン、バッテリ、燃料
+		screen.setColor(30,30,30)
+		screen.drawRectF(0,24,13,7)
+		screen.setColor(50,50,50)
+		screen.drawRect(0,24,12,6)
+		screen.setColor(255,255,255)
+		drawNewFont(1,25,"STA")
+		end
+
+		do											--外部映像
+		screen.setColor(30,30,30)
+		screen.drawRectF(16,24,17,7)
+		screen.setColor(50,50,50)
+		screen.drawRect(15,24,16,6)
+		screen.setColor(255,255,255)
+		drawNewFont(16,25,"EXTE")
+		end
 		
-		
-		
+		--[[
 		if (autopilot) then							--オートパイロット
 			screen.setColor(255,180,10)				
 			screen.drawLine(24,22,24,26)
@@ -301,34 +345,28 @@ function onDraw()					--[====[ onDraw ]====]--
 			screen.drawRect(22,20,4,6)
 		end
 		
-		
-		
-		screen.setColor(255,255,255)						--高度計、昇降速度計
+		do											--高度計、昇降速度計
+		screen.setColor(255,255,255)
 		screen.drawLine(31,14,31,29)
 		screen.setColor(255,10,20)
 		temp = math.min(math.max(-Phys.VS / MaxVS / 2 * 15 + 21, 13), 32)
 		screen.drawTriangleF(31,temp,28,temp-3,28,temp+3)
 		screen.setColor(100,100,100)
 		drawNewFont(3,27,string.format("%06.2f",math.floor(Phys.alt*100)/100))
-		
+		end
+		]]
 
-		
-		
-								monitorID = 2 --debug = 1 : not debug = 2
+	monitorID = 2
 	else							--[====[ 右のモニター用の描画 ]====]--
 
-
-
-
-		if (RMonitorID == 1) then	--MAP
+		if (RMonitorID == 0) then
+			
+		elseif (RMonitorID == 1) then		--MAP
 			screen.drawMap(mapX,mapY,zoom)
 			--screen.drawMap(Phy.x,Phy.y,zoom)
 			--screen.drawText(1,1,centering and "true" or "false")
 			screen.drawCircle(16, 16, 4)
-		end
-
-
-		if (RMonitorID == 2) then	--MFMのアンテナチャンネル設定
+		elseif (RMonitorID == 2) then	--MFMのアンテナチャンネル設定
 			screen.setColor(10,10,10)
 			screen.drawClear()
 			
@@ -392,16 +430,18 @@ function onDraw()					--[====[ onDraw ]====]--
 			else
 				drawNewFont(19,27,string.format("%02d",math.floor(radioselect)))
 			end
-		end
+		elseif (RMonitorID == 3) then	--エンジンとかの機体ステータス表示
+			screen.setColor(10,10,10)
+			screen.drawClear()
 
-
-		if (RMonitorID == 3) then	--エンジンとかの機体ステータス表示
 			screen.setColor(255,30,60)
 			drawNewFont(0,0,"RPS :"..string.format("%03d",math.floor(engine.rps )))
 			if (engine.temp > 100) then
 				screen.setColor(255,0,10)
 			end
 			drawNewFont(0,6,"TEMP:"..string.format("%03d",math.floor(engine.temp)))
+		elseif (RMonitorID == 4) then
+			
 		end
 	end
 end-------------------------------------------onDraw終わり-------------------------------------------
