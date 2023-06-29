@@ -6,84 +6,84 @@
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
 -- Minimized Size: 1808 (2175 with comment) chars
-S="Cpl."
-R="USE 1*1"
-Q="ByMAKKI"
-P="CUICS"
-O="Powerd"
-N="ONLYCAN"
-M="Var,1.0"
+S="CUICS"
+R="Var,1.0"
+Q="Cpl."
+P="Powerd"
+O="ONLYCAN"
+N="USE 1*1"
+M="ByMAKKI"
 
 g=255
 h=350
-f=128
-e=120
+d=128
+f=120
 a=100
 w=true
 i=screen
-s=math
-x=s.abs
+n=math
+D=n.abs
 l=property.getText
-o=i.drawRectF
-D=i.drawCircleF
-j=i.drawLine
+r=i.drawRectF
+z=i.drawCircleF
+k=i.drawLine
 b=i.setColor
-q=input.getBool
+t=input.getBool
 _=0
 _=0
 m=false
-function onTick()if q(1)or q(2)or not q(3)then
+function onTick()if t(1)or t(2)or not t(3)then
 m=w
 _=0
 return
 else
 _=_+1
 end
-z=1
+A=1
 end
 function onDraw()if m then
 return
 end
-if z==1 then
+if A==1 then
 if _<60 then
-b(a,a,a)j(0,0,32,32)j(0,32,32,0)elseif _<e then
-b(a,a,a)drawRectF((_-90)/60*f,15,(_-60)/60*f,16)elseif _<245 then
-b(a,a,a)b(d(_-e,0,f)/16,d(_-e,0,f)/16,d(_-e,0,f)/16)D(33,15,(_-e)*4)b(0,0,0)c(7,14,P)elseif _<h then
-b(10,10,10)drawRectF(0,0,32,32)b(0,0,0)c(7,14,P)c(17,25,S)elseif _<410 then
-b(10,10,10,g-d(_-h,0,60)/60*g)drawRectF(0,0,32,32)b(0,0,0,g-d(_-h,0,60)/60*g)c(7,14,P)c(17,25,S)else
+b(a,a,a)k(0,0,32,32)k(0,32,32,0)elseif _<f then
+b(a,a,a)drawRectF((_-90)/60*d,15,(_-60)/60*d,16)elseif _<245 then
+b(a,a,a)b(e(_-f,0,d)/16,e(_-f,0,d)/16,e(_-f,0,d)/16)z(33,15,(_-f)*4)b(0,0,0)c(7,14,S)elseif _<h then
+b(10,10,10)drawRectF(0,0,32,32)b(0,0,0)c(7,14,S)c(17,25,Q)elseif _<410 then
+b(10,10,10,g-e(_-h,0,60)/60*g)drawRectF(0,0,32,32)b(0,0,0,g-e(_-h,0,60)/60*g)c(7,14,S)c(17,25,Q)else
 m=w
 end
-z=2
+A=2
 else
 if _<60 then
-b(a,a,a)j(0,0,32,32)j(0,32,32,0)elseif _<e then
-b(a,a,a)drawRectF((_-105)/60*f,15,(_-75)/60*f,16)elseif _<245 then
-b(a,a,a)b(d(_-e,0,f)/16,d(_-e,0,f)/16,d(_-e,0,f)/16)D(-1,15,(_-e)*4)b(0,0,0)c(7,14,P)elseif _<h then
-b(10,10,10)drawRectF(0,0,32,32)b(0,0,0)c(3,3,M)c(1,19,O)c(2,25,Q)elseif _<410 then
-b(10,10,10,g-d(_-h,0,60)/60*g)drawRectF(0,0,32,32)b(0,0,0,g-d(_-h,0,60)/60*g)c(3,3,M)c(1,19,O)c(2,25,Q)end
+b(a,a,a)k(0,0,32,32)k(0,32,32,0)elseif _<f then
+b(a,a,a)drawRectF((_-105)/60*d,15,(_-75)/60*d,16)elseif _<245 then
+b(a,a,a)b(e(_-f,0,d)/16,e(_-f,0,d)/16,e(_-f,0,d)/16)z(-1,15,(_-f)*4)b(0,0,0)c(7,14,S)elseif _<h then
+b(10,10,10)drawRectF(0,0,32,32)b(0,0,0)c(3,3,R)c(1,19,P)c(2,25,M)elseif _<410 then
+b(10,10,10,g-e(_-h,0,60)/60*g)drawRectF(0,0,32,32)b(0,0,0,g-e(_-h,0,60)/60*g)c(3,3,R)c(1,19,P)c(2,25,M)end
 end
-b(a,a,a)i.drawRect(-1,-1,33,33)b(0,10,0)o(0,35,35,477)o(35,0,477,256)b(a,0,0)c(0,34,N)c(0,40,R)c(34,2,N)c(34,8,R)b(a,a,a)if m then
+b(a,a,a)i.drawRect(-1,-1,33,33)b(0,10,0)r(0,35,35,477)r(35,0,477,256)b(a,0,0)c(0,34,O)c(0,40,N)c(34,2,O)c(34,8,N)b(a,a,a)if m then
 i.drawClear()end
 end
-function c(K,G,k)local p,C,E,u,v
-if type(k)=="number" then
-k=tostring(k)end
-C=l("F1")..l("F2")..l("F3")..l("F4")for n=1,k:len()do
-p=k:sub(n,n):byte()*5-159
-for r=1,5 do
-E="0x"..C:sub(p,p+4):sub(r,r)for A=1,3 do
-if E & 2^(4-A)>0 then
-u=K+n*4+A-5
-v=G+r-1
-j(u,v,u+1,v)end
+function c(I,L,j)local o,x,C,p,q
+if type(j)=="number" then
+j=tostring(j)end
+x=l("F1")..l("F2")..l("F3")..l("F4")for v=1,j:len()do
+o=j:sub(v,v):byte()*5-159
+for u=1,5 do
+C="0x"..x:sub(o,o+4):sub(u,u)for y=1,3 do
+if C & 2^(4-y)>0 then
+p=I+v*4+y-5
+q=L+u-1
+k(p,q,p+1,q)end
 end
 end
 end
 end
-function drawRectF(y,B,I,L)o(y,B,x(y-I)+1,x(B-L)+1)end
-function d(H,F,J)local t=s.min(s.max(H,F),J)if t~=t then
+function drawRectF(B,E,G,H)r(B,E,D(B-G)+1,D(E-H)+1)end
+function e(K,F,J)local s=n.min(n.max(K,F),J)if s~=s then
 return 0
 else
-return t
+return s
 end
 end

@@ -1,13 +1,49 @@
--- Author: <Authorname> (Please change this in user settings, Ctrl+Comma)
--- GitHub: <GithubLink>
--- Workshop: <WorkshopLink>
---
--- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
--- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
---      By Nameous Changey
--- Minimized Size: 79 (442 with comment) chars
+aZ="Y"
+aY="way"
+aX="way2"
+aW="+"
+aV="Dir"
+aU="%04d"
+aT="Alt"
+aS="y"
+aR="WayY"
+aQ="dir"
+aP="X"
+aO="-"
+aN="Spd"
+aM="%03d"
+aL="touch"
+aK="WayX"
+aJ="%02d"
+aI="vis"
+aH="x"
 
-_=0
-function onTick()_=_+1
+a=255
+l=false
+s=true
+Y=input
+M=string
+H=math
+q=screen
+L=property
+J=L.getText
+O=q.drawTriangleF
+t=q.drawRect
+e=q.drawRectF
+g=q.drawLine
+p=q.drawText
+E=H.abs
+r=M.format
+U=q.drawClear
+_=q.setColor
+R=H.max
+y=H.min
+m=Y.getBool
+i=output.setBool
+b=Y.getNumber
+ae=q.drawCircle
+W=0
+function onTick()W=W+1
 end
-function onDraw()screen.drawCircle(16,16,5)end
+function onDraw()ae(16,16,5)end
+do C=s;Q=s;P=L.getBool("Monitor Swap")u=2;aD=20;D,I=0,0;n=1;w=10;G=0;x={}f={}f.af=0;f.Z=0;aj={["sendch"]=0}ag={[aH]=0,[aS]=0}j={[aI]={},[aQ]={},[aY]={},[aX]={},[aP]={},[aZ]={},[aV]={},[aT]={},[aN]={},[aK]={},[aR]={}}k={[aH]={},[aS]={},[aL]={}}end;function onTick()if C==l then return end;C=l;f.B,f.A=b(9),b(10)G=H.sqrt((ag.B-f.B)^2+(ag.A-f.A)^2)i(13,C)i(14,m(1)or m(2))v=l;k[aH][1],k[aS][1],k[aL][1]=b(1),b(2),m(1)k[aH][2],k[aS][2],k[aL][2]=b(3),b(4),m(2)x.an,x.c=b(5),b(6)aA,ay=b(7),b(8)f.Z=f.af;f.B=b(9)f.A=b(10)f.af=b(11)f.aF=(b(11)-f.Z)*60;f.az=b(17)f.aB=b(18)aG=b(29)aE=b(30)as=m(3)aq=m(4)ao=b(13)ar=b(14)o=b(15)aj.ap=b(16)j[aI][o]=m(5)j[aQ][o]=m(6)j[aY][o]=m(7)j[aX][o]=m(8)do if k[aL][1]then u=d(0,15,12,6,1)and 1 or d(15,15,6,6,1)and 2 or d(0,24,16,6,1)and 3 or d(15,24,16,6,1)and 4 or 0 end;i(13,d(15,24,16,6,1))end;if u==1 then if Q then D,I=f.B,f.A end;if k[aL][2]==l then F=l end;if d(0,0,5,5,2)then if F==l then n=n+1 end;F=s end;if d(0,6,5,5,2)then if F==l then n=n-1 end;F=s end;n=y(R(n,1),22)w=y(n-5,0)/5+y(R(n-4,1),10)+y(R(n-14,0),8)*5;if d(13,13,6,6,2)then Q=s else if k[aL][2]and n==l then D=-(k[aH][2]-16)*w/2+D;I=-(k[aS][2]-16)*w/2+I;Q=l end end end;if u==2 then i(1,d(27,0,5,6,2))i(2,d(27,7,5,5,2))i(3,d(2,14,5,5,2))i(4,d(8,14,5,5,2))i(5,d(14,14,5,5,2))i(6,d(20,14,5,5,2))i(7,d(27,14,5,5,2))i(8,d(27,20,5,5,2))i(9,d(0,20,5,5,2))i(10,d(27,27,5,5,2))i(11,d(0,26,9,6,2))i(12,d(22,20,4,6,1))end;if b(21)==L.getNumber("Passcode")then c=b(20)j[aP][c]=b(22)j[aZ][c]=b(22)j[aV][c]=b(22)j[aT][c]=b(22)j[aN][c]=b(22)j[aK][c]=b(22)j[aR][c]=b(22)end end;function onDraw()C=s;if N(v==l,P)then _(10,10,10)U()_(200,50,20)h(29,1,aP)h(17,1,r(aM,E(f.B//100)))_(20,50,200)h(29,7,aZ)h(17,7,r(aM,E(f.A//100)))_(a,a,a)h(0,1,r(aJ,y(E(G//1000),99)))p(7,1,".")h(10,1,r("%01d",E(G)//100%10))h(8,7,"KM")aC(G)_(5,5,5)g(15,0,15,13)_(1,1,1)g(0,13,32,13)_(30,30,30)e(0,15,13,7)_(50,50,50)t(0,15,12,6)_(a,a,a)h(1,16,"MAP")_(30,30,30)e(15,15,7,7)_(50,50,50)t(15,15,6,6)_(a,a,a)g(16,19,16,21)g(16,19,19,16)g(19,16,21,16)g(18,19,18,21)g(19,18,21,18)g(20,20,21,20)if aq then _(70,70,70)e(23,15,8,7)_(50,50,50)t(23,15,8,6)_(a,20,50)else _(30,30,30)e(23,15,8,7)_(50,50,50)t(23,15,8,6)_(a,a,a)end;h(24,16,"Be")_(30,30,30)e(0,24,13,7)_(50,50,50)t(0,24,12,6)_(a,a,a)h(1,25,"STA")_(30,30,30)e(16,24,17,7)_(50,50,50)t(15,24,16,6)_(a,a,a)h(16,25,"EXTE")v=N(v==l,P)else if u==0 then elseif u==1 then q.drawMap(D,I,w)h(0,26,w)_(5,5,5)e(0,0,5,10)_(20,20,20)t(0,0,4,4)t(0,5,4,4)_(a,a,a)p(1,0,aW)p(1,5,aO)ae(16,16,4)elseif u==2 then _(10,10,10)U()_(a,a,a)O(2,1,0,4,5,4)g(2,4,2,6)p(6,1,r(aU,aj.ap//1))p(6,8,r(aU,ao//1))_(30,30,30)g(0,6,32,6)_(50,50,50)p(6,20,r(aU,ar//1))_(25,25,25)e(27,0,5,6)e(27,7,5,5)e(2,14,5,5)e(8,14,5,5)e(14,14,5,5)e(20,14,5,5)e(27,14,5,5)e(27,20,5,5)e(0,20,5,5)e(27,27,5,5)e(0,26,13,6)_(a,a,a)p(28,2,"^")p(28,7,aW)c=j[aI][o]or 50;_(c,c,c)h(3,13,"v")c=j[aQ][o]and a or 50;_(c,c,c)g(9,15,11,15)g(11,16,11,17)g(9,17,11,17)g(9,16,9,17)c=j[aY][o]and a or 50;_(c,c,c)p(15,14,aW)if j[aX][o]then _(a,a,a)else _(50,50,50)end;e(21,15,3,2)g(21,17,21,18)_(a,a,a)O(29,15,27,18,32,18)O(29,25,26,21,32,21)p(1,20,aO)if as then _(a,a,a)else _(50,50,50)end;g(28,29,28,31)g(29,28,31,28)g(30,30,30,31)h(1,27,"DEL")if o==11 then h(15,27,"EMG")else h(19,27,r(aJ,o//1))end elseif u==3 then _(10,10,10)U()_(a,30,60)h(0,0,"RPS :"..M.format(aM,x.an//1))if x.c>100 then _(a,0,10)end;h(0,6,"TEMP:"..M.format(aM,x.c//1))elseif u==4 then end;v=N(v,P)end end;function d(ad,V,au,am,K)aa,ak=k[aH][K],k[aS][K]if ad<=aa and ad+au>=aa and V<=ak and V+am>=ak and s==k[aL][K]then return s else return l end end;function h(aw,ax,z)if type(z)=="number"then z=tostring(z)end;at=J("F1")..J("F2")..J("F3")..J("F4")for S=1,z:len()do ac=z:sub(S,S):byte()*5-159;for T=1,5 do av="0x"..at:sub(ac,ac+4):sub(T,T)for X=1,3 do if av&2^(4-X)>0 then ah=aw+S*4+X-5;ab=ax+T-1;g(ah,ab,ah+1,ab)end end end end end;function N(al,ai)return al or ai and(al and ai)==l end
