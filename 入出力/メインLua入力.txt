@@ -4,10 +4,12 @@ Number
  2,LモニタタッチY
  3,RモニタタッチX
  4,RモニタタッチY
- 5,エンジンRPS
- 6,エンジン温度
- 7,バッテリー
- 8,燃料
+
+ 5,エンジンRPS--option
+ 6,エンジン温度--option
+ 7,バッテリー--option
+ 8,燃料--option
+
  9,GPSX
 10,GPSY
 11,高度
@@ -16,8 +18,10 @@ Number
 14,受信chリスト選択位置
 15,(14)番目の周波数
 16,MFM送信チャンネル
+
 17,コンパス
 18,速度m/s
+
 19,
 20,受信中周波数
 21,MFMパスコード
@@ -32,6 +36,93 @@ Number
 30,
 31,
 32,
+-------------------------------------
+moduled input data
+    maindata
+        RモニタタッチX 31
+        RモニタタッチY 32
+        SelectModuleNumber 30
+
+    PFD
+        alt
+        speed
+        compass
+        tilt_x
+        tilt_y
+        
+    map
+        GPSX
+        GPSY
+        compass
+        keypadA
+        keypadB
+
+        MFMdata
+        外部維持
+            SendFREQ
+            ReceiveFREQ<- 0000.0 
+                            ↑  ↑
+                          FREQ/SettingData
+
+            0000.00~9999.15
+
+        SettingData
+            Bitの和
+            0001    vision
+            0010    direction
+            0100    waypoint
+
+
+
+
+
+        1~8 ReceiveData
+        9~13 PhysData
+        14~15 keypad
+        16 RadioData
+        17 pageNumber
+        18~19 touch
+        20 SendFREQ
+        21 ReceiveFREQ
+        22 SelectModuleNumber
+        24~32 FreqData
+            FREQ No.1~8
+
+
+
+
+
+
+
+
+
+right touchX=22
+right touchY=23
+
+
+1,posX      =24
+2,posY      =25
+3,posZ      =26
+
+13,abs liner velocity
+            =27
+
+15,Ztilt    =28
+16,Xtilt    =29
+17,compass  =30
+
+
+
+KeypadX     =31
+KeypadY     =32
+
+
+
+
+
+
+
+
 
 Boolean
  1,左モニタタッチパルス

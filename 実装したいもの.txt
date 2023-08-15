@@ -18,3 +18,29 @@ MAPモード：
         
   PFD
     方位、左右上下速度、速度、オートパイロット距離
+
+
+
+
+Lua
+  Menu+PFD        Lua0
+  map+wifi+Becon  Lua1
+  status          Lua2 <=ユーザー改変可能Lua
+
+  video
+
+
+touchRin---------┐
+                 |
+antenna-----┐    |
+            |    |
+            |    ↓
+  ┌----┬----|┬---┤
+  ↓    ↓    └↓   ↑maindata
+video-Lua2-Lua1-Lua0-OutputNode
+                 ↑  
+                 |
+                 |
+Sensor+TouchinL--┘
+
+タッチ入力は上書き
