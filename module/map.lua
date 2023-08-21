@@ -1,3 +1,8 @@
+--[====[ IN-GAME CODE ]====]
+
+-- try require("Folder.Filename") to include code from another file in this, so you can store code in libraries
+-- the "LifeBoatAPI" is included by default in /_build/libs/ - you can use require("LifeBoatAPI") to get this, and use all the LifeBoatAPI.<functions>!
+
 ---@section __LB_SIMULATOR_ONLY__
 do
     ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
@@ -56,7 +61,7 @@ do
 ]]
 
         simulator:setInputNumber(1, 4000)
-        simulator:setInputNumber(23, 2)
+        simulator:setInputNumber(23, 1)
         simulator:setInputNumber(25, 00147)
         simulator:setInputNumber(26, 11111)
         simulator:setInputNumber(27, 22434)
@@ -68,16 +73,15 @@ do
 end
 ---@endsection
 
-interval=10000
 
-
-
+do
+    interval=10000
     --screenpower= true
     centering= true
     monitorSwap=property.getBool("Monitor Swap")
     monitorID=false
-    --errorcheck=false
-    moduleID=2
+    errorcheck=false
+    moduleID=1
     Passcode=property.getNumber("Passcode")
 
     mapX, mapY = 0, 0
@@ -97,8 +101,8 @@ interval=10000
     receive.X       = {}
     receive.Y       = {}
     receive.Dir     = {}
-    --receive.Alt     = {}
-    --receive.Spd     = {}
+    receive.Alt     = {}
+    receive.Spd     = {}
     receive.WayX    = {}
     receive.WayY    = {}
 
@@ -110,9 +114,9 @@ interval=10000
     touch       = {}
     touch.flags = false
     pageNumber  = 1
-
     
-
+    
+end
 
 
 
@@ -125,19 +129,19 @@ function onTick() --[====[ onTick ]====]
 
 
 
-    --input data
+    do--input data
         touch.Bool = input.getBool(1)
         
-        --errorcheck=not errorcheck
-
+        errorcheck=not errorcheck
+        output.setBool(32,errorcheck)
         
         --1~8 ReceiveData
-        receive.code[freqlist[radio.Channelnumber]] = input.getNumber(1)
+        receive.code[freqlist[radio.Channelnumber]] = input.getNumber(1) or 0
         receive.X   [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(2) or 0
         receive.Y   [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(3) or 0
         receive.Dir [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(4) or 0
-        --receive.Alt [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(5) or 0
-        --receive.Spd [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(6) or 0
+        receive.Alt [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(5) or 0
+        receive.Spd [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(6) or 0
         receive.WayX[freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(7) or 0
         receive.WayY[freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(8) or 0
         
@@ -174,33 +178,10 @@ function onTick() --[====[ onTick ]====]
                     receive.way[freqlist[i]]=settingdata & 4 == 4
                 end
             end
-        end
+        end 
+    end
 
-
-        for i = 1, 7, 1 do
-            if freqlist[i] == 0 and freqlist[i+1] ~= 0 then --0削除
-                for j = i, 7, 1 do
-                    freqlist[j] = freqlist[j + 1]
-                end
-            end
-
---[[
-            for j = 1, 8, 1 do --重複削除
-                if i ~= j and freqlist[i] == freqlist[j] and i < j then
-                    freqlist[j] = 0
-                elseif i ~= j and freqlist[i] == freqlist[j] and i > j then
-                    freqlist[i] = 0
-                end
-
-            end
-]]
-        end
-
-        
-        
-    
-
-    --updatadata
+    do--updatadata
         if moduleID==1 then--map
             if button(0, 0, 5, 5,true) then
                 touch.flags=true
@@ -225,100 +206,14 @@ function onTick() --[====[ onTick ]====]
                     mapY = -(touch.Y - 16) * zoom / 2 + mapY
             end
         end
-        if moduleID==2 then--wifi
-                
-            
-            -------------ページ移動-------------------------------------------------
-            if button(27, 20, 5, 5,true) and pageNumber < 7 then
-                touch.flags = true
-                pageNumber = pageNumber + 2
-            elseif button(27, 14, 5, 5,true) and pageNumber > 1 then
-                touch.flags = true
-                pageNumber = pageNumber - 2
-            end
 
-
-            --------------------------------------------------------------------------
-            if button(27, 0, 5, 6,true)  and KeypadX~=0 then --送信チャンネル設定ボタン
-                touch.flags=true
-                radio.sendFreq = KeypadX
-            end
-
-
-            if button(27, 7, 5, 5,true) then --受信チャンネル追加
-                for i = 1, 8, 1 do
-                    if freqlist[i]==KeypadY then
-                        touch.flags=true
-                        break
-                    end
-                    if freqlist[i] == 0  and KeypadY~=0 then
-                        touch.flags=true
-                        freqlist[i] = KeypadY
-                        receive.vis[freqlist[i]]=true
-                        break
-                    end
-                end
-            end
-
-
-
-            for i = 0, 1, 1 do--設定更新
-                if button( 2, 14+i*12, 5, 5,true) and freqlist[pageNumber+i]~=0 then
-                    touch.flags=true
-                    receive.vis[freqlist[pageNumber+i]]=not receive.vis[freqlist[pageNumber+i]]
-                end
-
-                if button( 8, 14+i*12, 5, 5,true) then
-                    touch.flags=true
-                    receive.dir[freqlist[pageNumber+i]]=not receive.dir[freqlist[pageNumber+i]]
-                end
-
-                if button(14, 14+i*12, 5, 5,true) then
-                    touch.flags=true
-                    receive.way[freqlist[pageNumber+i]]=not receive.way[freqlist[pageNumber+i]]
-                end
-
-                if button(0, 8+i*12, 5, 5,true) then--受信チャンネル削除
-                    touch.flags=true
-                    freqlist[pageNumber+i]=0
-                end
-
-
-            end
-
-
-            if button(27, 27, 5, 5,true)  then--無線ONOFF
-                touch.flags=true
-                radio.switch=not radio.switch
-            end
-        end
-
-    
-
-    --outputdata        
-        output.setBool(20,radio.switch)
-        output.setBool(32,touch.Bool)
-
-        output.setNumber(17,pageNumber)
-        
-        radio.Channelnumber=input.getBool(32) and radio.Channelnumber+1 or radio.Channelnumber
-        radio.Channelnumber=radio.Channelnumber+1==9 and 1 or radio.Channelnumber
-
-        output.setNumber(20,radio.sendFreq)
-        output.setNumber(21,freqlist[radio.Channelnumber])
-        for i = 1, 8, 1 do--FreqData
-            local tempvis = receive.vis[freqlist[i]] and 1 or 0
-            local tempdir = receive.dir[freqlist[i]] and 2 or 0
-            local tempway = receive.way[freqlist[i]] and 4 or 0
-            output.setNumber(24 + i,(freqlist[i]+(tempvis+tempdir+tempway)*interval))
-        end
-    
+    end
 
 
 
     monitorID=false
 
-
+    
 
 
 
@@ -369,106 +264,11 @@ function onDraw()
 
 
         end
-        if moduleID==2 then  --WIFI     
-            local temp=0
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-            screen.setColor(30, 30, 30) --送信チャンネルの下の線
-            screen.drawLine(0, 6, 32, 6)
-
-
-
-            -------------------------------------------------Send-------------------------------------------------
-            
-            screen.setColor(255, 255, 255)
-            screen.drawTriangleF(2, 1, 0, 4, 5, 4) --左の送信矢印
-            screen.drawLine(2, 4, 2, 6)
-            temp = radio.switch and 255 or 80
-            screen.setColor(temp, temp, temp)
-            screen.drawText(6, 1, string.format("%04d", radio.sendFreq // 1)) --送信チャンネル
-
-            screen.setColor(25, 25, 25)
-            screen.drawRectF(27, 0, 5, 6) --送信ボタン
-
-            temp = button(27, 0, 5, 6,false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawText(28, 2, "^") --送信ボタン
-
-
-            --------------------receive-------------------------------------------------------------------------
-
-            screen.setColor(25, 25, 25)
-            screen.drawRectF(27, 14, 5, 5) --チャンネル上
-            screen.drawRectF(27, 20, 5, 5) --チャンネル下
-            screen.drawRectF(27, 7, 5, 5)  --受信チャンネル追加
-            screen.drawRectF(27, 27, 5, 5) --無線ON/OFF
-
-            temp = button(27, 7, 5, 5,false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawText(28, 7, "+")                  --受信チャンネル追加
-
-            temp = button(27, 14, 5, 5,false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawTriangleF(29, 15, 27, 18, 32, 18) --チャンネル上
-            temp = button(27, 20, 5, 5,false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
-
-            temp = radio.switch and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawLine(28, 29, 28, 31)
-            screen.drawLine(29, 28, 31, 28)
-            screen.drawLine(30, 30, 30, 31) --無線ON/OFF
-
-
-            receiveunit(freqlist[pageNumber], 0)
-            receiveunit(freqlist[pageNumber + 1], 1)
-
-            screen.setColor(100, 100, 100)
-            drawNewFont(22, 27, string.format("%01d", pageNumber%2+pageNumber//2))
-        end
         
     end
 end
 
-function receiveunit(ch, num)
-    local temp=0
-    num=num*12
-    temp = ch ~= 0 and 150 or 45 --freq
-    screen.setColor(temp, temp, temp)
-    if receive.code[ch]==4000 and ch~=0 then
-        screen.setColor(50, 255, 50)
-    end  
-    screen.drawText(6, 8 + num, string.format("%04d", ch // 1))
 
-    screen.setColor(25, 25, 25)
-
-    for i = 0, 2, 1 do
-        screen.drawRectF(2 + 6 * i, 14 + num, 5, 5) --base
-    end
-
-    temp = ch ~= 0 and 255 or 80
-    screen.drawRectF(0, 8 + num, 5, 5) --チャンネル削除
-    screen.setColor(255, 255, 255)
-    screen.drawText(1, 8 + num, "-")
-
-    temp = receive.vis[ch] and 255 or 50 --vision
-    screen.setColor(temp, temp, temp)
-    drawNewFont(3, 13 + num, "v")
-
-    temp = receive.dir[ch] and 255 or 50 --direction
-    screen.setColor(temp, temp, temp)
-    screen.drawLine(9, 15 + num, 11, 15 + num)
-    screen.drawLine(11, 16 + num, 11, 17 + num)
-    screen.drawLine(9, 17 + num, 11, 17 + num)
-    screen.drawLine(9, 16 + num, 9, 17 + num)
-
-    temp = receive.way[ch] and 255 or 50 --waypoint
-    screen.setColor(temp, temp, temp)
-    screen.drawText(15, 14 + num, "+")
-
-
-end
 
 function button(x, y, w, h,palse)
     local returnvalue=false

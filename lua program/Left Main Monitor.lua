@@ -82,8 +82,8 @@ screenpower,
 luaerror,
 centering,
 monitorSwap   = true,true,true,property.getBool("Monitor Swap")
-
-RMonitorID    = 2
+errorcheck=false
+moduleID    = 2
 MaxVS         = 20
 mapX, mapY    = 0, 0
 zoomlv,zoom   = 1, 10
@@ -125,8 +125,8 @@ function onTick() --[====[ onTick ]====]
 if screenpower == false then return end
 screenpower = false
 
-luaerror = luaerror and false or true
-output.setBool(32, luaerror)
+errorcheck= not errorcheck
+output.setBool(32,errorcheck)
 
 Phys.x, Phys.y = input.getNumber(9), input.getNumber(10)
 
@@ -171,7 +171,7 @@ receive["way"][recivefrequency]                 = input.getBool(7)
 
                                             --右のモニターをどの表示にするか選択
     if touch["touch"][1] then
-        RMonitorID =  		   					--reset
+        moduleID =  		   					--reset
             button(0, 15, 12, 6, 1) and 1 or    --Map
             button(15, 15, 6, 6, 1) and 2 or    --Ch
             button(0, 24, 16, 6, 1) and 3 or    --State
@@ -180,7 +180,7 @@ receive["way"][recivefrequency]                 = input.getBool(7)
     output.setBool(13, button(15, 24, 16, 6, 1))
 
 
-if RMonitorID == 1 then --MAPのタッチ操作
+if moduleID == 1 then --MAPのタッチ操作
     if centering then
         mapX, mapY = Phys.x, Phys.y
     end
@@ -218,7 +218,7 @@ if RMonitorID == 1 then --MAPのタッチ操作
 end
 
 
-if RMonitorID == 2 then             --MFM無線操作
+if moduleID == 2 then             --MFM無線操作
     if button(27, 0, 5, 6, 2) then --送信チャンネル設定ボタン
         temp = ""
         if button(2, 14, 5, 5, 2) then --vision

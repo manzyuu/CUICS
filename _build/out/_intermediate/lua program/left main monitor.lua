@@ -80,10 +80,11 @@ end
 
 do	
 screenpower,
+luaerror,
 centering,
-monitorSwap   = true,true,property.getBool("Monitor Swap")
-
-RMonitorID    = 2
+monitorSwap   = true,true,true,property.getBool("Monitor Swap")
+errorcheck=false
+moduleID    = 2
 MaxVS         = 20
 mapX, mapY    = 0, 0
 zoomlv,zoom   = 1, 10
@@ -124,6 +125,9 @@ end
 function onTick() --[====[ onTick ]====]
 if screenpower == false then return end
 screenpower = false
+
+errorcheck= not errorcheck
+output.setBool(32,errorcheck)
 
 Phys.x, Phys.y = input.getNumber(9), input.getNumber(10)
 
@@ -168,7 +172,7 @@ receive["way"][recivefrequency]                 = input.getBool(7)
 
                                             --右のモニターをどの表示にするか選択
     if touch["touch"][1] then
-        RMonitorID =  		   					--reset
+        moduleID =  		   					--reset
             button(0, 15, 12, 6, 1) and 1 or    --Map
             button(15, 15, 6, 6, 1) and 2 or    --Ch
             button(0, 24, 16, 6, 1) and 3 or    --State
@@ -177,7 +181,7 @@ receive["way"][recivefrequency]                 = input.getBool(7)
     output.setBool(13, button(15, 24, 16, 6, 1))
 
 
-if RMonitorID == 1 then --MAPのタッチ操作
+if moduleID == 1 then --MAPのタッチ操作
     if centering then
         mapX, mapY = Phys.x, Phys.y
     end
@@ -205,9 +209,9 @@ if RMonitorID == 1 then --MAPのタッチ操作
 
     if button(13, 13, 6, 6, 2) then
         centering = true
-    else
-        if touch["touch"][2] and zoomlv == false then
-            mapX = -(touch["x"][2] - 16) * zoom / 2 + mapX
+        else
+            if touch["touch"][2] and zoomlv == false then
+                mapX = -(touch["x"][2] - 16) * zoom / 2 + mapX
             mapY = -(touch["y"][2] - 16) * zoom / 2 + mapY
             centering = false
         end
@@ -215,7 +219,7 @@ if RMonitorID == 1 then --MAPのタッチ操作
 end
 
 
-if RMonitorID == 2 then             --MFM無線操作
+if moduleID == 2 then             --MFM無線操作
     if button(27, 0, 5, 6, 2) then --送信チャンネル設定ボタン
         temp = ""
         if button(2, 14, 5, 5, 2) then --vision
@@ -234,6 +238,7 @@ if RMonitorID == 2 then             --MFM無線操作
             temp = temp.."0"
         end
         MFM.VDW = tonumber(temp)
+        output.setNumber(2, MFM.VDM)
 
         output.setBool(2, button(27, 7, 5, 5, 2)) --受信チャンネル追加
         output.setBool(7, button(27, 14, 5, 5, 2)) --チャンネル上
@@ -353,38 +358,34 @@ screenpower = true
 end -------------------------------------------onDraw終わり-------------------------------------------
 
 function button(x, y, w, h, lr)
-xlr, ylr = touch["x"][lr], touch["y"][lr]
-if x <= xlr and
-    x + w >= xlr and
-    y <= ylr and
-    y + h >= ylr and
-    touch["touch"][lr] then
-    return true
-else
-    return false
-end
+    xlr, ylr = touch["x"][lr], touch["y"][lr]
+    if x <= xlr and
+        x + w >= xlr and
+        y <= ylr and
+        y + h >= ylr and
+        touch["touch"][lr] then
+        return true
+    else
+        return false
+    end
 end
 
 function drawNewFont(NewFontX, NewFontY, NewFontZ)
-if type(NewFontZ) == "number" then
-    NewFontZ = tostring(NewFontZ)
-end
-NewFontD = property.getText("F1") .. property.getText("F2") .. property.getText("F3") .. property.getText("F4")
-for i = 1, NewFontZ:len() do
-    NewFontC = NewFontZ:sub(i, i):byte() * 5 - 159
-    for j = 1, 5 do
-        NewFontF = "0x" .. NewFontD:sub(NewFontC, NewFontC + 4):sub(j, j)
-        for k = 1, 3 do
-            if NewFontF & 2 ^ (4 - k) > 0 then
-                NewFontP = NewFontX + i * 4 + k - 5
-                NewFontQ = NewFontY + j - 1
-                screen.drawLine(NewFontP, NewFontQ, NewFontP + 1, NewFontQ)
+    if type(NewFontZ) == "number" then
+        NewFontZ = tostring(NewFontZ)
+    end
+    NewFontD = property.getText("F1") .. property.getText("F2") .. property.getText("F3") .. property.getText("F4")
+    for i = 1, NewFontZ:len() do
+        NewFontC = NewFontZ:sub(i, i):byte() * 5 - 159
+        for j = 1, 5 do
+            NewFontF = "0x" .. NewFontD:sub(NewFontC, NewFontC + 4):sub(j, j)
+            for k = 1, 3 do
+                if NewFontF & 2 ^ (4 - k) > 0 then
+                    NewFontP = NewFontX + i * 4 + k - 5
+                    NewFontQ = NewFontY + j - 1
+                    screen.drawLine(NewFontP, NewFontQ, NewFontP + 1, NewFontQ)
+                end
             end
         end
     end
-end
-end
-
-function xor(a, b)
-return a or b and (a and b) == false
 end

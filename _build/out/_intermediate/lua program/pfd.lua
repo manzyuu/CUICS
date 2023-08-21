@@ -111,7 +111,7 @@ function convert()
 
     -- Compute compasses.
     local compassSensor = -math.atan(math.sin(phyX)*math.sin(phyZ) + math.cos(phyX)*math.sin(phyY)*math.cos(phyZ), math.cos(phyX)*math.cos(phyY)) /2/math.pi
-    Phys.compass=((((1-compassSensor)%1)*(math.pi*2)))
+    Phys.compass=((((1-compassSensor)%1)*(math.pi*2))) or 0
 
 
     -- Transform them to the local frame.
@@ -143,7 +143,7 @@ function split(str, delim)
     return result
 end
 function Colorconv16(name)	--16進数のカラーコードをRGBに変換する
-	local Color = tonumber(property.getText(name),16)
+	local Color = tonumber(property.getText(name),16) or 0
 	return (Color>>16) & 0xff, (Color>>8) & 0xff, Color & 0xff --R,G,B
 end
 function lerp(MIN,MAX,X)        --  0~1  f(x)と同じ挙動
@@ -156,25 +156,24 @@ end
 
 do-------------------------------------[====[ 描画系 ]====]----------------------------------------
 ----------------------FONT----------------------
-function drawNewFont(NewFontX,NewFontY,NewFontZ)
-	local NewFontC,NewFontD,NewFontF,NewFontP,NewFontQ
-	if type(NewFontZ)=="number"then
-		NewFontZ=tostring(NewFontZ)
-	end
-	NewFontD=property.getText("F1")..property.getText("F2")..property.getText("F3")..property.getText("F4")
-	for i=1,NewFontZ:len()do
-		NewFontC=NewFontZ:sub(i,i):byte()*5-159
-		for j=1,5 do
-			NewFontF="0x"..NewFontD:sub(NewFontC,NewFontC+4):sub(j,j)
-				for k=1,3 do
-				if NewFontF&2^(4-k)>0 then
-					NewFontP=NewFontX+i*4+k-5
-					NewFontQ=NewFontY+j-1
-					screen.drawLine(NewFontP,NewFontQ,NewFontP+1,NewFontQ)
-				end
-			end
-		end
-	end
+function drawNewFont(NewFontX, NewFontY, NewFontZ)
+    if type(NewFontZ) == "number" then
+        NewFontZ = tostring(NewFontZ)
+    end
+    NewFontD = property.getText("F1") .. property.getText("F2") .. property.getText("F3") .. property.getText("F4")
+    for i = 1, NewFontZ:len() do
+        NewFontC = NewFontZ:sub(i, i):byte() * 5 - 159
+        for j = 1, 5 do
+            NewFontF = "0x" .. NewFontD:sub(NewFontC, NewFontC + 4):sub(j, j)
+            for k = 1, 3 do
+                if NewFontF & 2 ^ (4 - k) > 0 then
+                    NewFontP = NewFontX + i * 4 + k - 5
+                    NewFontQ = NewFontY + j - 1
+                    screen.drawLine(NewFontP, NewFontQ, NewFontP + 1, NewFontQ)
+                end
+            end
+        end
+    end
 end
 
 function horizon()  --水平儀

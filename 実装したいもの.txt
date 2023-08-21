@@ -23,9 +23,11 @@ MAPモード：
 
 
 Lua
-  Menu+PFD        Lua0
-  map+wifi+Becon  Lua1
-  status          Lua2 <=ユーザー改変可能Lua
+  PFD
+  Menu            Lua0
+  map+Becon       Lua1
+  wifi            Lua2
+  status          Lua3 <=ユーザー改変可能Lua
 
   video
 
@@ -44,3 +46,5 @@ video-Lua2-Lua1-Lua0-OutputNode
 Sensor+TouchinL--┘
 
 タッチ入力は上書き
+
+

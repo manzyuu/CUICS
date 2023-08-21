@@ -83,7 +83,7 @@ do
 	centering,
 	monitorSwap   = true,true,property.getBool("Monitor Swap")
 
-	RMonitorID    = 2
+	moduleID    = 2
 	MaxVS         = 20
 	mapX, mapY    = 0, 0
 	zoomlv,zoom   = 1, 10
@@ -165,7 +165,7 @@ function onTick() --[====[ onTick ]====]
 
 	do                                            --右のモニターをどの表示にするか選択
 		if touch["touch"][1] then
-			RMonitorID =  		   					--reset
+			moduleID =  		   					--reset
 				button(0, 15, 12, 6, 1) and 1 or    --Map
 				button(15, 15, 6, 6, 1) and 2 or    --Ch
 				button(0, 24, 16, 6, 1) and 3 or    --State
@@ -175,7 +175,7 @@ function onTick() --[====[ onTick ]====]
 	end
 
 
-	if RMonitorID == 1 then --MAPのタッチ操作
+	if moduleID == 1 then --MAPのタッチ操作
 		if centering then
 			mapX, mapY = Phys.x, Phys.y
 		end
@@ -213,7 +213,7 @@ function onTick() --[====[ onTick ]====]
 	end
 
 
-	if RMonitorID == 2 then             --MFM無線操作
+	if moduleID == 2 then             --MFM無線操作
 		output.setBool(1, button(27, 0, 5, 6, 2)) --送信チャンネル設定ボタン
 		output.setBool(2, button(27, 7, 5, 5, 2)) --受信チャンネル追加
 		output.setBool(3, button(2, 14, 5, 5, 2)) --vision
@@ -358,9 +358,9 @@ function onDraw() --[====[ onDraw ]====]
 	else --[====[ 右のモニター用の描画 ]====]
 		                               --
 
-		if RMonitorID == 0 then	--PFD
+		if moduleID == 0 then	--PFD
 
-		elseif RMonitorID == 1 then --MAP
+		elseif moduleID == 1 then --MAP
 			screen.drawMap(mapX, mapY, zoom)
 			drawNewFont(0, 26, zoom)
 
@@ -374,7 +374,7 @@ function onDraw() --[====[ onDraw ]====]
 			screen.drawText(1, 5, "-")
 
 			screen.drawCircle(16, 16, 4) --中心に戻る
-		elseif RMonitorID == 2 then --MFMのアンテナチャンネル設定
+		elseif moduleID == 2 then --MFMのアンテナチャンネル設定
 			screen.setColor(10, 10, 10)
 			screen.drawClear()
 
@@ -449,7 +449,7 @@ function onDraw() --[====[ onDraw ]====]
 			else
 				drawNewFont(19, 27, string.format("%02d", radio.recivefrequency // 1))
 			end
-		elseif (RMonitorID == 3) then --エンジンとかの機体ステータス表示
+		elseif (moduleID == 3) then --エンジンとかの機体ステータス表示
 			screen.setColor(10, 10, 10)
 			screen.drawClear()
 
@@ -459,7 +459,7 @@ function onDraw() --[====[ onDraw ]====]
 				screen.setColor(255, 0, 10)
 			end
 			drawNewFont(0, 6, "TEMP:" .. string.format("%03d", engine.temp // 1))
-		elseif (RMonitorID == 4) then
+		elseif (moduleID == 4) then
 
 		end
 

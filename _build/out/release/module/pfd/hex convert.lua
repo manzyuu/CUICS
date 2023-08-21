@@ -5,9 +5,15 @@
 -- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
--- Minimized Size: 79 (442 with comment) chars
+-- Minimized Size: 137 (502 with comment) chars
+j="color"
 
-_=0
-function onTick()_=_+1
-end
-function onDraw()screen.drawCircle(16,16,5)end
+_=255
+c=tonumber
+d=property.getText
+a=c(d(j),16)i=(a>>16)& _
+f=(a>>8)& _
+e=a & _
+b=c(d(j),16)e=(b>>16)& _
+g=(b>>8)& _
+h=b & _

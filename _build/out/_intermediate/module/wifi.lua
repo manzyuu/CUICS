@@ -1,3 +1,4 @@
+
 ---@section __LB_SIMULATOR_ONLY__
 do
     ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
@@ -68,10 +69,9 @@ do
 end
 ---@endsection
 
-interval=10000
 
-
-
+do
+    interval=10000
     --screenpower= true
     centering= true
     monitorSwap=property.getBool("Monitor Swap")
@@ -93,15 +93,17 @@ interval=10000
 	receive.dir     = {}
 	receive.way     = {}
 
+
     receive.code    = {}
+--[[
     receive.X       = {}
     receive.Y       = {}
     receive.Dir     = {}
-    --receive.Alt     = {}
-    --receive.Spd     = {}
+    receive.Alt     = {}
+    receive.Spd     = {}
     receive.WayX    = {}
     receive.WayY    = {}
-
+]]
 
     freqlist     = { 0, 0, 0, 0, 0, 0, 0, 0 }
 
@@ -112,7 +114,7 @@ interval=10000
     pageNumber  = 1
 
     
-
+end
 
 
 
@@ -125,23 +127,12 @@ function onTick() --[====[ onTick ]====]
 
 
 
-    --input data
+    do--input data
         touch.Bool = input.getBool(1)
         
-        --errorcheck=not errorcheck
-
+        errorcheck=not errorcheck
         
-        --1~8 ReceiveData
-        receive.code[freqlist[radio.Channelnumber]] = input.getNumber(1)
-        receive.X   [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(2) or 0
-        receive.Y   [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(3) or 0
-        receive.Dir [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(4) or 0
-        --receive.Alt [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(5) or 0
-        --receive.Spd [freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(6) or 0
-        receive.WayX[freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(7) or 0
-        receive.WayY[freqlist[radio.Channelnumber]] = input.getNumber(1)==Passcode and input.getNumber(8) or 0
-        
-
+        receive.code[freqlist[radio.Channelnumber]] = not input.getBool(32) and input.getNumber(1) or receive.code[freqlist[radio.Channelnumber]] 
 
         --9~13 PhysData
         Phys.x       = input.getNumber(9)
@@ -165,9 +156,9 @@ function onTick() --[====[ onTick ]====]
             radio.switch      = input.getBool(20)
             for i = 1, 8, 1 do--FreqData
                 
-                freqlist[i] = math.floor(input.getNumber(24 + i))%interval and math.floor(input.getNumber(24 + i))%interval or 0
+                freqlist[i] = math.floor(input.getNumber(24 + i))%interval or 0
 
-                if 0 < freqlist[i] then --設定情報更新
+                if 0 ~= freqlist[i] then --設定情報更新
                     local settingdata = math.floor(input.getNumber(24 + i)/interval)
                     receive.vis[freqlist[i]]=settingdata & 1 == 1
                     receive.dir[freqlist[i]]=settingdata & 2 == 2
@@ -184,7 +175,7 @@ function onTick() --[====[ onTick ]====]
                 end
             end
 
---[[
+
             for j = 1, 8, 1 do --重複削除
                 if i ~= j and freqlist[i] == freqlist[j] and i < j then
                     freqlist[j] = 0
@@ -193,38 +184,14 @@ function onTick() --[====[ onTick ]====]
                 end
 
             end
-]]
-        end
 
+        end
+    end
         
         
     
 
-    --updatadata
-        if moduleID==1 then--map
-            if button(0, 0, 5, 5,true) then
-                touch.flags=true
-                zoomlv = zoomlv -1
-            end
-            if button(0, 6, 5, 5,true) then
-                touch.flags=true
-                zoomlv = zoomlv + 1
-            end
-    
-            zoomlv = math.min(math.max(zoomlv, 1), 22)
-            zoom = math.min(zoomlv - 5, 0) / 5 +	         --0.2 ~  1.0
-                   math.min(math.max(zoomlv - 4, 1), 10) +   --1.0 ~  5.0
-                   math.min(math.max(zoomlv - 14, 0), 8) * 5 --5.0 ~ 50.0
-    
-            if button(13, 13, 6, 6, false) or (farstflag and Phys.x~=0) then
-                farstflag=false
-                touch.flags=true
-                mapX, mapY = Phys.x, Phys.y
-            elseif touch.Bool and not button(0, 0, 5, 11,false) then--and zoomlv == false then
-                    mapX = (touch.X - 16) * zoom / 2 + mapX
-                    mapY = -(touch.Y - 16) * zoom / 2 + mapY
-            end
-        end
+    do--updatadata
         if moduleID==2 then--wifi
                 
             
@@ -293,12 +260,13 @@ function onTick() --[====[ onTick ]====]
             end
         end
 
-    
+    end
 
-    --outputdata        
+    do--outputdata        
         output.setBool(20,radio.switch)
-        output.setBool(32,touch.Bool)
-
+        output.setBool(31,touch.Bool)
+        output.setBool(32,errorcheck)
+        
         output.setNumber(17,pageNumber)
         
         radio.Channelnumber=input.getBool(32) and radio.Channelnumber+1 or radio.Channelnumber
@@ -314,11 +282,11 @@ function onTick() --[====[ onTick ]====]
         end
     
 
-
+    end
 
     monitorID=false
 
-
+    
 
 
 
@@ -333,42 +301,6 @@ function onDraw()
         monitorID = true
     else
         monitorID=true
-        if moduleID==1 then--map
-			screen.drawMap(mapX, mapY, zoom)
-			drawNewFont(0, 26, zoom)
-
-            for i = 1, 8, 1 do
-                if receive.vis[freqlist[i]] and freqlist[i]~=0 then
-                    local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32,receive.X[freqlist[i]], receive.Y[freqlist[i]] )
-                    screen.setColor(150,50,150)
-                    screen.drawRectF(pixelX-1,pixelY,3,3)
-                    if receive.dir[freqlist[i]] then
-                        receive.Dir[freqlist[i]]=receive.Dir[freqlist[i]] or 0
-                        local compass=((receive.Dir[freqlist[i]] + 1.75) % 1 - 0.5) * 2 * math.pi
-                        screen.drawLine(pixelX,pixelY,math.sin(compass)*8+pixelX,-math.cos(compass)*8+pixelY)
-                    end
-                    if receive.way[freqlist[i]] then
-                        local waypointX,waypointY= map.mapToScreen(mapX, mapY, zoom, 32, 32,receive.WayX[freqlist[i]], receive.WayY[freqlist[i]] )
-                        screen.setColor(150,150,100)
-                        screen.drawLine(pixelX,pixelY,waypointX,waypointY)
-                    end
-                end
-            end
-
-
-			screen.setColor(5, 5, 5) --Zoomボタン
-			screen.drawRectF(0, 0, 5, 10)
-			screen.setColor(20, 20, 20)
-			screen.drawRect(0, 0, 4, 4)
-			screen.drawRect(0, 5, 4, 4)
-			screen.setColor(255, 255, 255)
-			screen.drawText(1, 0, "+")
-			screen.drawText(1, 5, "-")
-
-			screen.drawCircle(16, 16, 4) --中心に戻る
-
-
-        end
         if moduleID==2 then  --WIFI     
             local temp=0
             screen.setColor(10, 10, 10)

@@ -1,3 +1,4 @@
+
 ---@section __LB_SIMULATOR_ONLY__
 do
     ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded

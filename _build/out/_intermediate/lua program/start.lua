@@ -18,8 +18,8 @@
 do
     ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
     simulator = simulator
-    simulator:setScreen(1, "3x3")
-    simulator:setScreen(2, "3x3")
+    simulator:setScreen(1, "1x1")
+    simulator:setScreen(2, "1x1")
     simulator:setProperty("F1",
         "0000044404AA000AEAEA4E4E4A248A26E624800048884844480A4A004E400004800E000000422488EAAAEC444EE2E8EE2E2EAAE22E8E2EE8EAEE2244EAEAE")
     simulator:setProperty("F2",
