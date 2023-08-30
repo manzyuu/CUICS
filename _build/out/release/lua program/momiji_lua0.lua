@@ -12,94 +12,94 @@ f=255
 j=100
 k=true
 c=false
-Q=input
-M=output
-T=math
+J=input
+N=output
+K=math
 l=screen
-O=property
-z=O.getText
-s=l.drawRect
-o=l.drawRectF
+H=property
+y=H.getText
+r=l.drawRect
+n=l.drawRectF
 h=l.drawLine
-v=T.abs
+u=K.abs
 x=string.format
 _=l.setColor
-K=M.setBool
-y=Q.getBool
-g=Q.getNumber
+I=N.setBool
+w=J.getBool
+g=J.getNumber
 do
-X=O.getBool("Monitor Swap")u=2
-aj=20
-d={}d.ad=0
-d.A=0
-d.P=0
-H={}H.n=0
-H.p=0
-b={}b.E=0
+W=H.getBool("Monitor Swap")v=2
+af=20
+d={}d.ag=0
+d.E=0
+d.R=0
+S={}S.q=0
+S.s=0
+b={}b.B=0
 b.D=0
-b.t=c
-b.r=c
-S=c
-I=0
+b.o=c
+b.p=c
+G=c
+O=0
 end
-function onTick()b.E=g(31)b.D=g(32)b.t=y(1)d.P=d.A
-d.n=g(1)d.p=g(3)d.A=g(2)d.ag=(d.A-d.P)*60
-d.ae=g(17)d.af=g(13)ah=g(29)ak=g(30)S=y(2)ai=y(3)m=y(4)if b.t and not b.r then
-u=i(0,15,12,6,c)and 1 or
+function onTick()b.B=g(31)b.D=g(32)b.o=w(1)d.R=d.E
+d.q=g(1)d.s=g(3)d.E=g(2)d.ad=(d.E-d.R)*60
+d.ai=g(17)d.ae=g(13)aj=g(29)ah=g(30)G=w(2)al=w(3)m=w(4)if b.o and not b.p then
+v=i(0,15,12,6,c)and 1 or
 i(15,15,6,6,c)and 2 or
 i(23,15,8,7,c)and 3 or
 i(0,24,16,6,c)and 4 or
 i(15,24,16,6,c)and 5 or
-u~=0 and 0 or 1
-b.r=k
+v~=0 and 0 or 1
+b.p=k
 end
 F=c
-K(1,b.t)M.setNumber(1,u)K(32,S)b.r=b.t and b.r or c
+I(1,b.o)N.setNumber(1,v)I(32,G)b.p=b.o and b.p or c
 end
-function onDraw()al=k
-if F~=X then
+function onDraw()ak=k
+if F~=W then
 F=k
-if u~=0 then
-_(10,10,10)l.drawClear()U()aa()end
 else
 F=k
+if v~=0 then
+_(10,10,10)l.drawClear()ab()V()end
 end
 end
-function U()_(200,50,20)e(29,1,"X")e(17,1,x(am,v(d.n//j)))_(20,50,200)e(29,7,"Y")e(17,7,x(am,v(d.p//j)))_(f,f,f)e(0,1,x("%02d",T.min(v(I//1000),99)))l.drawText(7,1,".")e(10,1,x("%01d",v(I)//j%10))e(8,7,"KM")_(5,5,5)h(15,0,15,13)_(1,1,1)h(0,13,32,13)end
-function aa()local a=0
-_(30,30,30)o(0,15,13,7)_(50,50,50)s(0,15,12,6)a=i(0,15,12,6,c)and j or f
-_(a,a,a)e(1,16,"MAP")_(30,30,30)o(15,15,7,7)_(50,50,50)s(15,15,6,6)a=i(15,15,6,6,c)and j or f
+function ab()_(200,50,20)e(29,1,"X")e(17,1,x(am,u(d.q//j)))_(20,50,200)e(29,7,"Y")e(17,7,x(am,u(d.s//j)))_(f,f,f)e(0,1,x("%02d",K.min(u(O//1000),99)))l.drawText(7,1,".")e(10,1,x("%01d",u(O)//j%10))e(8,7,"KM")_(5,5,5)h(15,0,15,13)_(1,1,1)h(0,13,32,13)end
+function V()local a=0
+_(30,30,30)n(0,15,13,7)_(50,50,50)r(0,15,12,6)a=i(0,15,12,6,c)and j or f
+_(a,a,a)e(1,16,"MAP")_(30,30,30)n(15,15,7,7)_(50,50,50)r(15,15,6,6)a=i(15,15,6,6,c)and j or f
 _(a,a,a)h(16,19,16,21)h(16,19,19,16)h(19,16,21,16)h(18,19,18,21)h(19,18,21,18)h(20,20,21,20)a=m and 70 or 30
-_(a,a,a)o(23,15,8,7)_(50,50,50)s(23,15,8,6)a=m and 70 or 30
-_(m and f or f,m and 20 or f,m and 50 or f)e(24,16,"Be")_(30,30,30)o(0,24,13,7)_(50,50,50)s(0,24,12,6)a=i(0,24,16,6,c)and j or f
-_(a,a,a)e(1,25,"STA")_(30,30,30)o(16,24,17,7)_(50,50,50)s(15,24,16,6)a=i(15,24,16,6,c)and j or f
+_(a,a,a)n(23,15,8,7)_(50,50,50)r(23,15,8,6)a=m and 70 or 30
+_(m and f or f,m and 20 or f,m and 50 or f)e(24,16,"Be")_(30,30,30)n(0,24,13,7)_(50,50,50)r(0,24,12,6)a=i(0,24,16,6,c)and j or f
+_(a,a,a)e(1,25,"STA")_(30,30,30)n(16,24,17,7)_(50,50,50)r(15,24,16,6)a=i(15,24,16,6,c)and j or f
 _(a,a,a)e(16,25,"EXTE")end
-function i(n,p,ab,V,N)local w=c
-if n<=b.E and
-n+ab>=b.E and
-p<=b.D and
-p+V>=b.D and
-b.t then
-if not b.r and N then
-w=k
-elseif not N then
-w=k
+function i(q,s,aa,ac,M)local z=c
+if q<=b.B and
+q+aa>=b.B and
+s<=b.D and
+s+ac>=b.D and
+b.o then
+if not b.p and M then
+z=k
+elseif not M then
+z=k
 end
 else
-w=c
+z=c
 end
-return w
+return z
 end
-function e(Z,W,q)if type(q)=="number" then
-q=tostring(q)end
-Y=z("F1")..z("F2")..z("F3")..z("F4")for B=1,q:len()do
-G=q:sub(B,B):byte()*5-159
+function e(Z,U,t)if type(t)=="number" then
+t=tostring(t)end
+X=y("F1")..y("F2")..y("F3")..y("F4")for A=1,t:len()do
+Q=t:sub(A,A):byte()*5-159
 for C=1,5 do
-ac="0x"..Y:sub(G,G+4):sub(C,C)for J=1,3 do
-if ac & 2^(4-J)>0 then
-R=Z+B*4+J-5
-L=W+C-1
-h(R,L,R+1,L)end
+Y="0x"..X:sub(Q,Q+4):sub(C,C)for T=1,3 do
+if Y & 2^(4-T)>0 then
+L=Z+A*4+T-5
+P=U+C-1
+h(L,P,L+1,P)end
 end
 end
 end

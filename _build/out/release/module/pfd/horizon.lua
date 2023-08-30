@@ -12,25 +12,25 @@ f=screen
 i=f.setColor
 j=input.getNumber
 _=math
-min,max,abs,cos,sin,tan,acos,asin,atan,pi,D=_.min,_.max,_.abs,_.cos,_.sin,_.tan,_.acos,_.asin,_.tan,_.pi,_.pi*2
-w,p,q=h("SkyColor")B,p,q=h("LandColor")w,p,q=h("CenterLineColor")function onTick()c=j(1)-pi/2
-C=j(2)r=j(3)*-360
+min,max,abs,cos,sin,tan,acos,asin,atan,pi,B=_.min,_.max,_.abs,_.cos,_.sin,_.tan,_.acos,_.asin,_.tan,_.pi,_.pi*2
+s,l,q=g("SkyColor")D,l,q=g("LandColor")s,l,q=g("CenterLineColor")function onTick()b=j(1)-pi/2
+C=j(2)p=j(3)*-360
 end
-function onDraw()n,y=f.getWidth(),f.getHeight()e=10
+function onDraw()r,y=f.getWidth(),f.getHeight()e=10
 d=y/4
-for b=-360//e,360//e do
-v=cos(c)*(b+r)+n/2
-t=sin(c)*(b+r)+n/2
-k,o=cos(c)*b*e+v,sin(c)*b*e+t
-l=c+pi/2
-m=-c+pi/2
-A,u=cos(l)*d+k,sin(l)*d+o
-s,x=cos(m)*d+k,-sin(m)*d+o
-if b==0 then
-i(a,a,a)elseif b<0 then
+for c=-360//e,360//e do
+u=cos(b)*(c+p)+r/2
+A=sin(b)*(c+p)+r/2
+k,n=cos(b)*c*e+u,sin(b)*c*e+A
+o=b+pi/2
+m=-b+pi/2
+w,x=cos(o)*d+k,sin(o)*d+n
+t,v=cos(m)*d+k,-sin(m)*d+n
+if c==0 then
+i(a,a,a)elseif c<0 then
 i(10,a,10)else
 i(10,10,a)end
-f.drawLine(A,u,s,x)end
+f.drawLine(w,x,t,v)end
 end
-function h(z)local g=tonumber(property.getText(z),16)return(g>>16)& a,(g>>8)& a,g & a
+function g(z)local h=tonumber(property.getText(z),16)return(h>>16)& a,(h>>8)& a,h & a
 end

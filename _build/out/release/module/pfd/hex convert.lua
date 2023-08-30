@@ -11,9 +11,9 @@ j="color"
 _=255
 c=tonumber
 d=property.getText
-a=c(d(j),16)i=(a>>16)& _
-f=(a>>8)& _
-e=a & _
-b=c(d(j),16)e=(b>>16)& _
-g=(b>>8)& _
-h=b & _
+b=c(d(j),16)h=(b>>16)& _
+f=(b>>8)& _
+e=b & _
+a=c(d(j),16)e=(a>>16)& _
+i=(a>>8)& _
+g=a & _

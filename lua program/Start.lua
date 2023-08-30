@@ -60,138 +60,130 @@ end
 -- try require("Folder.Filename") to include code from another file in this, so you can store code in libraries
 -- the "LifeBoatAPI" is included by default in /_build/libs/ - you can use require("LifeBoatAPI") to get this, and use all the LifeBoatAPI.<functions>!
 
-ticks = 0
 
-
-
-
-
-
-
-
-
-
+do
 ticks = 0
 cutFlag = false
+startflag = false
+touchflag = true
+monitorSwap         = property.getBool("Monitor Swap")
+monitorID           = false
+end
 
 function onTick()
-    if input.getBool(1) or input.getBool(2) or not input.getBool(3) then
+    touch = (input.getBool(1) or input.getBool(2)) and touchflag
+    if touch and not startflag then
+        touchflag = false
+        startflag = true
+    elseif touch and startflag then
+        touchflag = false
         cutFlag = true
         ticks = 0
+
         return
-    else
+    elseif startflag and not cutFlag then
         ticks = ticks + 1
     end
 
 
 
+    if not (input.getBool(1) or input.getBool(2)) then
+        touchflag = true
+    end
 
-
-    monitorID = 1
+    output.setBool(1,cutFlag)
+    monitorID = false
 end
 
 function onDraw()
     if cutFlag then
         return
-    end
-    
-
-    if monitorID == 1 then ------LeftMonitor
-        --drawNewFont(2,2,monitorID)
-        if ticks<60 then
-            screen.setColor(100,100,100)
-            screen.drawLine(0,0,32,32)
-            screen.drawLine(0,32,32,0)
-        elseif ticks<120 then
-            screen.setColor(100,100,100)
-            drawRectF((ticks-90)/60*128,15,(ticks-60)/60*128,16)
-        elseif ticks<245 then
-            screen.setColor(100,100,100)
-            screen.setColor(clamp(ticks-120,0,128)/16,clamp(ticks-120,0,128)/16,clamp(ticks-120,0,128)/16)
-            screen.drawCircleF(33,15,(ticks-120)*4)
-            --drawRectF(0,0,32,32)
-
-            screen.setColor(0,0,0)
-            drawNewFont(7,14,"CUICS")
-        elseif ticks<350 then
-            screen.setColor(10,10,10)
-            drawRectF(0,0,32,32)
-            screen.setColor(0,0,0)
-            drawNewFont(7,14,"CUICS")
-            drawNewFont(17,25,"Cpl.")
-        elseif ticks<410 then
-            screen.setColor(10,10,10,255-clamp(ticks-350,0,60)/60*255)
-            drawRectF(0,0,32,32)
-            screen.setColor(0,0,0,255-clamp(ticks-350,0,60)/60*255)
-            drawNewFont(7,14,"CUICS")
-            drawNewFont(17,25,"Cpl.")
-        else
-            cutFlag=true
-        end
-
-        
-
-
-
-        monitorID = 2
-    else ----------------------RightMonitor
-        --drawNewFont(2,2,monitorID)
-        if ticks<60 then
-            screen.setColor(100,100,100)
-            screen.drawLine(0,0,32,32)
-            screen.drawLine(0,32,32,0)
-        elseif ticks<120 then
-            screen.setColor(100,100,100)
-            drawRectF((ticks-105)/60*128,15,(ticks-75)/60*128,16)
-        elseif ticks<245 then
-            screen.setColor(100,100,100)
-            screen.setColor(clamp(ticks-120,0,128)/16,clamp(ticks-120,0,128)/16,clamp(ticks-120,0,128)/16)
-            screen.drawCircleF(-1,15,(ticks-120)*4)
-            --drawRectF(0,0,32,32)
-
-            screen.setColor(0,0,0)
-            drawNewFont(7,14,"CUICS")
-
-        elseif ticks<350 then
-            screen.setColor(10,10,10)
-            drawRectF(0,0,32,32)
-            screen.setColor(0,0,0)
-            drawNewFont(3,3,"Var,1.0")
-            drawNewFont(1,19,"Powerd")
-            drawNewFont(2,25,"ByMAKKI")
-        elseif ticks<410 then
-            screen.setColor(10,10,10,255-clamp(ticks-350,0,60)/60*255)
-            drawRectF(0,0,32,32)
-            screen.setColor(0,0,0,255-clamp(ticks-350,0,60)/60*255)
-            drawNewFont(3,3,"Var,1.0")
-            drawNewFont(1,19,"Powerd")
-            drawNewFont(2,25,"ByMAKKI")
-        end
-    end
-
-
-
-    screen.setColor(100,100,100)
-    screen.drawRect(-1,-1,33,33)
-    screen.setColor(0,10,0)
-    screen.drawRectF(0,35,35,477)
-    screen.drawRectF(35,0,477,256)
-    screen.setColor(100,0,0)
-    drawNewFont(0,34,"ONLYCAN")
-    drawNewFont(0,40,"USE 1*1")
-    drawNewFont(34,2,"ONLYCAN")
-    drawNewFont(34,8,"USE 1*1")
-    screen.setColor(100,100,100)
-    if cutFlag then
+    else
+        local temp = startflag and 10 or 0
+        screen.setColor(temp, temp, temp, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
         screen.drawClear()
     end
+
+
+    if monitorID ~= monitorSwap then ------LeftMonitor
+        --drawNewFont(2,2,monitorID)
+        if ticks < 60 and ticks > 1 then
+            screen.setColor(100, 100, 100)
+            screen.drawLine(0, 0, 32, 32)
+            screen.drawLine(0, 32, 32, 0)
+        elseif ticks < 120 then
+            screen.setColor(100, 100, 100)
+            drawRectF((ticks - 90) / 60 * 128, 15, (ticks - 60) / 60 * 128, 16)
+        elseif ticks < 245 then
+            screen.setColor(100, 100, 100)
+            screen.setColor(clamp(ticks - 120, 0, 128) / 16, clamp(ticks - 120, 0, 128) / 16,
+                clamp(ticks - 120, 0, 128) /
+                16)
+            screen.drawCircleF(33, 15, (ticks - 120) * 4)
+            --drawRectF(0,0,32,32)
+
+            screen.setColor(0, 0, 0)
+            drawNewFont(7, 14, "CUICS")
+        elseif ticks < 350 then
+            screen.setColor(10, 10, 10)
+            drawRectF(0, 0, 32, 32)
+            screen.setColor(0, 0, 0)
+            drawNewFont(7, 14, "CUICS")
+            drawNewFont(17, 25, "Cpl.")
+        elseif ticks < 410 then
+            screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+            drawRectF(0, 0, 32, 32)
+            screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+            drawNewFont(7, 14, "CUICS")
+            drawNewFont(17, 25, "Cpl.")
+        else
+            cutFlag = true
+        end
+
+
+
+
+
+        monitorID = true
+    else ----------------------RightMonitor
+        --drawNewFont(2,2,monitorID)
+        if ticks < 60 and ticks > 1 then
+            screen.setColor(100, 100, 100)
+            screen.drawLine(0, 0, 32, 32)
+            screen.drawLine(0, 32, 32, 0)
+        elseif ticks < 120 then
+            screen.setColor(100, 100, 100)
+            drawRectF((ticks - 105) / 60 * 128, 15, (ticks - 75) / 60 * 128, 16)
+        elseif ticks < 245 then
+            screen.setColor(100, 100, 100)
+            screen.setColor(clamp(ticks - 120, 0, 128) / 16, clamp(ticks - 120, 0, 128) / 16,
+                clamp(ticks - 120, 0, 128) /
+                16)
+            screen.drawCircleF(-1, 15, (ticks - 120) * 4)
+            --drawRectF(0,0,32,32)
+
+            screen.setColor(0, 0, 0)
+            drawNewFont(7, 14, "CUICS")
+        elseif ticks < 350 then
+            screen.setColor(10, 10, 10)
+            drawRectF(0, 0, 32, 32)
+            screen.setColor(0, 0, 0)
+            drawNewFont(3, 3, "Var,1.0")
+            drawNewFont(1, 19, "Powerd")
+            drawNewFont(2, 25, "ByMAKKI")
+        elseif ticks < 410 then
+            screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+            drawRectF(0, 0, 32, 32)
+            screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+            drawNewFont(3, 3, "Var,1.0")
+            drawNewFont(1, 19, "Powerd")
+            drawNewFont(2, 25, "ByMAKKI")
+        end
+
+ 
+        monitorID = true       
+    end
 end
-
-
-
-
-
-
 
 function drawNewFont(NewFontX, NewFontY, NewFontTextValue)
     local NewFontC, NewFontD, NewFontF, NewFontP, NewFontQ
@@ -214,17 +206,15 @@ function drawNewFont(NewFontX, NewFontY, NewFontTextValue)
     end
 end
 
-
-function drawRectF(startX,startY,endX,endY)
-    screen.drawRectF(startX,startY,math.abs(startX-endX)+1,math.abs(startY-endY)+1)
-    
+function drawRectF(startX, startY, endX, endY)
+    screen.drawRectF(startX, startY, math.abs(startX - endX) + 1, math.abs(startY - endY) + 1)
 end
 
 function clamp(x, min_val, max_val)
-    local value=math.min(math.max(x, min_val), max_val)
-    if value~=value then
+    local value = math.min(math.max(x, min_val), max_val)
+    if value ~= value then
         return 0
     else
         return value
-    end 
+    end
 end

@@ -5,152 +5,157 @@
 -- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
--- Minimized Size: 3510 (3877 with comment) chars
+-- Minimized Size: 3577 (3944 with comment) chars
+bC="N"
 bB="%03d"
-bA="N"
 
-s=360
+v=360
 a=255
-q=false
-P=true
+n=false
+y=true
 f=tonumber
-w=screen
-R=string
-n=math
+s=screen
+S=string
+o=math
 ag=property
-am=input
-O=am.getBool
-ak=ag.getNumber
-ae=n.floor
-af=R.format
-m=w.drawRectF
-t=w.drawText
-b=w.setColor
-i=w.drawLine
-y=ag.getText
-ai=table.insert
-c=n.pi
-ad=n.sqrt
-G=n.atan
-l=n.sin
-h=n.cos
-k=am.getNumber
+aj=input
+P=aj.getBool
+au=ag.getNumber
+Z=o.floor
+W=S.format
+k=s.drawRectF
+r=s.drawText
+b=s.setColor
+i=s.drawLine
+z=ag.getText
+ao=table.insert
+c=o.pi
+ad=o.sqrt
+F=o.atan
+l=o.sin
+j=o.cos
+m=aj.getNumber
 do
 end
-_={}function aC()_.by=k(1)_.aX=k(2)_.bw=k(3)local H=k(4)local N=k(5)local Q=k(6)local V=k(10)local U=k(11)local aa=k(12)_.bq=k(13)local K,J=h(H),l(H)local M,z=h(N),l(N)local I,F=h(Q),l(Q)local bs=M*I
-local aD=-K*F+J*z*I
-local bb=J*F+K*z*I
-local x=M*F
-local v=K*I+J*z*F
-local r=-J*I+K*z*F
-local aS=-z
-local aB=J*M
-local aT=K*M
-_.aJ=G(x,ad(r*r+v*v))/(c*2)_.aI=G(v,ad(x*x+r*r))/(c*2)_.bo=G(r,ad(v*v+x*x))/(c*2)local be=-G(l(H)*l(Q)+h(H)*l(N)*h(Q),h(H)*h(N))/2/c
-_.o=((((1-be)%1)*(c*2)))or 0
-_.bu=bs*V+x*U+aS*aa
-_.bv=aD*V+v*U+aB*aa
-_.bz=bb*V+r*U+aT*aa
-_.u=G(-_.aI,_.aJ)_.ab=-_.bo
+_={}function be()_.bz=m(1)_.br=m(2)_.bx=m(3)local B=m(4)local O=m(5)local U=m(6)local Y=m(10)local ab=m(11)local ai=m(12)_.bp=m(13)local J,L=j(B),l(B)local Q,C=j(O),l(O)local E,K=j(U),l(U)local b_=Q*E
+local aE=-J*K+L*C*E
+local bu=L*K+J*C*E
+local x=Q*K
+local w=J*E+L*C*K
+local t=-L*E+J*C*K
+local bs=-C
+local aZ=L*Q
+local bt=J*Q
+_.aN=F(x,ad(t*t+w*w))/(c*2)_.aR=F(w,ad(x*x+t*t))/(c*2)_.aO=F(t,ad(w*w+x*x))/(c*2)local bm=-F(l(B)*l(U)+j(B)*l(O)*j(U),j(B)*j(O))/2/c
+_.q=((((1-bm)%1)*(c*2)))or 0
+_.bv=b_*Y+x*ab+bs*ai
+_.bw=aE*Y+w*ab+aZ*ai
+_.bA=bu*Y+t*ab+bt*ai
+_.u=F(-_.aR,_.aN)_.af=-_.aO
 end
 do
-function aU(L,ap)if R.find(L,ap)==nil then
-return{L}end
-local Y={}local bt="(.-)"..ap.."()"
-local al
-for aH,b_ in R.gmatch(L,bt)do
-ai(Y,aH)al=b_
+function aQ(R,aq)if S.find(R,aq)==nil then
+return{R}end
+local V={}local aG="(.-)"..aq.."()"
+local ax
+for aL,bh in S.gmatch(R,aG)do
+ao(V,aL)ax=bh
 end
-ai(Y,R.sub(L,al))return Y
+ao(V,S.sub(R,ax))return V
 end
-function ac(aK)local W=f(y(aK),16)or 0
-return(W>>16)& a,(W>>8)& a,W & a
+function ah(aY)local ae=f(z(aY),16)or 0
+return(ae>>16)& a,(ae>>8)& a,ae & a
 end
-function bj(bi,aQ,D)return(1-D)*bi+D*aQ
+function bo(aF,aX,I)return(1-I)*aF+I*aX
 end
 end
 do
-function bl(aG,bh,E)if type(E)=="number" then
-E=tostring(E)end
-aR=y("F1")..y("F2")..y("F3")..y("F4")for g=1,E:len()do
-as=E:sub(g,g):byte()*5-159
-for X=1,5 do
-bm="0x"..aR:sub(as,as+4):sub(X,X)for ax=1,3 do
-if bm & 2^(4-ax)>0 then
-aq=aG+g*4+ax-5
-ah=bh+X-1
-i(aq,ah,aq+1,ah)end
+function bk(bb,bg,A)if type(A)=="number" then
+A=tostring(A)end
+aU=z("F1")..z("F2")..z("F3")..z("F4")for g=1,A:len()do
+am=A:sub(g,g):byte()*5-159
+for ac=1,5 do
+bd="0x"..aU:sub(am,am+4):sub(ac,ac)for av=1,3 do
+if bd & 2^(4-av)>0 then
+az=bb+g*4+av-5
+ar=bg+ac-1
+i(az,ar,az+1,ar)end
 end
 end
 end
 end
-function aW()local at=0
-local au=0
+function bf()local al=0
+local ak=0
+local as=32
+local X=32
 local T=10
-local aZ=8
-for g=-s//T,s//T do
-local bg=h(_.u)*(g-_.ab/c*s)+bd/2
-local aF=l(_.u)*(g-_.ab/c*s)+aj/2
-local D,ar=h(_.u)*g*T+bg,l(_.u)*g*T+aF
-local av=_.u+c/2
-local az=-_.u+c/2
-local B=h(bj(0,c/2,(g+_.ab/(c*2))*aj))*aZ
+local aC=8
+for g=-v//T,v//T do
+local aS=j(_.u)*(g-_.af/c*v)+as/2
+local aJ=l(_.u)*(g-_.af/c*v)+X/2
+local I,ay=j(_.u)*g*T+aS,l(_.u)*g*T+aJ
+local aA=_.u+c/2
+local an=-_.u+c/2
+local H=j(bo(0,c/2,(g+_.af/(c*2))*X))*aC
 if g==0 then
-b(a,a,a)local B=20
+b(a,a,a)local H=20
 elseif g<0 then
 b(50,a,50)else
 b(50,50,a)end
-local bc,aE=h(av)*B+D,l(av)*B+ar
-local aN,ba=h(az)*B+D,-l(az)*B+ar
-i(bc+at,aE+au,aN+at,ba+au)end
+local ba,bi=j(aA)*H+I,l(aA)*H+ay
+local aD,aW=j(an)*H+I,-l(an)*H+ay
+i(ba+al,bi+ak,aD+al,aW+ak)end
 end
-function aA(Z)local e=0
+function bc(aa)local e=0
 local d=4
-local p=s*d/5*4
-local Z=Z-c/2
-local A=s*d
-e=((-_.o/c/2+.00)*(p/d)+4*d)%A
-t(e-1,25,bA)e=((-_.o/c/2+.25)*(p/d)+4*d)%A
-t(e-1,25,"E")e=((-_.o/c/2+.50)*(p/d)+4*d)%A
-t(e-1,25,"S")e=((-_.o/c/2+.75)*(p/d)+4*d)%A
-t(e-1,25,"W")e=((-_.o/c/2+1.00)*(p/d)+4*d)%A
-t(e-1,25,bA)b(3,2,2)m(0,29,32,3)m(10,23,11,7)m(9,24,13,5)b(a,a,225)bl(10,24,af(bB,f(ae(n.deg(_.o)))))b(5,70,5)for g=0,32/d do
-local e=(-_.o/c/2*(p/d)+g*d)%32
+local p=v*d/5*4
+local aa=aa-c/2
+local G=v*d
+e=((-_.q/c/2+.00)*(p/d)+4*d)%G
+r(e-1,25,bC)e=((-_.q/c/2+.25)*(p/d)+4*d)%G
+r(e-1,25,"E")e=((-_.q/c/2+.50)*(p/d)+4*d)%G
+r(e-1,25,"S")e=((-_.q/c/2+.75)*(p/d)+4*d)%G
+r(e-1,25,"W")e=((-_.q/c/2+1.00)*(p/d)+4*d)%G
+r(e-1,25,bC)b(3,2,2)k(0,29,32,3)k(10,23,11,7)k(9,24,13,5)b(a,a,225)bk(10,24,W(bB,f(Z(o.deg(_.q)))))b(5,70,5)for g=0,32/d do
+local e=(-_.q/c/2*(p/d)+g*d)%32
 i(e,29+g%2,e,33)end
-b(250,250,40)local e=(-Z/c/2*(p/d)+2*d)%32
+b(250,250,40)local e=(-aa/c/2*(p/d)+2*d)%32
 i(e,29,e,33)end
-function aV(aO,bn,aL,bp)j=aU(aY,",")if aO then
-b(f(j[1]),f(j[2]),f(j[3]))else
+function aB(aK,aM,bn,aH)h=aQ(aP,",")if aK then
+b(f(h[1]),f(h[2]),f(h[3]))else
 b(10,10,10)end
-m(0,4,4,3)if bn then
-b(f(j[4]),f(j[5]),f(j[6]))else
+k(0,4,4,3)if aM then
+b(f(h[4]),f(h[5]),f(h[6]))else
 b(10,10,10)end
-m(0,10,4,3)if aL then
-b(f(j[7]),f(j[8]),f(j[9]))else
+k(0,10,4,3)if bn then
+b(f(h[7]),f(h[8]),f(h[9]))else
 b(10,10,10)end
-m(0,16,4,3)if bp then
-b(f(j[7]),f(j[8]),f(j[9]))else
+k(0,16,4,3)if aH then
+b(f(h[7]),f(h[8]),f(h[9]))else
 b(10,10,10)end
-m(0,22,4,3)end
-function bf()b(a,10,50,100)m(0,12,32,7)b(a,a,a)i(2,0,2,32)b(a,190,0)m(0,13,4,5)i(4,14,4,17)i(5,15,8,15)w.drawTriangleF(30,16,32,13,32,19)b(a,a,a)w.drawTextBox(6,0,26,32,af("%04d",ae(_.aX*br)),0,0)end
-function aM()b(2,2,2)m(11,12,18,7)b(a,a,a)i(29,0,29,20)b(a,180,0)i(27,15,27,16)i(28,14,28,17)i(29,13,29,18)i(30,13,30,18)b(a,a,a)t(12,13,af(bB,ae(_.bq*bk)))end
+k(0,22,4,3)end
+function aV()b(a,10,50,100)k(0,12,32,7)b(a,a,a)i(2,0,2,32)b(a,190,0)k(0,13,4,5)i(4,14,4,17)i(5,15,8,15)s.drawTriangleF(30,16,32,13,32,19)b(a,a,a)s.drawTextBox(6,0,26,32,W("%04d",Z(_.br*aI)),0,0)end
+function bl()b(2,2,2)k(11,12,18,7)b(a,a,a)i(29,0,29,20)b(a,180,0)i(27,15,27,16)i(28,14,28,17)i(29,13,29,18)i(30,13,30,18)b(a,a,a)r(12,13,W(bB,Z(_.bp*aT)))end
 end
 do
-aP,aw,ao=ac("SkyColor")bx,aw,ao=ac("LandColor")aP,aw,ao=ac("CenterLineColor")aY=y("indicatorColor")br=ak("Altitude Unit")bk=ak("Speed Unit")ay=P
-S=P
-C={q,q,q,q}function onTick()if ay then
-ay=q
+bq,ap,aw=ah("SkyColor")by,ap,aw=ah("LandColor")bq,ap,aw=ah("CenterLineColor")aP=z("indicatorColor")aI=au("Altitude Unit")aT=au("Speed Unit")at=y
+N=y
+M={n,n,n,n}bj=ag.getBool("Monitor Swap")D=n
+function onTick()if at then
+at=n
 end
-if S==q then return end
-an=1
-aC()C={O(1),O(2),O(3),O(4)}S=q
+if N==n then return end
+D=1
+be()M={P(1),P(2),P(3),P(4)}N=n
+D=n
 end
-function onDraw()if(an==1)then
-if S==P then return end
-S=P
-bd,aj=32,32
-aA(0)aM()aV(C[1],C[2],C[3],C[4])an=2
+function onDraw()if D~=bj then
+if N==y then return end
+N=y
+as,X=32,32
+bc(0)bl()aB(M[1],M[2],M[3],M[4])D=y
 else
-aW()bf()end
+bf()aV()D=y
+end
 end
 end

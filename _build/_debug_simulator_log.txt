@@ -1,27 +1,5 @@
-2023/08/21 13:55:41 Launching, time stamp.
-2023/08/21 13:55:41 Opening connection on port 14238
-2023/08/21 13:55:41 Now Accepting TCP clients
-2023/08/21 13:55:41 MainWindow Initialized and running
-2023/08/21 13:55:42 Client accepted - Client Connected: True, beginning Message Loop
-
-2023/08/21 13:56:04 SocketConnection - SendMessage (ALIVE) - Exception - Closing Pipe - System.IO.IOException: 転送接続にデータを書き込めません: 確立された接続がホスト コンピューターのソウトウェアによって中止されました。。 ---> System.Net.Sockets.SocketException: 確立された接続がホスト コンピューターのソウトウェアによって中止されました。
-   場所 System.Net.Sockets.Socket.Send(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
-   場所 System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
-   --- 内部例外スタック トレースの終わり ---
-   場所 System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
-   場所 STORMWORKS_Simulator.SocketConnection.SendMessage(String commandName, Object[] args) 場所 C:\Workspaces\stormworks\vscode_extension\CsharpSimulator\STORMWORKS_Simulator\src\SocketConnection.cs:行 122
-
-
-2023/08/21 13:56:04 SocketReadTask - Exception - Closing Pipe - Client Connected: False - System.IO.IOException: 転送接続からデータを読み取れません: 既存の接続はリモート ホストに強制的に切断されました。。 ---> System.Net.Sockets.SocketException: 既存の接続はリモート ホストに強制的に切断されました。
-   場所 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
-   場所 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
-   --- 内部例外スタック トレースの終わり ---
-   場所 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
-   場所 STORMWORKS_Simulator.SocketConnection.<.ctor>b__13_0() 場所 C:\Workspaces\stormworks\vscode_extension\CsharpSimulator\STORMWORKS_Simulator\src\SocketConnection.cs:行 87
-
-
-2023/08/21 13:56:04 Pipe_OnPipeClosed - Closing Application
-
-
-2023/08/21 13:56:04 Pipe_OnPipeClosed - Closing Application
-
+2023/08/30 5:39:48 Launching, time stamp.
+2023/08/30 5:39:48 Opening connection on port 14238
+2023/08/30 5:39:48 Now Accepting TCP clients
+2023/08/30 5:39:48 MainWindow Initialized and running
+2023/08/30 5:39:48 Client accepted - Client Connected: True, beginning Message Loop

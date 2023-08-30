@@ -88,7 +88,7 @@ do
     touch         = {}
     touch.X       = 0
     touch.Y       = 0
-    touch.Bool    = false
+    touch.bool    = false
     touch.flags   = false
 
     errorcheck    = false
@@ -101,7 +101,7 @@ end
 function onTick()
     touch.X      = input.getNumber(31)
     touch.Y      = input.getNumber(32)
-    touch.Bool   = input.getBool(1)
+    touch.bool   = input.getBool(1)
 
     Phys.oldalt  = Phys.alt
 
@@ -115,13 +115,13 @@ function onTick()
     KeypadX      = input.getNumber(29)
     KeypadY      = input.getNumber(30)
 
-    errorcheck   = input.getBool(2)
+    errorcheck=not errorcheck
     radioswitch  = input.getBool(3)
     becon        = input.getBool(4)
 
 
 
-    if touch.Bool and not touch.flags then
+    if touch.bool and not touch.flags then
         moduleID =
             button(0, 15, 12, 6, false) and 1 or  --Map
             button(15, 15, 6, 6, false) and 2 or  --Ch
@@ -132,20 +132,16 @@ function onTick()
         touch.flags = true
     end
     monitorID = false
-    output.setBool(1, touch.Bool)
+    output.setBool(1, touch.bool)
     output.setNumber(1, moduleID)
 
     output.setBool(32, errorcheck)
-    touch.flags = touch.Bool and touch.flags or false
+    touch.flags = touch.bool and touch.flags or false
 end
 
 function onDraw() --[====[ onDraw ]====]
-    screenpower = true
+    
     if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
-
-
-    else
         monitorID = true
         if moduleID ~= 0 then
             screen.setColor(10, 10, 10)
@@ -153,6 +149,11 @@ function onDraw() --[====[ onDraw ]====]
             drawdata()
             drawbutton()
         end
+
+    else
+        monitorID = true
+
+        
     end
 end -------------------------------------------onDraw終わり-------------------------------------------
 
@@ -245,7 +246,7 @@ function button(x, y, w, h, palse)
         x + w >= touch.X and
         y <= touch.Y and
         y + h >= touch.Y and
-        touch.Bool then
+        touch.bool then
         if not touch.flags and palse then
             returnvalue = true
         elseif not palse then

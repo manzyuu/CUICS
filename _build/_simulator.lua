@@ -25,6 +25,6 @@ sandboxEnv.simulator = simulator
 simulator:_beginSimulation(false, arg[1], arg[2])
 
 -- main require
-sandboxEnv.require("lua program.momiji_lua0")
+sandboxEnv.require("module.map")
 
 simulator:_giveControlToMainLoop()

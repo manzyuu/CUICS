@@ -127,7 +127,7 @@ function onTick() --[====[ onTick ]====]
 
 
     --input data
-        touch.Bool = input.getBool(1)
+        touch.bool = input.getBool(1)
         
         --errorcheck=not errorcheck
 
@@ -161,7 +161,7 @@ function onTick() --[====[ onTick ]====]
 
         moduleID              = input.getNumber(23)
 
-        if not touch.Bool then
+        if not touch.bool then
             radio.sendFreq    = input.getNumber(20)
             radio.switch      = input.getBool(20)
             for i = 1, 8, 1 do--FreqData
@@ -221,7 +221,7 @@ function onTick() --[====[ onTick ]====]
                 farstflag=false
                 touch.flags=true
                 mapX, mapY = Phys.x, Phys.y
-            elseif touch.Bool and not button(0, 0, 5, 11,false) then--and zoomlv == false then
+            elseif touch.bool and not button(0, 0, 5, 11,false) then--and zoomlv == false then
                     mapX = (touch.X - 16) * zoom / 2 + mapX
                     mapY = -(touch.Y - 16) * zoom / 2 + mapY
             end
@@ -298,7 +298,7 @@ function onTick() --[====[ onTick ]====]
 
     --outputdata        
         output.setBool(20,radio.switch)
-        output.setBool(32,touch.Bool)
+        output.setBool(32,touch.bool)
 
         output.setNumber(17,pageNumber)
         
@@ -477,14 +477,14 @@ function button(x, y, w, h,palse)
         x + w >= touch.X and
         y <= touch.Y and
         y + h >= touch.Y and
-        touch.Bool then
+        touch.bool then
             if not touch.flags and palse then
                 returnvalue=true
             elseif not palse then
                 returnvalue=true
             end
         
-    elseif not touch.Bool then
+    elseif not touch.bool then
         touch.flags = false
         returnvalue=false
     else
