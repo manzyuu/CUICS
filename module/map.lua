@@ -114,19 +114,19 @@ do
     waypoint.Y = 0
 
 
-    becon        = {}
-    becon.X      = 0
-    becon.Y      = 0
+    beconSignal   = {}
+    beconSignal.X = 0
+    beconSignal.Y = 0
 
-    farstflag    = true
+    farstflag     = true
 
-    touch        = {}
-    touch.flags  = false
-    pageNumber   = 1
+    touch         = {}
+    touch.flags   = false
+    pageNumber    = 1
 
-    waypointmenu = false
+    waypointmenu  = false
 
-    moveflag     = true
+    moveflag      = true
 end
 
 
@@ -179,12 +179,12 @@ function onTick() --[====[ onTick ]====]
         touch.Y      = input.getNumber(19)
 
 
-        becon.X  = input.getNumber(21)
-        becon.X  = input.getNumber(22)
-        moduleID = input.getNumber(23)
+        beconSignal.X = input.getNumber(21)
+        beconSignal.X = input.getNumber(22)
+        moduleID      = input.getNumber(23)
 
 
-        radio.switch   = input.getBool(20)
+        radio.switch = input.getBool(20)
         for i = 1, 8, 1 do --FreqData
             freqlist[i] = math.floor(input.getNumber(24 + i)) % interval and
                 math.floor(input.getNumber(24 + i)) % interval or 0
@@ -237,9 +237,9 @@ function onTick() --[====[ onTick ]====]
     end
 
     do --output
-        output.setBool(1, button(27, 6, 5, 4, true) and moduleID == 1)
-        output.setBool(2, button(27, 12, 5, 4, true) and moduleID == 1)
-        output.setBool(3, button(27, 18, 5, 4, true) and moduleID == 1)
+        output.setBool(1, button(27, 6, 5, 5, true) and moduleID == 1)
+        output.setBool(2, button(27, 12, 5, 5, true) and moduleID == 1)
+        output.setBool(3, button(27, 18, 5, 5, true) and moduleID == 1)
         output.setBool(32, errorcheck)
 
         --touch.flags=button(27,0,5,10,false) and true or touch.flags
@@ -270,7 +270,7 @@ function onDraw()
                 local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
                 screen.drawRectF(x - 1, y - 1, 3, 3)
                 local mycompass = ((Phys.compass + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
-                screen.drawLine(x - 1, y - 1, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
+                screen.drawLine(x, y, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
             end
             for i = 1, 8, 1 do --draw wifi data
                 if receive.vis[freqlist[i]] and freqlist[i] ~= 0 and receive.code[freqlist[i]] == Passcode and radio.switch then
@@ -352,7 +352,7 @@ function onDraw()
                 local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
                 local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
                 screen.setColor(100, 10, 100)
-                screen.drawLine(x - 1, y - 1, wayx, wayy)
+                screen.drawLine(x , y , wayx, wayy)
             end
         end
     end

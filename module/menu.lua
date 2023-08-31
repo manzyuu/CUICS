@@ -92,54 +92,64 @@ do
 
     errorcheck    = false
 
+    distmenu      = false
+
     autopilotDist = 0
 end
 
 
 
 function onTick()
-    touch.X      = input.getNumber(31)
-    touch.Y      = input.getNumber(32)
+    touch.X      = input.getNumber(21)
+    touch.Y      = input.getNumber(22)
     touch.bool   = input.getBool(1)
 
     Phys.oldalt  = Phys.alt
 
     Phys.x       = input.getNumber(1)
     Phys.y       = input.getNumber(3)
-    Phys.alt     = input.getNumber(2)
-    Phys.VS      = (Phys.alt - Phys.oldalt) * 60
-    Phys.compass = input.getNumber(17)
-    Phys.SPD     = input.getNumber(13)
 
-    KeypadX      = input.getNumber(29)
-    KeypadY      = input.getNumber(30)
+    autopilotDist=((input.getNumber(23)-Phys.x)^2+(input.getNumber(24)-Phys.y)^2)^0.5
 
-    errorcheck=not errorcheck
+    errorcheck   = not errorcheck
+    beconmode    = input.getBool(2)
     radioswitch  = input.getBool(3)
-    becon        = input.getBool(4)
+    beconSignal  = input.getBool(4)
+    beconConfirm = input.getBool(5)
+
+
+
+
+    if button(0, 0, 3, 13, true) then
+        distmenu=not distmenu
+        touch.flags=true
+    end
 
 
 
     if touch.bool and not touch.flags then
         moduleID =
-            button(0, 15, 12, 6, false) and 1 or  --Map
-            button(15, 15, 6, 6, false) and 2 or  --Ch
-            button(23, 15, 8, 7, false) and 3 or  --becon
-            button(0, 24, 16, 6, false) and 4 or  --State
-            button(15, 24, 16, 6, false) and 5 or --Ex
-            moduleID ~= 0 and 0 or 1              --pfd
+            (button(5, 0, 32, 13, false) and moduleID ~= 0) and 0 or --pfd
+            button(0, 15, 12, 6, false) and 1 or                     --Map
+            button(15, 15, 6, 6, false) and 2 or                     --Ch
+            button(0, 24, 16, 6, false) and 3 or                     --State
+            button(15, 24, 16, 6, false) and 4 or                    --Ex
+            moduleID == 0 and 1 or moduleID
         touch.flags = true
     end
+
+
+
     monitorID = false
     output.setBool(1, touch.bool)
-    output.setNumber(1, moduleID)
+    output.setBool(2, button(23, 15, 8, 7, false)) --becon
 
+    output.setNumber(1, moduleID)
     output.setBool(32, errorcheck)
     touch.flags = touch.bool and touch.flags or false
 end
 
 function onDraw() --[====[ onDraw ]====]
-    
     if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
         monitorID = true
         if moduleID ~= 0 then
@@ -148,36 +158,60 @@ function onDraw() --[====[ onDraw ]====]
             drawdata()
             drawbutton()
         end
-
     else
         monitorID = true
-
-        
     end
 end -------------------------------------------onDraw終わり-------------------------------------------
 
 function drawdata()
-    --GPSX,Y座標表示
+    screen.setColor(1, 1, 1)
+    screen.drawLine(0, 13, 32, 13)
+    do --GPSX,Y座標表示
+        screen.setColor(200, 50, 20)
+        drawNewFont(8, 1, "X")
+        if Phys.x < 0 then
+            drawNewFont(12, 1, "-")
+        end
 
-    screen.setColor(200, 50, 20)
-    drawNewFont(29, 1, "X")
-    drawNewFont(17, 1, string.format("%03d", math.abs(Phys.x // 100))) --3桁表示し左を0埋め
+        drawNewFont(16, 1, string.format("%03d", math.abs(Phys.x // 100))) --3桁表示し左を0埋め
+        screen.drawLine(28, 5, 29, 5)
+        screen.drawLine(30, 5, 31, 5)
 
-    screen.setColor(20, 50, 200)
-    drawNewFont(29, 7, "Y")
-    drawNewFont(17, 7, string.format("%03d", math.abs(Phys.y // 100)))
 
-    --Target Distance
-    screen.setColor(255, 255, 255)
-    drawNewFont(0, 1, string.format("%02d", math.min(math.abs(autopilotDist // 1000), 99)))
-    screen.drawText(7, 1, ".")
-    drawNewFont(10, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
-    drawNewFont(8, 7, "KM")
+        screen.setColor(20, 50, 200)
+        drawNewFont(8, 7, "Y")
+        if Phys.y < 0 then
+            drawNewFont(12, 7, "-")
+        end
+        drawNewFont(16, 7, string.format("%03d", math.abs(Phys.y // 100)))
+        screen.drawLine(28, 11, 29, 11)
+        screen.drawLine(30, 11, 31, 11)
+    end
+
+    screen.setColor(50, 50, 50)
+    screen.drawRectF(0, 0, 3, 13)
+    if distmenu then --Target Distance
+        screen.setColor(150, 150, 150)
+        screen.drawTriangleF(3,3,0,7,3,11)
+
+        screen.setColor(20, 20, 20)
+        screen.drawRectF(3, 0, 22, 13)
+        screen.setColor(255, 255, 255)
+        drawNewFont(5, 1, string.format("%03d", math.min(math.abs(autopilotDist // 1000), 999)))
+        screen.drawText(16, 1, ".")
+        drawNewFont(19, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
+        drawNewFont(16, 7, "KM")
+    else
+        screen.setColor(150, 150, 150)
+        screen.drawTriangleF(0,3,3,7,0,11)
+    end
+
+    --[[
+
 
     screen.setColor(5, 5, 5)
     screen.drawLine(15, 0, 15, 13)
-    screen.setColor(1, 1, 1)
-    screen.drawLine(0, 13, 32, 13)
+]]
 end
 
 function drawbutton()
@@ -193,8 +227,11 @@ function drawbutton()
     drawNewFont(1, 16, "MAP")
 
     --チャンネル設定
-    screen.setColor(30, 30, 30)
+    temp = radioswitch and 50 or 30
+    screen.setColor(30, temp, 30)
     screen.drawRectF(15, 15, 7, 7)
+    temp = button(15, 15, 6, 6, false) and 100 or 255
+    screen.setColor(temp, temp, temp)
     screen.setColor(50, 50, 50)
     screen.drawRect(15, 15, 6, 6)
 
@@ -210,13 +247,13 @@ function drawbutton()
     screen.drawLine(20, 20, 21, 20)
 
     --ビーコン
-    temp = becon and 70 or 30
-    screen.setColor(temp, temp, temp)
+    temp = beconSignal and 70 or beconConfirm and 0 or 30
+    screen.setColor(temp, temp, 30)
     screen.drawRectF(23, 15, 8, 7)
     screen.setColor(50, 50, 50)
     screen.drawRect(23, 15, 8, 6)
-    temp = becon and 70 or 30
-    screen.setColor(becon and 255 or 255, becon and 20 or 255, becon and 50 or 255)
+    temp = beconmode and 255 or 100
+    screen.setColor(temp, temp, temp)
     drawNewFont(24, 16, "Be")
 
 
