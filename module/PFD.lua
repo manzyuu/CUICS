@@ -40,9 +40,9 @@ do
         ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
         ---@param ticks     number Number of ticks since simulator started
         function onLBSimulatorTick(simulator, ticks)
-            simulator:setInputNumber(4, simulator:getSlider(4) * math.pi * 2 - math.pi)
-            simulator:setInputNumber(5, simulator:getSlider(5) * math.pi * 2 - math.pi)
-            simulator:setInputNumber(6, simulator:getSlider(6) * math.pi * 2 - math.pi)
+            simulator:setInputNumber(4, simulator:getSlider(4) * math.pi / 2) --* 2 - math.pi)
+            simulator:setInputNumber(5, simulator:getSlider(5) * math.pi/2 ) --* 2 - math.pi)
+            simulator:setInputNumber(6, simulator:getSlider(6) * math.pi / 2) --* 2 - math.pi)
         end
 
         ;
@@ -109,9 +109,9 @@ function convert()
 
 
     -- Equally good alternative if you prefer.
-    Phys.tilt_x = math.atan(matrix10, math.sqrt(matrix12 * matrix12 + matrix11 * matrix11)) / (math.pi * 2)
-    Phys.tilt_y = math.atan(matrix11, math.sqrt(matrix10 * matrix10 + matrix12 * matrix12)) / (math.pi * 2)
-    Phys.tilt_z = math.atan(matrix12, math.sqrt(matrix11 * matrix11 + matrix10 * matrix10)) / (math.pi * 2)
+    Phys.tilt_x = math.atan(matrix10, math.sqrt(matrix12 * matrix12 + matrix11 * matrix11)) -- / (math.pi * 2)
+    Phys.tilt_y = math.atan(matrix11, math.sqrt(matrix10 * matrix10 + matrix12 * matrix12)) -- / (math.pi * 2)
+    Phys.tilt_z = math.atan(matrix12, math.sqrt(matrix11 * matrix11 + matrix10 * matrix10)) -- / (math.pi * 2)
 
     -- Compute compasses.
     local compassSensor = -math.atan(math.sin(phyX) * math.sin(phyZ) + math.cos(phyX) * math.sin(phyY) * math.cos(phyZ),
@@ -126,7 +126,7 @@ function convert()
 
 
     Phys.roll  = math.atan(-Phys.tilt_y, Phys.tilt_x)
-    Phys.pitch = -Phys.tilt_z
+    Phys.pitch = -Phys.tilt_z --* (math.pi * 2)
 end
 
 do -------------------------------------[====[ 処理系 ]====]----------------------------------------
@@ -146,15 +146,23 @@ do -------------------------------------[====[ 処理系 ]====]-----------------
         return result
     end
 
-    function Colorconv16(name)                              --16進数のカラーコードをRGBに変換する
+    function Colorconv16(name)                                         --16進数のカラーコードをRGBに変換する
         local Color = tonumber(property.getText(name), 16) or 0
         return (Color >> 16) & 0xff, (Color >> 8) & 0xff, Color & 0xff --R,G,B
     end
 
-    function lerp(MIN, MAX, X)                              --  0~1  f(x)と同じ挙動
+    function lerp(MIN, MAX, X) --  0~1  f(x)と同じ挙動
         return (1 - X) * MIN + X * MAX
     end
-
+    function math.sign(x)
+        if x<0 then
+          return -1
+        elseif x>0 then
+          return 1
+        else
+          return 0
+        end
+     end
     -------------------------------------------処理系終わり--------------------------------------------
 end
 
@@ -188,56 +196,78 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         local w = 32
         local h = 32
 
-        local lineangle = 10                                                           --何度ごとに線を描画するかの指定
-        local maxlinelength = 8                                                        --↑の線の幅を指定
-        for i = -360 // lineangle, 360 // lineangle do                                 --lineangleに合わせた線を引くためのfor文
-            local offsetX = math.cos(Phys.roll) * (i - Phys.pitch / math.pi * 360) + w / 2 --┬─ピッチ方向に線を動かすためのやつ
-            local offsetY = math.sin(Phys.roll) * (i - Phys.pitch / math.pi * 360) + h / 2 --┘
-            local X, Y = math.cos(Phys.roll) * i * lineangle + offsetX, math.sin(Phys.roll) * i * lineangle + offsetY
-            --画面中心からロール角分傾けた線を描画したい線の半径まで引く
-            local line1 = Phys.roll + math.pi / 2                                                             --┬─↑でひいた線の先端に垂直な線の角度　左右分。
-            local line2 = -Phys.roll + math.pi / 2                                                            --┘
+        local lineangle = 10    --何度ごとに線を描画するかの指定
+        local minlinelength = 5 --↑の線の幅を指定
+        local maxlinelength = 9
 
-            local linelength = math.cos(lerp(0, math.pi / 2, (i + Phys.pitch / (math.pi * 2)) * h)) *
-            maxlinelength                                                                                     --端に行くほど線が短くなる
+        maxlinelength = maxlinelength - minlinelength
+        for i = -90 // lineangle, 90 // lineangle do                                                                --lineangleに合わせた線を引くためのfor文
+            local offsetX = math.cos(Phys.roll) * (math.deg(Phys.pitch)) + w / 2                                      --┬─ピッチ方向に線を動かすためのやつ
+            local offsetY = math.sin(Phys.roll) * (math.deg(Phys.pitch)) + h / 2                                      --┘
 
-            if i == 0 then                                                                                    --水平線の色
-                screen.setColor(255, 255, 255)
-                local linelength = 20
-            elseif i < 0 then --地面の色
+            local X, Y = math.cos(Phys.roll) * i * lineangle + offsetX,
+                math.sin(Phys.roll) * i * lineangle + offsetY                                                         --画面中心からロール角分傾けた線を描画したい線の半径まで引く
+            local line1 = Phys.roll +
+            math.pi /
+            2                                                                                                         --┬─↑でひいた線の先端に垂直な線の角度　左右分。
+            local line2 = -Phys.roll + math.pi / 2                                                                    --┘
+
+            local linelength = math.cos(lerp(0, math.pi / 2, Phys.pitch + math.rad(i))) * maxlinelength +
+            minlinelength                                                                                             --端に行くほど線が短くなる
+
+            if i == 0 then                                                                                            --水平線の色
+                screen.setColor(255, 0, 255)
+                linelength = 20
+            elseif i > 0 then --地面の色
                 screen.setColor(50, 255, 50)
-            else          --空の色
+            else              --空の色
                 screen.setColor(50, 50, 255)
             end
 
-            local pixelX_1, pixelY_1 = math.cos(line1) * linelength + X,
-                math.sin(line1) * linelength + Y                                                       --┬─描画する線の座標計算
+            local pixelX_1, pixelY_1 = math.cos(line1) * linelength + X, math.sin(line1) * linelength + Y  --┬─描画する線の座標計算
             local pixelX_2, pixelY_2 = math.cos(line2) * linelength + X, -math.sin(line2) * linelength + Y --┘
 
-            screen.drawLine(pixelX_1 + XPos, pixelY_1 + YPos, pixelX_2 + XPos, pixelY_2 + YPos)        --線を描画する
+            screen.drawLine(pixelX_1 + XPos, pixelY_1 + YPos - 1, pixelX_2 + XPos, pixelY_2 + YPos - 1)    --線を描画する
+            screen.drawText(pixelX_2 + XPos - 4, pixelY_2 + YPos - 3, string.format("%-1d", math.abs(i // 1)))
         end
         --screen.setColor(255,255,255)
-        --screen.drawText(16,25,tostring(Phys.pitch))
+        --screen.drawText(0,25,tostring(Phys.pitch))
     end
 
-    function compassBar(targetangle)        --targetangle = degrees
+    function compassBar(ta)            --targetangle = degrees
         local temp = 0
-        local linespace = 4                 --線と線の感覚
-        local linedeg = 360 * linespace / 5 * 4 --n度ごとの線
-        local targetangle = targetangle - math.pi / 2
+        --local targetangle = math.rad(targetangle)
+        local NESWdetadeg={0,math.pi*0.5,math.pi,math.pi*1.5}
+        local NESWdetacharacter={"N","E","S","W"}
 
-        local overblock = 360 * linespace --↓らは線の上にNESWを表示する
-        temp = ((-Phys.compass / math.pi / 2 + 0.00) * (linedeg / linespace) + 4 * linespace) % overblock
-        screen.drawText(temp - 1, 25, "N")
-        temp = ((-Phys.compass / math.pi / 2 + 0.25) * (linedeg / linespace) + 4 * linespace) % overblock
-        screen.drawText(temp - 1, 25, "E")
-        temp = ((-Phys.compass / math.pi / 2 + 0.50) * (linedeg / linespace) + 4 * linespace) % overblock
-        screen.drawText(temp - 1, 25, "S")
-        temp = ((-Phys.compass / math.pi / 2 + 0.75) * (linedeg / linespace) + 4 * linespace) % overblock
-        screen.drawText(temp - 1, 25, "W")
-        temp = ((-Phys.compass / math.pi / 2 + 1.00) * (linedeg / linespace) + 4 * linespace) % overblock
-        screen.drawText(temp - 1, 25, "N")
+        screen.setColor(5, 70, 5)--↓らは線の上にNESWを表示する
+        for i=1,4,1 do
+            temp = (math.deg(-Phys.compass+NESWdetadeg[i]+math.pi)%360-180)*0.6+15
+            screen.drawText(temp - 1, 24,NESWdetacharacter[i])
+        end
+        --[[
+        screen.setColor(5, 70, 5)--↓らは線の上にNESWを表示する
+        temp = (math.deg(-Phys.compass)*0.6+15)
+        screen.drawText(temp - 1, 24, "N")
+        temp = ((math.deg(-Phys.compass)+90)*0.6+15)
+        screen.drawText(temp - 1, 24, "E")
+        temp = ((math.deg(-Phys.compass)+180)*0.6+15)
+        screen.drawText(temp - 1, 24, "S")
+        temp = ((math.deg(-Phys.compass)+270)*0.6+15)
+        screen.drawText(temp - 1, 24, "W")
 
+
+        temp = (math.deg(-Phys.compass)*0.6+15)
+        screen.drawText(temp - 1, 24, "N")
+        temp = ((math.deg(-Phys.compass)-90)*0.6+15)
+        screen.drawText(temp - 1, 24, "E")
+        temp = ((math.deg(-Phys.compass)-180)*0.6+15)
+        screen.drawText(temp - 1, 24, "S")
+        temp = ((math.deg(-Phys.compass)-270)*0.6+15)
+        screen.drawText(temp - 1, 24, "W")
+
+
+]]
 
         screen.setColor(3, 2, 2)
         screen.drawRectF(0, 29, 32, 3)
@@ -248,15 +278,36 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass))))) --現在方位を三桁表示
 
         screen.setColor(5, 70, 5)
-        for i = 0, 32 / linespace do --方位線の描画
-            local temp = (-Phys.compass / math.pi / 2 * (linedeg / linespace) + i * linespace) % 32
+        --[[
+        for i = 0, 32 / linespace,1 do --方位線の描画
+            local temp = (-Phys.compass * (linedeg / linespace) + i * linespace) % 32
             screen.drawLine(temp, 29 + i % 2, temp, 33)
+        end]]
+--[[
+        for i = -72, 72, 1 do
+            if math.abs(i)%18==0 then
+                screen.setColor(50, 70, 5)
+            else
+                screen.setColor(5, 70, 5)
+            end
+            local temp =((-Phys.compass-math.rad(i*5)) * 31)//1 + 15
+            screen.drawLine(temp, 29+ i % 2, temp, 33)
         end
-
-
-        screen.setColor(250, 250, 40) --目標の角度
-        local temp = (-targetangle / math.pi / 2 * (linedeg / linespace) + 2 * linespace) % 32
+]]
+        for i=-72,72,1 do
+            if math.abs(i)%18==0 then
+                screen.setColor(50, 70, 50)
+            else
+                screen.setColor(5, 70, 5)
+            end
+            local temp = (3*i+15) -(math.deg(Phys.compass+math.pi)%360-180)*0.6
+            screen.drawLine(temp, 29 + i % 2, temp, 33)
+            
+        end
+        screen.setColor(250, 40, 40) --目標の角度
+        local temp = -(math.deg(-ta+Phys.compass+math.pi)%360-180)*0.6 + 15
         screen.drawLine(temp, 29, temp, 33)
+
     end
 
     function Indicator(boolA, boolB, boolC, boolD) --四角4つ
@@ -264,7 +315,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         if boolA then
             screen.setColor(tonumber(colorTable[1]), tonumber(colorTable[2]), tonumber(colorTable[3]))
         else
-            screen.setColor(10, 10, 10)
+            screen.setColor(30, 30, 30)
         end
         screen.drawRectF(0, 4, 4, 3) --
 
@@ -273,7 +324,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         if boolB then
             screen.setColor(tonumber(colorTable[4]), tonumber(colorTable[5]), tonumber(colorTable[6]))
         else
-            screen.setColor(10, 10, 10)
+            screen.setColor(30, 30, 30)
         end
         screen.drawRectF(0, 10, 4, 3) --
 
@@ -282,7 +333,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         if boolC then
             screen.setColor(tonumber(colorTable[7]), tonumber(colorTable[8]), tonumber(colorTable[9]))
         else
-            screen.setColor(10, 10, 10)
+            screen.setColor(30, 30, 30)
         end
         screen.drawRectF(0, 16, 4, 3) --
 
@@ -292,13 +343,13 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         if boolD then
             screen.setColor(tonumber(colorTable[7]), tonumber(colorTable[8]), tonumber(colorTable[9]))
         else
-            screen.setColor(10, 10, 10)
+            screen.setColor(30, 30, 30)
         end
         screen.drawRectF(0, 22, 4, 3) --
     end
 
     function altimeter()
-        screen.setColor(255, 10, 50, 100) --背景
+        screen.setColor(0, 0, 0, 70) --背景
         screen.drawRectF(0, 12, 32, 7)
 
         screen.setColor(255, 255, 255)
@@ -309,9 +360,9 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         screen.drawLine(4, 14, 4, 17)
         screen.drawLine(5, 15, 8, 15)
 
-        screen.drawTriangleF(30, 16, 32, 13, 32, 19) --右の三角
+        --screen.drawTriangleF(30, 16, 32, 13, 32, 19) --右の三角
 
-        screen.setColor(255, 255, 255)      --高度の数字
+        screen.setColor(255, 255, 255) --高度の数字
         screen.drawTextBox(6, 0, 26, 32, string.format("%04d", math.floor(Phys.alt * altunit)), 0, 0)
     end
 
@@ -356,12 +407,15 @@ do -------------------------------------[====[ 実行部 ]====]-----------------
     monitorSwap = property.getBool("Monitor Swap")
     monitorID = false
 
+    targetAngle = 0
+
     function onTick() ----------------------[====[ onTick ]====]----------------------------------------
         if firstTick then
             firstTick = false
         end
         if monitorPower == false then return end
-        monitorID = 1
+
+        targetAngle = input.getNumber(21)
 
         convert()
         indicatorbool = {
@@ -373,16 +427,19 @@ do -------------------------------------[====[ 実行部 ]====]-----------------
         monitorPower = false
 
         monitorID = false
-    end -----------------------------------------onTick終わり-------------------------------------------
+    end               -----------------------------------------onTick終わり-------------------------------------------
 
     function onDraw() ----------------------[====[ onDraw ]====]----------------------------------------
+        screen.setColor(10, 10, 10)
+        screen.drawClear()
+
         if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
             --
             if monitorPower == true then return end
             monitorPower = true
             w, h = 32, 32 --画面の縦横を取得
 
-            compassBar(0)
+            compassBar(targetAngle)
             speedmeter()
 
             Indicator(indicatorbool[1], indicatorbool[2], indicatorbool[3], indicatorbool[4])

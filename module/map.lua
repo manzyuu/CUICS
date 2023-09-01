@@ -59,6 +59,7 @@ do
         simulator:setInputNumber(27, lerp(0, 999, simulator:getSlider(21)))    --Receive WayX
         simulator:setInputNumber(28, lerp(0, 999, simulator:getSlider(22)))    --Receive WayY
 ]]
+        simulator:setInputBool(21,true)
 
         simulator:setInputNumber(1, 4000)
         simulator:setInputNumber(23, 1)
@@ -180,11 +181,12 @@ function onTick() --[====[ onTick ]====]
 
 
         beconSignal.X = input.getNumber(21)
-        beconSignal.X = input.getNumber(22)
+        beconSignal.Y = input.getNumber(22)
         moduleID      = input.getNumber(23)
 
 
         radio.switch = input.getBool(20)
+        beconSignal.bool=input.getBool(21)
         for i = 1, 8, 1 do --FreqData
             freqlist[i] = math.floor(input.getNumber(24 + i)) % interval and
                 math.floor(input.getNumber(24 + i)) % interval or 0
@@ -272,6 +274,13 @@ function onDraw()
                 local mycompass = ((Phys.compass + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
                 screen.drawLine(x, y, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
             end
+
+            if beconSignal.bool then
+                screen.setColor(150,150,0,70)
+                local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, beconSignal.X, beconSignal.Y)
+                screen.drawCircleF(x,y,10/zoom)
+            end
+
             for i = 1, 8, 1 do --draw wifi data
                 if receive.vis[freqlist[i]] and freqlist[i] ~= 0 and receive.code[freqlist[i]] == Passcode and radio.switch then
                     local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]],
@@ -292,34 +301,14 @@ function onDraw()
                     end
                 end
             end
-
-            do                                --draw button
-                screen.setColor(5, 5, 5)
-                screen.drawRectF(0, 0, 5, 10) --Zoomボタン
-                screen.drawRectF(27, 0, 4, 4) --waypoint from keypad
-
-
-                screen.setColor(20, 20, 20)
-                screen.drawRect(0, 0, 4, 4) --Zoomボタン
-                screen.drawRect(0, 5, 4, 4)
-
-                screen.drawRect(27, 0, 4, 4)
-
-                screen.setColor(255, 255, 255)
-                screen.drawText(1, 0, "+") --Zoomボタン
-                screen.drawText(1, 5, "-")
-
-                temp = button(27, 0, 5, 4, false) and 100 or 255
-                screen.setColor(temp, temp, temp)
-                drawNewFont(28, -1, "w") --waypoint from keypad
-
-
-
-                screen.setColor(200, 200, 200, 200)
-                screen.drawCircle(16, 16, 4) --中心に戻る
-            end
-
+            
             if waypointmenu then --weypointmenu
+                local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
+                local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
+                screen.setColor(100, 10, 100)
+                screen.drawLine(x , y , wayx, wayy)
+
+
                 local temp = 0
                 screen.setColor(5, 5, 5)
                 screen.drawRectF(27, 6, 5, 16) --
@@ -349,11 +338,34 @@ function onDraw()
 
 
 
-                local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
-                local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
-                screen.setColor(100, 10, 100)
-                screen.drawLine(x , y , wayx, wayy)
+
             end
+            do                                --draw button
+                screen.setColor(5, 5, 5)
+                screen.drawRectF(0, 0, 5, 10) --Zoomボタン
+                screen.drawRectF(27, 0, 4, 4) --waypoint from keypad
+
+
+                screen.setColor(20, 20, 20)
+                screen.drawRect(0, 0, 4, 4) --Zoomボタン
+                screen.drawRect(0, 5, 4, 4)
+
+                screen.drawRect(27, 0, 4, 4)
+
+                screen.setColor(255, 255, 255)
+                screen.drawText(1, 0, "+") --Zoomボタン
+                screen.drawText(1, 5, "-")
+
+                temp = button(27, 0, 5, 4, false) and 100 or 255
+                screen.setColor(temp, temp, temp)
+                drawNewFont(28, -1, "w") --waypoint from keypad
+
+
+
+                screen.setColor(200, 200, 200, 200)
+                screen.drawCircle(16, 16, 4) --中心に戻る
+            end
+
         end
     end
 end
