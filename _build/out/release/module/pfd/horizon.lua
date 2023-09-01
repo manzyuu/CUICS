@@ -8,29 +8,29 @@
 -- Minimized Size: 687 (1052 with comment) chars
 
 a=255
-f=screen
-i=f.setColor
-j=input.getNumber
+e=screen
+g=e.setColor
+h=input.getNumber
 _=math
-min,max,abs,cos,sin,tan,acos,asin,atan,pi,B=_.min,_.max,_.abs,_.cos,_.sin,_.tan,_.acos,_.asin,_.tan,_.pi,_.pi*2
-s,l,q=g("SkyColor")D,l,q=g("LandColor")s,l,q=g("CenterLineColor")function onTick()b=j(1)-pi/2
-C=j(2)p=j(3)*-360
+min,max,abs,cos,sin,tan,acos,asin,atan,pi,C=_.min,_.max,_.abs,_.cos,_.sin,_.tan,_.acos,_.asin,_.tan,_.pi,_.pi*2
+t,q,k=j("SkyColor")B,q,k=j("LandColor")t,q,k=j("CenterLineColor")function onTick()c=h(1)-pi/2
+D=h(2)r=h(3)*-360
 end
-function onDraw()r,y=f.getWidth(),f.getHeight()e=10
-d=y/4
-for c=-360//e,360//e do
-u=cos(b)*(c+p)+r/2
-A=sin(b)*(c+p)+r/2
-k,n=cos(b)*c*e+u,sin(b)*c*e+A
-o=b+pi/2
-m=-b+pi/2
-w,x=cos(o)*d+k,sin(o)*d+n
-t,v=cos(m)*d+k,-sin(m)*d+n
-if c==0 then
-i(a,a,a)elseif c<0 then
-i(10,a,10)else
-i(10,10,a)end
-f.drawLine(w,x,t,v)end
+function onDraw()m,v=e.getWidth(),e.getHeight()f=10
+d=v/4
+for b=-360//f,360//f do
+A=cos(c)*(b+r)+m/2
+y=sin(c)*(b+r)+m/2
+p,n=cos(c)*b*f+A,sin(c)*b*f+y
+o=c+pi/2
+l=-c+pi/2
+z,w=cos(o)*d+p,sin(o)*d+n
+s,x=cos(l)*d+p,-sin(l)*d+n
+if b==0 then
+g(a,a,a)elseif b<0 then
+g(10,a,10)else
+g(10,10,a)end
+e.drawLine(z,w,s,x)end
 end
-function g(z)local h=tonumber(property.getText(z),16)return(h>>16)& a,(h>>8)& a,h & a
+function j(u)local i=tonumber(property.getText(u),16)return(i>>16)& a,(i>>8)& a,i & a
 end

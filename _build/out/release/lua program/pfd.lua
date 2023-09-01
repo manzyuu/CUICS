@@ -9,153 +9,153 @@
 bC="N"
 bB="%03d"
 
-v=360
+x=360
 a=255
 n=false
-y=true
-f=tonumber
-s=screen
-S=string
-o=math
-ag=property
-aj=input
-P=aj.getBool
-au=ag.getNumber
-Z=o.floor
-W=S.format
-k=s.drawRectF
-r=s.drawText
-b=s.setColor
-i=s.drawLine
-z=ag.getText
-ao=table.insert
-c=o.pi
-ad=o.sqrt
-F=o.atan
-l=o.sin
-j=o.cos
-m=aj.getNumber
+z=true
+g=tonumber
+v=screen
+T=string
+p=math
+ad=property
+aq=input
+S=aq.getBool
+ao=ad.getNumber
+ae=p.floor
+ah=T.format
+k=v.drawRectF
+w=v.drawText
+b=v.setColor
+i=v.drawLine
+s=ad.getText
+ap=table.insert
+c=p.pi
+Y=p.sqrt
+J=p.atan
+l=p.sin
+h=p.cos
+m=aq.getNumber
 do
 end
-_={}function be()_.bz=m(1)_.br=m(2)_.bx=m(3)local B=m(4)local O=m(5)local U=m(6)local Y=m(10)local ab=m(11)local ai=m(12)_.bp=m(13)local J,L=j(B),l(B)local Q,C=j(O),l(O)local E,K=j(U),l(U)local b_=Q*E
-local aE=-J*K+L*C*E
-local bu=L*K+J*C*E
-local x=Q*K
-local w=J*E+L*C*K
-local t=-L*E+J*C*K
-local bs=-C
-local aZ=L*Q
-local bt=J*Q
-_.aN=F(x,ad(t*t+w*w))/(c*2)_.aR=F(w,ad(x*x+t*t))/(c*2)_.aO=F(t,ad(w*w+x*x))/(c*2)local bm=-F(l(B)*l(U)+j(B)*l(O)*j(U),j(B)*j(O))/2/c
-_.q=((((1-bm)%1)*(c*2)))or 0
-_.bv=b_*Y+x*ab+bs*ai
-_.bw=aE*Y+w*ab+aZ*ai
-_.bA=bu*Y+t*ab+bt*ai
-_.u=F(-_.aR,_.aN)_.af=-_.aO
+_={}function bc()_.bA=m(1)_.bt=m(2)_.bz=m(3)local K=m(4)local U=m(5)local P=m(6)local V=m(10)local aa=m(11)local X=m(12)_.aK=m(13)local G,A=h(K),l(K)local N,B=h(U),l(U)local C,E=h(P),l(P)local aC=N*C
+local aF=-G*E+A*B*C
+local bh=A*E+G*B*C
+local r=N*E
+local t=G*C+A*B*E
+local u=-A*C+G*B*E
+local aZ=-B
+local bu=A*N
+local aO=G*N
+_.aN=J(r,Y(u*u+t*t))/(c*2)_.bn=J(t,Y(r*r+u*u))/(c*2)_.b_=J(u,Y(t*t+r*r))/(c*2)local aD=-J(l(K)*l(P)+h(K)*l(U)*h(P),h(K)*h(U))/2/c
+_.q=((((1-aD)%1)*(c*2)))or 0
+_.by=aC*V+r*aa+aZ*X
+_.bx=aF*V+t*aa+bu*X
+_.bv=bh*V+u*aa+aO*X
+_.y=J(-_.bn,_.aN)_.Z=-_.b_
 end
 do
-function aQ(R,aq)if S.find(R,aq)==nil then
+function bj(R,aj)if T.find(R,aj)==nil then
 return{R}end
-local V={}local aG="(.-)"..aq.."()"
-local ax
-for aL,bh in S.gmatch(R,aG)do
-ao(V,aL)ax=bh
+local ab={}local aJ="(.-)"..aj.."()"
+local ar
+for bq,br in T.gmatch(R,aJ)do
+ap(ab,bq)ar=br
 end
-ao(V,S.sub(R,ax))return V
+ap(ab,T.sub(R,ar))return ab
 end
-function ah(aY)local ae=f(z(aY),16)or 0
-return(ae>>16)& a,(ae>>8)& a,ae & a
+function ai(aX)local W=g(s(aX),16)or 0
+return(W>>16)& a,(W>>8)& a,W & a
 end
-function bo(aF,aX,I)return(1-I)*aF+I*aX
+function aQ(aU,aV,H)return(1-H)*aU+H*aV
 end
 end
 do
-function bk(bb,bg,A)if type(A)=="number" then
-A=tostring(A)end
-aU=z("F1")..z("F2")..z("F3")..z("F4")for g=1,A:len()do
-am=A:sub(g,g):byte()*5-159
-for ac=1,5 do
-bd="0x"..aU:sub(am,am+4):sub(ac,ac)for av=1,3 do
-if bd & 2^(4-av)>0 then
-az=bb+g*4+av-5
-ar=bg+ac-1
-i(az,ar,az+1,ar)end
+function aM(bl,aS,M)if type(M)=="number" then
+M=tostring(M)end
+aR=s("F1")..s("F2")..s("F3")..s("F4")for f=1,M:len()do
+at=M:sub(f,f):byte()*5-159
+for ag=1,5 do
+bp="0x"..aR:sub(at,at+4):sub(ag,ag)for ak=1,3 do
+if bp & 2^(4-ak)>0 then
+al=bl+f*4+ak-5
+as=aS+ag-1
+i(al,as,al+1,as)end
 end
 end
 end
 end
-function bf()local al=0
-local ak=0
-local as=32
-local X=32
-local T=10
-local aC=8
-for g=-v//T,v//T do
-local aS=j(_.u)*(g-_.af/c*v)+as/2
-local aJ=l(_.u)*(g-_.af/c*v)+X/2
-local I,ay=j(_.u)*g*T+aS,l(_.u)*g*T+aJ
-local aA=_.u+c/2
-local an=-_.u+c/2
-local H=j(bo(0,c/2,(g+_.af/(c*2))*X))*aC
-if g==0 then
-b(a,a,a)local H=20
-elseif g<0 then
+function aI()local an=0
+local ax=0
+local am=32
+local af=32
+local O=10
+local bo=8
+for f=-x//O,x//O do
+local ba=h(_.y)*(f-_.Z/c*x)+am/2
+local aE=l(_.y)*(f-_.Z/c*x)+af/2
+local H,aw=h(_.y)*f*O+ba,l(_.y)*f*O+aE
+local av=_.y+c/2
+local az=-_.y+c/2
+local I=h(aQ(0,c/2,(f+_.Z/(c*2))*af))*bo
+if f==0 then
+b(a,a,a)local I=20
+elseif f<0 then
 b(50,a,50)else
 b(50,50,a)end
-local ba,bi=j(aA)*H+I,l(aA)*H+ay
-local aD,aW=j(an)*H+I,-l(an)*H+ay
-i(ba+al,bi+ak,aD+al,aW+ak)end
+local bm,aT=h(av)*I+H,l(av)*I+aw
+local bk,aW=h(az)*I+H,-l(az)*I+aw
+i(bm+an,aT+ax,bk+an,aW+ax)end
 end
-function bc(aa)local e=0
+function bs(ac)local e=0
 local d=4
-local p=v*d/5*4
-local aa=aa-c/2
-local G=v*d
-e=((-_.q/c/2+.00)*(p/d)+4*d)%G
-r(e-1,25,bC)e=((-_.q/c/2+.25)*(p/d)+4*d)%G
-r(e-1,25,"E")e=((-_.q/c/2+.50)*(p/d)+4*d)%G
-r(e-1,25,"S")e=((-_.q/c/2+.75)*(p/d)+4*d)%G
-r(e-1,25,"W")e=((-_.q/c/2+1.00)*(p/d)+4*d)%G
-r(e-1,25,bC)b(3,2,2)k(0,29,32,3)k(10,23,11,7)k(9,24,13,5)b(a,a,225)bk(10,24,W(bB,f(Z(o.deg(_.q)))))b(5,70,5)for g=0,32/d do
-local e=(-_.q/c/2*(p/d)+g*d)%32
-i(e,29+g%2,e,33)end
-b(250,250,40)local e=(-aa/c/2*(p/d)+2*d)%32
+local o=x*d/5*4
+local ac=ac-c/2
+local L=x*d
+e=((-_.q/c/2+.00)*(o/d)+4*d)%L
+w(e-1,25,bC)e=((-_.q/c/2+.25)*(o/d)+4*d)%L
+w(e-1,25,"E")e=((-_.q/c/2+.50)*(o/d)+4*d)%L
+w(e-1,25,"S")e=((-_.q/c/2+.75)*(o/d)+4*d)%L
+w(e-1,25,"W")e=((-_.q/c/2+1.00)*(o/d)+4*d)%L
+w(e-1,25,bC)b(3,2,2)k(0,29,32,3)k(10,23,11,7)k(9,24,13,5)b(a,a,225)aM(10,24,ah(bB,g(ae(p.deg(_.q)))))b(5,70,5)for f=0,32/d do
+local e=(-_.q/c/2*(o/d)+f*d)%32
+i(e,29+f%2,e,33)end
+b(250,250,40)local e=(-ac/c/2*(o/d)+2*d)%32
 i(e,29,e,33)end
-function aB(aK,aM,bn,aH)h=aQ(aP,",")if aK then
-b(f(h[1]),f(h[2]),f(h[3]))else
+function aH(aG,aY,bd,bb)j=bj(bi,",")if aG then
+b(g(j[1]),g(j[2]),g(j[3]))else
 b(10,10,10)end
-k(0,4,4,3)if aM then
-b(f(h[4]),f(h[5]),f(h[6]))else
+k(0,4,4,3)if aY then
+b(g(j[4]),g(j[5]),g(j[6]))else
 b(10,10,10)end
-k(0,10,4,3)if bn then
-b(f(h[7]),f(h[8]),f(h[9]))else
+k(0,10,4,3)if bd then
+b(g(j[7]),g(j[8]),g(j[9]))else
 b(10,10,10)end
-k(0,16,4,3)if aH then
-b(f(h[7]),f(h[8]),f(h[9]))else
+k(0,16,4,3)if bb then
+b(g(j[7]),g(j[8]),g(j[9]))else
 b(10,10,10)end
 k(0,22,4,3)end
-function aV()b(a,10,50,100)k(0,12,32,7)b(a,a,a)i(2,0,2,32)b(a,190,0)k(0,13,4,5)i(4,14,4,17)i(5,15,8,15)s.drawTriangleF(30,16,32,13,32,19)b(a,a,a)s.drawTextBox(6,0,26,32,W("%04d",Z(_.br*aI)),0,0)end
-function bl()b(2,2,2)k(11,12,18,7)b(a,a,a)i(29,0,29,20)b(a,180,0)i(27,15,27,16)i(28,14,28,17)i(29,13,29,18)i(30,13,30,18)b(a,a,a)r(12,13,W(bB,Z(_.bp*aT)))end
+function aL()b(a,10,50,100)k(0,12,32,7)b(a,a,a)i(2,0,2,32)b(a,190,0)k(0,13,4,5)i(4,14,4,17)i(5,15,8,15)v.drawTriangleF(30,16,32,13,32,19)b(a,a,a)v.drawTextBox(6,0,26,32,ah("%04d",ae(_.bt*bf)),0,0)end
+function bg()b(2,2,2)k(11,12,18,7)b(a,a,a)i(29,0,29,20)b(a,180,0)i(27,15,27,16)i(28,14,28,17)i(29,13,29,18)i(30,13,30,18)b(a,a,a)w(12,13,ah(bB,ae(_.aK*aP)))end
 end
 do
-bq,ap,aw=ah("SkyColor")by,ap,aw=ah("LandColor")bq,ap,aw=ah("CenterLineColor")aP=z("indicatorColor")aI=au("Altitude Unit")aT=au("Speed Unit")at=y
-N=y
-M={n,n,n,n}bj=ag.getBool("Monitor Swap")D=n
-function onTick()if at then
-at=n
+be,aA,ay=ai("SkyColor")bw,aA,ay=ai("LandColor")be,aA,ay=ai("CenterLineColor")bi=s("indicatorColor")bf=ao("Altitude Unit")aP=ao("Speed Unit")au=z
+Q=z
+F={n,n,n,n}aB=ad.getBool("Monitor Swap")D=n
+function onTick()if au then
+au=n
 end
-if N==n then return end
+if Q==n then return end
 D=1
-be()M={P(1),P(2),P(3),P(4)}N=n
+bc()F={S(1),S(2),S(3),S(4)}Q=n
 D=n
 end
-function onDraw()if D~=bj then
-if N==y then return end
-N=y
-as,X=32,32
-bc(0)bl()aB(M[1],M[2],M[3],M[4])D=y
+function onDraw()if D~=aB then
+if Q==z then return end
+Q=z
+am,af=32,32
+bs(0)bg()aH(F[1],F[2],F[3],F[4])D=z
 else
-bf()aV()D=y
+aI()aL()D=z
 end
 end
 end

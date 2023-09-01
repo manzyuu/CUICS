@@ -1,199 +1,204 @@
-aM="%04d"
-aL="+"
+aM="+"
+aL="%04d"
 
-k=255
+l=255
 o=false
-e=true
-ah=input
-ao=output
+d=true
+am=input
+ag=output
 C=screen
-W=property
-P=W.getText
+U=property
+N=U.getText
 x=C.drawRectF
-S=string.format
+X=string.format
 A=C.drawText
-X=C.drawTriangleF
+Y=C.drawTriangleF
 r=C.drawLine
 h=C.setColor
-J=ao.setNumber
-K=ao.setBool
-Z=math.floor
-g=ah.getNumber
-t=ah.getBool
+I=ag.setNumber
+G=ag.setBool
+ai=math.floor
+g=am.getNumber
+s=am.getBool
 do
-R=10000
-aC=e
-ap=W.getBool("Monitor Swap")N=o
-M=2
-aJ=W.getNumber("Passcode")aF,aB=0,0
-aE,aK=1,10
-D={}f={}f.q=1
-f.L=o
-d={}d.B={}d.H={}d.G={}d.aa={}d.ag={}d.ae={}j={}j.v=0
-j.w=0
-j.z=0
-c={0,0,0,0,0,0,0,0}aH=e
-a={}a.v=0
-a.w=0
-a.y=0
-a.u=o
-a.p=e
-a.ac=o
+O=10000
+aB=d
+aw=U.getBool("Monitor Swap")P=o
+Q=2
+aI=U.getNumber("Passcode")aF,aH=0,0
+aC,aK=1,10
+H={}f={}f.q=1
+f.M=o
+e={}e.y={}e.F={}e.D={}e.ac={}e.al={}e.aa={}i={}i.w=0
+i.v=0
+i.B=0
+c={0,0,0,0,0,0,0,0}aE=d
+a={}a.w=0
+a.v=0
+a.z=0
+a.t=o
+a.p=d
+a.ae=o
 a.E=o
-l=1
-ad=o
+k=1
+K=o
 end
 function onTick()do
-a.E=t(1)a.p=a.y==0 and t(1)and a.ac
-a.y=(t(1)and(a.y==0))and 5 or
-a.y>0 and a.y-1 or 0
-a.ac=not t(1)al=not al
-if not t(32)and c[f.q]~=0 and f.L then
-d.aa[c[f.q]]=g(1)d.ag[c[f.q]]=g(7)//1
-d.ae[c[f.q]]=g(8)//1
+a.E=s(1)a.p=a.z==0 and s(1)and a.ae
+a.z=(s(1)and(a.z==0))and 5 or
+a.z>0 and a.z-1 or 0
+a.ae=not s(1)aj=not aj
+if not s(32)and c[f.q]~=0 and f.M then
+e.ac[c[f.q]]=g(1)e.al[c[f.q]]=g(7)//1
+e.aa[c[f.q]]=g(8)//1
 end
-D.Y=g(9)D.T=g(10)D.aG=g(11)D.aI=g(12)D.aD=g(13)V=g(14)F=g(15)j.v=g(16)j.w=g(17)a.v=g(18)a.w=g(19)M=g(23)if a.y==0 then
-f.O=g(20)f.L=t(20)l=g(24)for _=1,8,1 do
-c[_]=Z(g(24+_))%R or 0
+H.Z=g(9)H.W=g(10)H.aJ=g(11)H.aG=g(12)H.aD=g(13)V=g(14)L=g(15)i.w=g(16)i.v=g(17)a.w=g(18)a.v=g(19)Q=g(23)if a.z==0 then
+f.R=g(20)f.M=s(20)k=g(24)for _=1,8,1 do
+c[_]=ai(g(24+_))%O or 0
 if 0~=c[_]then
-local U=Z(g(24+_)/R)d.B[c[_]]=U & 1==1
-d.H[c[_]]=U & 2==2
-d.G[c[_]]=U & 4==4
+local T=ai(g(24+_)/O)e.y[c[_]]=T & 1==1
+e.F[c[_]]=T & 2==2
+e.D[c[_]]=T & 4==4
 end
 end
 end
 for _=1,7,1 do
 if c[_]==0 and c[_+1]~=0 then
-for m=_,7,1 do
-c[m]=c[m+1]end
+for n=_,7,1 do
+c[n]=c[n+1]end
 end
-for m=1,8,1 do
-if _~=m and c[_]==c[m]and _<m then
-c[m]=0
-elseif _~=m and c[_]==c[m]and _>m then
+for n=1,8,1 do
+if _~=n and c[_]==c[n]and _<n then
+c[n]=0
+elseif _~=n and c[_]==c[n]and _>n then
 c[_]=0
 end
 end
 end
 end
 do
-if M==2 then
-if n(27,0,5,6,a.p,e)and V~=0 then
-a.u=e
-f.O=V
+if Q==2 then
+if m(27,0,5,6,a.p,d)and V~=0 then
+a.t=d
+f.R=V
 end
-if n(27,7,5,5,a.p,e)then
+if m(27,7,5,5,a.p,d)then
 for _=1,8,1 do
-if c[_]==F or f.O==F then
+if c[_]==L or f.R==L then
 break
 end
-if c[_]==0 and F~=0 then
-c[_]=F%R
-d.B[c[_]]=e
+if c[_]==0 and L~=0 then
+c[_]=L%O
+e.y[c[_]]=d
 break
 end
 end
-a.u=e
+a.t=d
 end
 for _=0,1,1 do
-if n(1,14+_*12,5,5,a.p,e)and c[l+_]~=0 then
-a.u=e
-d.B[c[l+_]]=not d.B[c[l+_]]end
-if n(7,14+_*12,5,5,a.p,e)and c[l+_]~=0 then
-a.u=e
-d.H[c[l+_]]=not d.H[c[l+_]]end
-if n(13,14+_*12,5,5,a.p,e)and c[l+_]~=0 then
-a.u=e
-d.G[c[l+_]]=not d.G[c[l+_]]end
-if n(20,15+_*12,3,2,a.p,e)and c[l+_]~=0 then
-a.u=e
-j.z=c[l+_]==j.z and 0 or c[l+_]end
-if n(0,8+_*12,5,5,a.p,e)then
-a.u=e
-c[l+_]=0
+if m(1,14+_*12,5,5,a.p,d)and c[k+_]~=0 then
+a.t=d
+e.y[c[k+_]]=not e.y[c[k+_]]end
+if m(7,14+_*12,5,5,a.p,d)and c[k+_]~=0 then
+a.t=d
+e.F[c[k+_]]=not e.F[c[k+_]]end
+if m(13,14+_*12,5,5,a.p,d)and c[k+_]~=0 then
+a.t=d
+e.D[c[k+_]]=not e.D[c[k+_]]end
+if m(20,15+_*12,3,2,a.p,d)and c[k+_]~=0 then
+a.t=d
+i.B=c[k+_]==i.B and 0 or c[k+_]end
+if m(0,8+_*12,5,5,a.p,d)then
+a.t=d
+c[k+_]=0
 end
 end
 end
 end
 do
-if t(29)then
-j.v=V//1
-j.w=F//1
+K=Q<=2 and a.p
+do
+if s(29)then
+i.w=V//1
+i.v=L//1
+K=d
 end
-if t(30)and j.z~=0 then
-j.v=d.ag[j.z]or 0
-j.w=d.ae[j.z]or 0
+if s(30)and i.B~=0 then
+i.w=e.al[i.B]or 0
+i.v=e.aa[i.B]or 0
+K=d
 end
-if t(32)then
-j.v=g(21)j.w=g(22)end
-ad=M<=2 and a.p
-K(10,ad)K(11,n(27,27,5,5,a.p,e))K(12,n(27,20,5,5,a.p,e))K(13,n(27,14,5,5,a.p,e))K(32,al)f.q=t(32)and f.q+1 or f.q
+if s(31)then
+i.w=g(21)i.v=g(22)K=d
+end
+end
+G(10,K)G(11,m(27,27,5,5,a.p,d))G(12,m(27,20,5,5,a.p,d))G(13,m(27,14,5,5,a.p,d))G(32,aj)f.q=s(32)and f.q+1 or f.q
 f.q=f.q+1==9 and 1 or f.q
 f.q=1
-J(16,j.v//1)J(17,j.w//1)J(20,f.O)J(21,c[f.q])for _=1,8,1 do
-local az=d.B[c[_]]and 1 or 0
-local ay=d.H[c[_]]and 2 or 0
-local ax=d.G[c[_]]and 4 or 0
-J(24+_,(c[_]+(az+ay+ax)*R))end
+I(16,i.w//1)I(17,i.v//1)I(20,f.R)I(21,c[f.q])for _=1,8,1 do
+local au=e.y[c[_]]and 1 or 0
+local ax=e.F[c[_]]and 2 or 0
+local aA=e.D[c[_]]and 4 or 0
+I(24+_,(c[_]+(au+ax+aA)*O))end
 end
-N=o
-a.u=a.p and a.u or o
+P=o
+a.t=a.p and a.t or o
 end
-function onDraw()if N~=ap then
-N=e
+function onDraw()if P~=aw then
+P=d
 else
-N=e
-if M==2 then
+P=d
+if Q==2 then
 local b=0
-h(10,10,10)C.drawClear()h(30,30,30)r(0,6,32,6)h(k,k,k)X(2,1,0,4,5,4)r(2,4,2,6)b=f.L and k or 80
-h(b,b,b)A(6,1,S(aM,f.O//1))h(25,25,25)x(27,0,5,6)b=n(27,0,5,6,a.E,o)and k or 50
-h(b,b,b)A(28,2,"^")h(25,25,25)x(27,14,5,5)x(27,20,5,5)x(27,7,5,5)x(27,27,5,5)b=n(27,7,5,5,a.E,o)and k or 50
-h(b,b,b)A(28,7,aL)b=n(27,14,5,5,a.E,o)and k or 50
-h(b,b,b)X(29,15,27,18,32,18)b=n(27,20,5,5,a.E,o)and k or 50
-h(b,b,b)X(29,25,26,21,32,21)b=f.L and k or 50
-h(b,b,b)r(28,29,28,31)r(29,28,31,28)r(30,30,30,31)am(c[l],0)am(c[l+1],1)h(100,100,100)aj(24,27,S("%01d",l%2+l//2))end
+h(10,10,10)C.drawClear()h(30,30,30)r(0,6,32,6)h(l,l,l)Y(2,1,0,4,5,4)r(2,4,2,6)b=f.M and l or 80
+h(b,b,b)A(6,1,X(aL,f.R//1))h(25,25,25)x(27,0,5,6)b=m(27,0,5,6,a.E,o)and l or 50
+h(b,b,b)A(28,2,"^")h(25,25,25)x(27,14,5,5)x(27,20,5,5)x(27,7,5,5)x(27,27,5,5)b=m(27,7,5,5,a.E,o)and l or 50
+h(b,b,b)A(28,7,aM)b=m(27,14,5,5,a.E,o)and l or 50
+h(b,b,b)Y(29,15,27,18,32,18)b=m(27,20,5,5,a.E,o)and l or 50
+h(b,b,b)Y(29,25,26,21,32,21)b=f.M and l or 50
+h(b,b,b)r(28,29,28,31)r(29,28,31,28)r(30,30,30,31)ah(c[k],0)ah(c[k+1],1)h(100,100,100)ao(24,27,X("%01d",k%2+k//2))end
 end
 end
-function am(s,i)local au=s or 0
+function ah(u,j)local ap=u or 0
 local b=0
-i=i*12
-b=s~=0 and 150 or 45
-h(b,b,b)if d.aa[s]==4000 and s~=0 then
-h(50,k,50)end
-A(6,8+i,S(aM,au//1))h(25,25,25)for _=0,3,1 do
-x(1+6*_,14+i,5,5)end
-b=s~=0 and k or 80
-x(0,8+i,5,5)h(k,k,k)A(1,8+i,"-")b=d.B[s]and k or 50
-h(b,b,b)aj(2,13+i,"v")b=d.H[s]and k or 50
-h(b,b,b)r(8,15+i,10,15+i)r(10,16+i,10,17+i)r(8,17+i,10,17+i)r(8,16+i,8,17+i)b=d.G[s]and k or 50
-h(b,b,b)A(14,14+i,aL)b=(j.z==s and s~=0)and k or 50
-h(b,b,b)x(20,15+i,3,2)r(20,17+i,20,18+i)end
-function n(Y,T,av,ar,as,af)local Q=o
-if Y<=a.v and
-Y+av>=a.v and
-T<=a.w and
-T+ar>=a.w and
-as then
-if not a.u and af then
-Q=e
+j=j*12
+b=u~=0 and 150 or 45
+h(b,b,b)if e.ac[u]==4000 and u~=0 then
+h(50,l,50)end
+A(6,8+j,X(aL,ap//1))h(25,25,25)for _=0,3,1 do
+x(1+6*_,14+j,5,5)end
+b=u~=0 and l or 80
+x(0,8+j,5,5)h(l,l,l)A(1,8+j,"-")b=e.y[u]and l or 50
+h(b,b,b)ao(2,13+j,"v")b=e.F[u]and l or 50
+h(b,b,b)r(8,15+j,10,15+j)r(10,16+j,10,17+j)r(8,17+j,10,17+j)r(8,16+j,8,17+j)b=e.D[u]and l or 50
+h(b,b,b)A(14,14+j,aM)b=(i.B==u and u~=0)and l or 50
+h(b,b,b)x(20,15+j,3,2)r(20,17+j,20,18+j)end
+function m(Z,W,at,ay,av,af)local S=o
+if Z<=a.w and
+Z+at>=a.w and
+W<=a.v and
+W+ay>=a.v and
+av then
+if not a.t and af then
+S=d
 elseif not af then
-Q=e
+S=d
 end
 else
-Q=o
+S=o
 end
-return Q
+return S
 end
-function aj(aA,aw,I)if type(I)=="number" then
-I=tostring(I)end
-aq=P("F1")..P("F2")..P("F3")..P("F4")for _=1,I:len()do
-ai=I:sub(_,_):byte()*5-159
-for m=1,5 do
-at="0x"..aq:sub(ai,ai+4):sub(m,m)for ab=1,3 do
-if at & 2^(4-ab)>0 then
-an=aA+_*4+ab-5
-ak=aw+m-1
-r(an,ak,an+1,ak)end
+function ao(ar,az,J)if type(J)=="number" then
+J=tostring(J)end
+aq=N("F1")..N("F2")..N("F3")..N("F4")for _=1,J:len()do
+ad=J:sub(_,_):byte()*5-159
+for n=1,5 do
+as="0x"..aq:sub(ad,ad+4):sub(n,n)for ak=1,3 do
+if as & 2^(4-ak)>0 then
+ab=ar+_*4+ak-5
+an=az+n-1
+r(ab,an,ab+1,an)end
 end
 end
 end

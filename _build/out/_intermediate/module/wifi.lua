@@ -344,27 +344,33 @@ function onTick() --[====[ onTick ]====]
     end
 
     do --outputdata
-        if input.getBool(29) then
-            waypoint.X = KeypadX // 1
-            waypoint.Y = KeypadY // 1
-        end
-        if input.getBool(30) and waypoint.selectfreq ~= 0 then
-            waypoint.X = receive.WayX[waypoint.selectfreq] or 0
-            waypoint.Y = receive.WayY[waypoint.selectfreq] or 0
-        end
-
-        if input.getBool(32) then
-            waypoint.X=input.getNumber(21)
-            waypoint.Y=input.getNumber(22)
-        end
-
-
-
-
-
-
 
         dataflag = moduleID <= 2 and touch.palse
+        do -- waypoint Update
+            if input.getBool(29) then
+                waypoint.X = KeypadX // 1
+                waypoint.Y = KeypadY // 1
+                dataflag=true
+            end
+            if input.getBool(30) and waypoint.selectfreq ~= 0 then
+                waypoint.X = receive.WayX[waypoint.selectfreq] or 0
+                waypoint.Y = receive.WayY[waypoint.selectfreq] or 0
+                dataflag=true
+            end
+
+            if input.getBool(31) then
+                waypoint.X=input.getNumber(21)
+                waypoint.Y=input.getNumber(22)
+                dataflag=true
+            end
+        end
+
+
+
+
+
+
+        
         output.setBool(10, dataflag)
         output.setBool(11, button(27, 27, 5, 5, touch.palse, true)) --radio swich
         output.setBool(12, button(27, 20, 5, 5, touch.palse, true)) --pagedown +

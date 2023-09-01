@@ -223,7 +223,8 @@ function onTick() --[====[ onTick ]====]
                 if moveflag then
                     mapX, mapY = Phys.x, Phys.y
                 end
-                if touch.palse and not (button(0, 0, 5, 11, false) or button(26, 0, 6, 23, false) or button(13, 13, 6, 6, false)) then --and zoomlv == false then
+                local temp=waypointmenu and 23 or 6
+                if touch.palse and not (button(0, 0, 5, 11, false) or button(26, 0, 6, temp, false) or button(13, 13, 6, 6, false)) then --and zoomlv == false then
                     moveflag = false
                     mapX = (touch.X - 16) * zoom / 2 + mapX
                     mapY = -(touch.Y - 16) * zoom / 2 + mapY
@@ -301,7 +302,7 @@ function onDraw()
                     end
                 end
             end
-            
+
             if waypointmenu then --weypointmenu
                 local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
                 local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)

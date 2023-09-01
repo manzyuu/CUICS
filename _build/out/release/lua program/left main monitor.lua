@@ -6,147 +6,147 @@
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
 -- Minimized Size: 3212 (3579 with comment) chars
-aR="Y"
-aQ="x"
-aP="1"
+aR="x"
+aQ="%03d"
+aP="X"
 aO="touch"
-aN="X"
-aM="y"
-aL="%03d"
+aN="y"
+aM="1"
+aL="Y"
 aK="0"
 
-e=255
+d=255
 i=false
-j=true
-Y=output
-ab=input
-A=math
+k=true
+X=output
+T=input
+C=math
 q=screen
-P=property
-x=P.getText
-s=q.drawRect
-r=q.drawRectF
-p=q.drawLine
-z=A.abs
-B=string.format
+Q=property
+z=Q.getText
+r=q.drawRect
+s=q.drawRectF
+m=q.drawLine
+x=C.abs
+A=string.format
 a=q.setColor
-F=A.max
-u=A.min
-o=ab.getBool
-_=ab.getNumber
-h=Y.setBool
+N=C.max
+t=C.min
+n=T.getBool
+_=T.getNumber
+h=X.setBool
 do
-w,aG,N,af=j,j,j,P.getBool("Monitor Swap")D=i
-M=2
-an=20
-O,L=0,0
-l,Q=1,10
-H=0
-W={}f={}f.R=0
-f.X=0
-y={}y.n=0
-y.m=0
-c={}c.aF,c.ar,c.aE,c.aB,c.av,c.au,c.aH,c.al,c.at,c.aD={},{},{},{},{},{},{},{},{},{}J={}J.ae=0
-g={[aQ]={},[aM]={},[aO]={}}end
+w,at,K,ai=k,k,k,Q.getBool("Monitor Swap")O=i
+G=2
+al=20
+M,I=0,0
+l,H=1,10
+F=0
+ab={}f={}f.V=0
+f.S=0
+y={}y.o=0
+y.p=0
+b={}b.aB,b.aA,b.au,b.aF,b.az,b.ap,b.aC,b.an,b.aG,b.as={},{},{},{},{},{},{},{},{},{}P={}P.ah=0
+g={[aR]={},[aN]={},[aO]={}}end
 function onTick()if w==i then return end
 w=i
-D=not D
-h(32,D)f.n,f.m=_(9),_(10)H=A.sqrt((y.n-f.n)^2+(y.m-f.m)^2)h(13,w)h(14,o(1)or o(2))K=i
-g[aQ][1],g[aM][1],g[aO][1]=_(1),_(2),o(1)g[aQ][2],g[aM][2],g[aO][2]=_(3),_(4),o(2)W.aC,W.b=_(5),_(6)am,aq=_(7),_(8)f.X=f.R
-f.n=_(9)f.m=_(10)f.R=_(11)f.as=(_(11)-f.X)*60
-f.aA=_(17)f.ap=_(18)aw=_(29)ay=_(30)aJ=o(3)ad=o(4)aI=_(13)ax=_(14)E=_(15)az=_(16)c["vis"][E]=o(5)c["dir"][E]=o(6)c["way"][E]=o(7)if g[aO][1]then
-M=d(0,15,12,6,1)and 1 or
-d(15,15,6,6,1)and 2 or
-d(0,24,16,6,1)and 3 or
-d(15,24,16,6,1)and 4 or 0
+O=not O
+h(32,O)f.o,f.p=_(9),_(10)F=C.sqrt((y.o-f.o)^2+(y.p-f.p)^2)h(13,w)h(14,n(1)or n(2))J=i
+g[aR][1],g[aN][1],g[aO][1]=_(1),_(2),n(1)g[aR][2],g[aN][2],g[aO][2]=_(3),_(4),n(2)ab.aI,ab.c=_(5),_(6)av,aw=_(7),_(8)f.S=f.V
+f.o=_(9)f.p=_(10)f.V=_(11)f.aH=(_(11)-f.S)*60
+f.am=_(17)f.aJ=_(18)aD=_(29)aq=_(30)ay=n(3)aj=n(4)ar=_(13)ax=_(14)D=_(15)ao=_(16)b["vis"][D]=n(5)b["dir"][D]=n(6)b["way"][D]=n(7)if g[aO][1]then
+G=e(0,15,12,6,1)and 1 or
+e(15,15,6,6,1)and 2 or
+e(0,24,16,6,1)and 3 or
+e(15,24,16,6,1)and 4 or 0
 end
-h(13,d(15,24,16,6,1))if M==1 then
-if N then
-O,L=f.n,f.m
+h(13,e(15,24,16,6,1))if G==1 then
+if K then
+M,I=f.o,f.p
 end
 if g[aO][2]==i then
-C=i
+B=i
 end
-if d(0,0,5,5,2)then
-if C==i then
+if e(0,0,5,5,2)then
+if B==i then
 l=l+1
 end
-C=j
+B=k
 end
-if d(0,6,5,5,2)then
-if C==i then
+if e(0,6,5,5,2)then
+if B==i then
 l=l-1
 end
-C=j
+B=k
 end
-l=u(F(l,1),22)Q=u(l-5,0)/5+u(F(l-4,1),10)+u(F(l-14,0),8)*5
-if d(13,13,6,6,2)then
-N=j
+l=t(N(l,1),22)H=t(l-5,0)/5+t(N(l-4,1),10)+t(N(l-14,0),8)*5
+if e(13,13,6,6,2)then
+K=k
 else
 if g[aO][2]and l==i then
-O=-(g[aQ][2]-16)*Q/2+O
-L=-(g[aM][2]-16)*Q/2+L
-N=i
+M=-(g[aR][2]-16)*H/2+M
+I=-(g[aN][2]-16)*H/2+I
+K=i
 end
 end
 end
-if M==2 then
-if d(27,0,5,6,2)then
-b=""
-if d(2,14,5,5,2)then
-b=aP
+if G==2 then
+if e(27,0,5,6,2)then
+c=""
+if e(2,14,5,5,2)then
+c=aM
 else
-b=aK
+c=aK
 end
-if d(8,14,5,5,2)then
-b=b..aP
+if e(8,14,5,5,2)then
+c=c..aM
 else
-b=b..aK
+c=c..aK
 end
-if d(14,14,5,5,2)then
-b=b..aP
+if e(14,14,5,5,2)then
+c=c..aM
 else
-b=b..aK
+c=c..aK
 end
-J.ae=tonumber(b)Y.setNumber(2,J.ao)h(2,d(27,7,5,5,2))h(7,d(27,14,5,5,2))h(8,d(27,20,5,5,2))h(9,d(0,20,5,5,2))h(10,d(27,27,5,5,2))h(11,d(0,26,9,6,2))h(12,d(22,20,4,6,1))end
-h(13,j)else
+P.ah=tonumber(c)X.setNumber(2,P.aE)h(2,e(27,7,5,5,2))h(7,e(27,14,5,5,2))h(8,e(27,20,5,5,2))h(9,e(0,20,5,5,2))h(10,e(27,27,5,5,2))h(11,e(0,26,9,6,2))h(12,e(22,20,4,6,1))end
+h(13,k)else
 for v=1,13 do
 h(v,i)end
 end
-if(_(21)==P.getNumber("Passcode"))then
-b=_(20)c[aN][b]=_(22)c[aR][b]=_(22)c["Dir"][b]=_(22)c["Alt"][b]=_(22)c["Spd"][b]=_(22)c["WayX"][b]=_(22)c["WayY"][b]=_(22)end
+if(_(21)==Q.getNumber("Passcode"))then
+c=_(20)b[aP][c]=_(22)b[aL][c]=_(22)b["Dir"][c]=_(22)b["Alt"][c]=_(22)b["Spd"][c]=_(22)b["WayX"][c]=_(22)b["WayY"][c]=_(22)end
 end
-function onDraw()w=j
-if K~=af then
-K=j
+function onDraw()w=k
+if J~=ai then
+J=k
 return
 else
-K=j
-a(10,10,10)q.drawClear()a(200,50,20)k(29,1,aN)k(17,1,B(aL,z(f.n//100)))a(20,50,200)k(29,7,aR)k(17,7,B(aL,z(f.m//100)))a(e,e,e)k(0,1,B("%02d",u(z(H//1000),99)))q.drawText(7,1,".")k(10,1,B("%01d",z(H)//100%10))k(8,7,"KM")a(5,5,5)p(15,0,15,13)a(1,1,1)p(0,13,32,13)a(30,30,30)r(0,15,13,7)a(50,50,50)s(0,15,12,6)a(e,e,e)k(1,16,"MAP")a(30,30,30)r(15,15,7,7)a(50,50,50)s(15,15,6,6)a(e,e,e)p(16,19,16,21)p(16,19,19,16)p(19,16,21,16)p(18,19,18,21)p(19,18,21,18)p(20,20,21,20)if ad then
-a(70,70,70)r(23,15,8,7)a(50,50,50)s(23,15,8,6)a(e,20,50)else
-a(30,30,30)r(23,15,8,7)a(50,50,50)s(23,15,8,6)a(e,e,e)end
-k(24,16,"Be")a(30,30,30)r(0,24,13,7)a(50,50,50)s(0,24,12,6)a(e,e,e)k(1,25,"STA")a(30,30,30)r(16,24,17,7)a(50,50,50)s(15,24,16,6)a(e,e,e)k(16,25,"EXTE")end
+J=k
+a(10,10,10)q.drawClear()a(200,50,20)j(29,1,aP)j(17,1,A(aQ,x(f.o//100)))a(20,50,200)j(29,7,aL)j(17,7,A(aQ,x(f.p//100)))a(d,d,d)j(0,1,A("%02d",t(x(F//1000),99)))q.drawText(7,1,".")j(10,1,A("%01d",x(F)//100%10))j(8,7,"KM")a(5,5,5)m(15,0,15,13)a(1,1,1)m(0,13,32,13)a(30,30,30)s(0,15,13,7)a(50,50,50)r(0,15,12,6)a(d,d,d)j(1,16,"MAP")a(30,30,30)s(15,15,7,7)a(50,50,50)r(15,15,6,6)a(d,d,d)m(16,19,16,21)m(16,19,19,16)m(19,16,21,16)m(18,19,18,21)m(19,18,21,18)m(20,20,21,20)if aj then
+a(70,70,70)s(23,15,8,7)a(50,50,50)r(23,15,8,6)a(d,20,50)else
+a(30,30,30)s(23,15,8,7)a(50,50,50)r(23,15,8,6)a(d,d,d)end
+j(24,16,"Be")a(30,30,30)s(0,24,13,7)a(50,50,50)r(0,24,12,6)a(d,d,d)j(1,25,"STA")a(30,30,30)s(16,24,17,7)a(50,50,50)r(15,24,16,6)a(d,d,d)j(16,25,"EXTE")end
 end
-function d(n,m,ak,ac,G)Z,aa=g[aQ][G],g[aM][G]if n<=Z and
-n+ak>=Z and
-m<=aa and
-m+ac>=aa and
-g[aO][G]then
-return j
+function e(o,p,ak,ae,L)U,Z=g[aR][L],g[aN][L]if o<=U and
+o+ak>=U and
+p<=Z and
+p+ae>=Z and
+g[aO][L]then
+return k
 else
 return i
 end
 end
-function k(ag,ai,t)if type(t)=="number" then
-t=tostring(t)end
-aj=x("F1")..x("F2")..x("F3")..x("F4")for v=1,t:len()do
-T=t:sub(v,v):byte()*5-159
-for I=1,5 do
-ah="0x"..aj:sub(T,T+4):sub(I,I)for U=1,3 do
-if ah & 2^(4-U)>0 then
-V=ag+v*4+U-5
-S=ai+I-1
-p(V,S,V+1,S)end
+function j(ag,ac,u)if type(u)=="number" then
+u=tostring(u)end
+ad=z("F1")..z("F2")..z("F3")..z("F4")for v=1,u:len()do
+W=u:sub(v,v):byte()*5-159
+for E=1,5 do
+af="0x"..ad:sub(W,W+4):sub(E,E)for R=1,3 do
+if af & 2^(4-R)>0 then
+aa=ag+v*4+R-5
+Y=ac+E-1
+m(aa,Y,aa+1,Y)end
 end
 end
 end

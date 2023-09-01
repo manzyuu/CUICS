@@ -157,7 +157,7 @@ KeypadX                                         = input.getNumber(29)
 KeypadY                                         = input.getNumber(30)
 
 radioswitch                                     = input.getBool(3)
-becon                                           = input.getBool(4)
+beconSignal                                           = input.getBool(4)
 
 receivekeypad                                   = input.getNumber(13)
 receivechlist                                   = input.getNumber(14)
@@ -323,7 +323,7 @@ screenpower = true
             screen.drawLine(20, 20, 21, 20)
 
         --ビーコン
-            if becon then --オートパイロット
+            if beconSignal then --オートパイロット
                 screen.setColor(70, 70, 70)
                 screen.drawRectF(23, 15, 8, 7)
                 screen.setColor(50, 50, 50)
