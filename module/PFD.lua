@@ -42,7 +42,7 @@ do
         function onLBSimulatorTick(simulator, ticks)
             simulator:setInputNumber(4, simulator:getSlider(4) * math.pi / 2) --* 2 - math.pi)
             simulator:setInputNumber(5, simulator:getSlider(5) * math.pi/2 ) --* 2 - math.pi)
-            simulator:setInputNumber(6, simulator:getSlider(6) * math.pi / 2) --* 2 - math.pi)
+            simulator:setInputNumber(6, simulator:getSlider(6) * math.pi) --* 2 - math.pi)
         end
 
         ;
@@ -155,10 +155,10 @@ do -------------------------------------[====[ 処理系 ]====]-----------------
     function lerp(MIN, MAX, X) --  0~1  f(x)と同じ挙動
         return (1 - X) * MIN + X * MAX
     end
-    function math.sign(x)
+    function sign(x)
         if x<0 then
           return -1
-        elseif x>0 then
+        elseif x>=0 then
           return 1
         else
           return 0
@@ -229,7 +229,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
             local pixelX_2, pixelY_2 = math.cos(line2) * linelength + X, -math.sin(line2) * linelength + Y --┘
 
             screen.drawLine(pixelX_1 + XPos, pixelY_1 + YPos - 1, pixelX_2 + XPos, pixelY_2 + YPos - 1)    --線を描画する
-            screen.drawText(pixelX_2 + XPos - 4, pixelY_2 + YPos - 3, string.format("%-1d", math.abs(i // 1)))
+            screen.drawText(pixelX_2 + XPos -1 - 3*sign(-Phys.roll), pixelY_2 + YPos - 3, string.format("%-1d", math.abs(i // 1)))
         end
         --screen.setColor(255,255,255)
         --screen.drawText(0,25,tostring(Phys.pitch))
@@ -363,7 +363,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
 
         --screen.drawTriangleF(30, 16, 32, 13, 32, 19) --右の三角
         screen.setColor(200,10,10)
-        screen.drawRectF(0,15,2,-Phys.VS*60)
+        screen.drawRectF(0,15,2,-Phys.VS*40)
         
 
         screen.setColor(255, 255, 255) --高度の数字

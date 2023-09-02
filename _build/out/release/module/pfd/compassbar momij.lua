@@ -8,20 +8,20 @@
 -- Minimized Size: 523 (888 with comment) chars
 
 _=360
-l=screen
+k=screen
 b=math
 n=b.pi
-e=b.cos
-j=b.sin
-k=input.getNumber
-r=l.drawLine
+f=b.cos
+h=b.sin
+l=input.getNumber
+p=k.drawLine
 d=b.deg
 a=b.floor
-q=l.drawRectF
-f=l.setColor
-function u(p)local g=300
-f(5,5,5)q(10,23,11,7)q(9,24,13,5)f(255,255,225)t(10,24,string.format("%03d",tonumber(a(d(c)))))f(5,70,5)for i=0,72,1 do
-r(a(((a(d(c)-i*5+_)%_)/_)*g),29+i%2,a(((a(d(c)-i*5+_)%_)/_)*g),33)end
-f(250,250,40)r(a(((a(d(c)-p+_)%_)/_)*g),29,a(((a(d(c)-p+_)%_)/_)*g),33)end
-local h=k(4)local m=k(5)local o=k(6)local s=-b.atan(j(h)*j(o)+e(h)*j(m)*e(o),e(h)*e(m))/2/n
+m=k.drawRectF
+e=k.setColor
+function u(o)local g=300
+e(5,5,5)m(10,23,11,7)m(9,24,13,5)e(255,255,225)t(10,24,string.format("%03d",tonumber(a(d(c)))))e(5,70,5)for j=0,72,1 do
+p(a(((a(d(c)-j*5+_)%_)/_)*g),29+j%2,a(((a(d(c)-j*5+_)%_)/_)*g),33)end
+e(250,250,40)p(a(((a(d(c)-o+_)%_)/_)*g),29,a(((a(d(c)-o+_)%_)/_)*g),33)end
+local i=l(4)local q=l(5)local r=l(6)local s=-b.atan(h(i)*h(r)+f(i)*h(q)*f(r),f(i)*f(q))/2/n
 c=(((1-s)%1)*(n*2))

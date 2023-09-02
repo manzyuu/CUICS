@@ -1,90 +1,48 @@
----@section __LB_SIMULATOR_ONLY__
+-- Author: <Authorname> (Please change this in user settings, Ctrl+Comma)
+-- GitHub: <GithubLink>
+-- Workshop: <WorkshopLink>
+--
+-- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
+-- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
+--      By Nameous Changey
+-- Minimized Size: 593 (958 with comment) chars
+
+g=screen
+o=true
+a=false
+n=property
+d=n.getText
+f=input.getNumber
 do
-    ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
-    simulator = simulator
-    simulator:setScreen(1, "1x1")
-    simulator:setScreen(2, "1x1")
-    simulator:setProperty("F1",
-        "0000044404AA000AEAEA4E4E4A248A26E624800048884844480A4A004E400004800E000000422488EAAAEC444EE2E8EE2E2EAAE22E8E2EE8EAEE2244EAEAE")
-    simulator:setProperty("F2",
-        "EAE2E0404004048248420E0E084248E26048CEC8EAEAAEACAEE888ECAAADE8C8EE8C88E8BBEBBEBBE444EE444CBBCBB8888EEEEBBBEEEBEAAAEEBE88EBBC6")
-    simulator:setProperty("F3",
-        "EAECBE8E2EE4444AAAAEAAAA4AAEEAAA4AAAAE44E248EC888C88422622264A0000000E84000006AE88EAE00E8E22EAE00ECE64E446AE2E88EAA404444044C")
-    simulator:setProperty("F4",
-        "88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
-    simulator:setProperty("Monitor Swap", false)
-
-    -- Runs every tick just before onTick; allows you to simulate the inputs changing
-    ---@diagnostic disable-next-line: undefined-doc-param
-    ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
-    ---@diagnostic disable-next-line: undefined-doc-param
-    ---@param ticks     number Number of ticks since simulator started
-
-    function onLBSimulatorTick(simulator, ticks)
-        -- touchscreen defaults
-        local screenConnection1 = simulator:getTouchScreen(1)
-        simulator:setInputBool(1, screenConnection1.isTouched)
-        simulator:setInputNumber(30, screenConnection1.touchX)
-        simulator:setInputNumber(31, screenConnection1.touchY)
-        simulator:setInputNumber(32, 3)
-    end
+t=n.getBool("Monitor Swap")c=a
+e=a
+_={}_.v=0
+_.s=0
+_.x=a
+_.z=a
 end
----@endsection
-
-do
-    monitorSwap = property.getBool("Monitor Swap")
-    monitorID   = false
-    errorcheck  = false
-
-    touch       = {}
-    touch.X     = 0
-    touch.Y     = 0
-    touch.bool  = false
-    touch.flags = false
-
-    
+function onTick()e=not e
+output.setBool(32,e)_.v=f(30)_.s=f(31)r=f(32)c=a
 end
-
-function onTick()
-    errorcheck = not errorcheck
-    output.setBool(32, errorcheck)
-
-    touch.X   = input.getNumber(30)
-    touch.Y   = input.getNumber(31)
-    moduleID  = input.getNumber(32)
-    monitorID = false
+function onDraw()if c~=t then
+c=o
+else
+c=o
+if r==3 then
+g.setColor(10,10,10)g.drawClear()end
 end
-
-function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
-    else
-        monitorID = true
-        if moduleID == 3 then
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-
-
-        end
-    end
 end
-
-function drawNewFont(NewFontX, NewFontY, text)
-    if type(text) == "number" then
-        text = tostring(text)
-    end
-    NewFontD = property.getText("F1") .. property.getText("F2") .. property.getText("F3") .. property.getText("F4")
-    for i = 1, text:len() do
-        NewFontC = text:sub(i, i):byte() * 5 - 159
-        for j = 1, 5 do
-            NewFontF = "0x" .. NewFontD:sub(NewFontC, NewFontC + 4):sub(j, j)
-            for k = 1, 3 do
-                if NewFontF & 2 ^ (4 - k) > 0 then
-                    NewFontP = NewFontX + i * 4 + k - 5
-                    NewFontQ = NewFontY + j - 1
-                    screen.drawLine(NewFontP, NewFontQ, NewFontP + 1, NewFontQ)
-                end
-            end
-        end
-    end
+function y(w,q,b)if type(b)=="number" then
+b=tostring(b)end
+p=d("F1")..d("F2")..d("F3")..d("F4")for i=1,b:len()do
+l=b:sub(i,i):byte()*5-159
+for h=1,5 do
+u="0x"..p:sub(l,l+4):sub(h,h)for k=1,3 do
+if u & 2^(4-k)>0 then
+m=w+i*4+k-5
+j=q+h-1
+g.drawLine(m,j,m+1,j)end
+end
+end
+end
 end

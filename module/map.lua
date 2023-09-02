@@ -59,7 +59,7 @@ do
         simulator:setInputNumber(27, lerp(0, 999, simulator:getSlider(21)))    --Receive WayX
         simulator:setInputNumber(28, lerp(0, 999, simulator:getSlider(22)))    --Receive WayY
 ]]
-        simulator:setInputBool(21,true)
+        simulator:setInputBool(21,false)
 
         simulator:setInputNumber(1, 4000)
         simulator:setInputNumber(23, 1)

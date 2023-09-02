@@ -7,31 +7,31 @@
 --      By Nameous Changey
 -- Minimized Size: 577 (942 with comment) chars
 
-h=math
-d=h.pi
-q=h.sqrt
-b=h.atan
-o=h.sin
-p=h.cos
+g=math
+f=g.pi
+o=g.sqrt
+b=g.atan
+u=g.sin
+n=g.cos
 a=input.getNumber
-function H()_={}local n=a(4)local u=a(5)local B=a(6)local k,l=p(n),o(n)local m,j=p(u),o(u)local i,g=p(B),o(B)local z=m*i
-local w=-k*g+l*j*i
-local x=l*g+k*j*i
-local e=m*g
-local c=k*i+l*j*g
-local f=-l*i+k*j*g
-local A=-j
-local v=l*m
-local y=k*m
-_.F=b(e,q(f*f+c*c))/d*2
-_.D=b(c,q(e*e+f*f))/d*2
-_.E=b(f,q(c*c+e*e))/d*2
-_.O=b(z,A)/-d*2
-_.C=b(w,v)/-d*2
-_.M=b(x,y)/-d*2
-local r=a(10)local s=a(11)local t=a(12)_.J=z*r+e*s+A*t
-_.I=w*r+c*s+v*t
-_.L=x*r+f*s+y*t
-_.n=a(1)_.u=a(3)_.G=a(2)_.C=_.C
-_.N=atan(_.D,_.F)_.K=_.E
+function J()_={}local t=a(4)local q=a(5)local C=a(6)local i,l=n(t),u(t)local m,h=n(q),u(q)local j,k=n(C),u(C)local z=m*j
+local B=-i*k+l*h*j
+local y=l*k+i*h*j
+local e=m*k
+local d=i*j+l*h*k
+local c=-l*j+i*h*k
+local x=-h
+local w=l*m
+local v=i*m
+_.F=b(e,o(c*c+d*d))/f*2
+_.D=b(d,o(e*e+c*c))/f*2
+_.E=b(c,o(d*d+e*e))/f*2
+_.O=b(z,x)/-f*2
+_.A=b(B,w)/-f*2
+_.K=b(y,v)/-f*2
+local p=a(10)local s=a(11)local r=a(12)_.G=z*p+e*s+x*r
+_.L=B*p+d*s+w*r
+_.N=y*p+c*s+v*r
+_.t=a(1)_.q=a(3)_.M=a(2)_.A=_.A
+_.H=atan(_.D,_.F)_.I=_.E
 end

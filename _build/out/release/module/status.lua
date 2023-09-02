@@ -1,107 +1,52 @@
----@section __LB_SIMULATOR_ONLY__
+-- Author: <Authorname> (Please change this in user settings, Ctrl+Comma)
+-- GitHub: <GithubLink>
+-- Workshop: <WorkshopLink>
+--
+-- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
+-- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
+--      By Nameous Changey
+-- Minimized Size: 804 (1169 with comment) chars
+G="%03d"
+
+o=true
+d=false
+m=screen
+r=property
+e=r.getText
+l=string.format
+f=m.drawLine
+h=m.setColor
+a=input.getNumber
 do
-    ---@type Simulator -- Set properties and screen sizes here - will run once when the script is loaded
-    simulator = simulator
-    simulator:setScreen(1, "1x1")
-    simulator:setScreen(2, "1x1")
-    simulator:setProperty("F1",
-        "0000044404AA000AEAEA4E4E4A248A26E624800048884844480A4A004E400004800E000000422488EAAAEC444EE2E8EE2E2EAAE22E8E2EE8EAEE2244EAEAE")
-    simulator:setProperty("F2",
-        "EAE2E0404004048248420E0E084248E26048CEC8EAEAAEACAEE888ECAAADE8C8EE8C88E8BBEBBEBBE444EE444CBBCBB8888EEEEBBBEEEBEAAAEEBE88EBBC6")
-    simulator:setProperty("F3",
-        "EAECBE8E2EE4444AAAAEAAAA4AAEEAAA4AAAAE44E248EC888C88422622264A0000000E84000006AE88EAE00E8E22EAE00ECE64E446AE2E88EAA404444044C")
-    simulator:setProperty("F4",
-        "88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
-    simulator:setProperty("Monitor Swap", false)
-
-    -- Runs every tick just before onTick; allows you to simulate the inputs changing
-    ---@diagnostic disable-next-line: undefined-doc-param
-    ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
-    ---@diagnostic disable-next-line: undefined-doc-param
-    ---@param ticks     number Number of ticks since simulator started
-
-    function onLBSimulatorTick(simulator, ticks)
-        -- touchscreen defaults
-        local screenConnection1 = simulator:getTouchScreen(1)
-        simulator:setInputBool(1, screenConnection1.isTouched)
-        simulator:setInputNumber(30, screenConnection1.touchX)
-        simulator:setInputNumber(31, screenConnection1.touchY)
-        simulator:setInputNumber(32, 3)
-    end
+t=r.getBool("Monitor Swap")g=d
+k=d
+b={}b.y=0
+b.w=0
+b.F=d
+b.E=d
 end
----@endsection
-
-do
-    monitorSwap = property.getBool("Monitor Swap")
-    monitorID   = false
-    errorcheck  = false
-
-    touch       = {}
-    touch.X     = 0
-    touch.Y     = 0
-    touch.bool  = false
-    touch.flags = false
-
-    
+function onTick()k=not k
+output.setBool(32,k)A=a(1)D=a(2)x=a(3)b.y=a(30)b.w=a(31)v=a(32)g=d
 end
-
-function onTick()
-    errorcheck = not errorcheck
-    output.setBool(32, errorcheck)
-
-    rps=input.getNumber(1)
-    temp=input.getNumber(2)
-    fuel=input.getNumber(3)
-
-    touch.X   = input.getNumber(30)
-    touch.Y   = input.getNumber(31)
-    moduleID  = input.getNumber(32)
-    monitorID = false
+function onDraw()if g~=t then
+g=o
+else
+g=o
+if v==3 then
+h(10,10,10)m.drawClear()h(1,1,1)f(0,12,32,12)h(7,7,7)f(0,20,32,20)f(0,26,32,26)h(255,255,255)_(0,15,"RPS")_(0,21,"TEMP")_(0,27,"FUEL")_(21,15,l(G,A))_(21,21,l(G,D))_(17,27,l("%04d",x))end
 end
-
-function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
-    else
-        monitorID = true
-        if moduleID == 3 then
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-
-            screen.setColor(1, 1, 1)
-            screen.drawLine(0,12,32,12)
-            screen.setColor(7, 7, 7)
-            screen.drawLine(0,20,32,20)
-            screen.drawLine(0,26,32,26)
-
-            screen.setColor(255, 255, 255)
-            drawNewFont(0, 15, "RPS")
-            drawNewFont(0, 21, "TEMP")
-            drawNewFont(0, 27, "FUEL")
-
-            drawNewFont(21,15,string.format("%03d",rps))
-            drawNewFont(21,21,string.format("%03d",temp))
-            drawNewFont(17,27,string.format("%04d",fuel))
-        end
-    end
 end
-
-function drawNewFont(NewFontX, NewFontY, text)
-    if type(text) == "number" then
-        text = tostring(text)
-    end
-    NewFontD = property.getText("F1") .. property.getText("F2") .. property.getText("F3") .. property.getText("F4")
-    for i = 1, text:len() do
-        NewFontC = text:sub(i, i):byte() * 5 - 159
-        for j = 1, 5 do
-            NewFontF = "0x" .. NewFontD:sub(NewFontC, NewFontC + 4):sub(j, j)
-            for k = 1, 3 do
-                if NewFontF & 2 ^ (4 - k) > 0 then
-                    NewFontP = NewFontX + i * 4 + k - 5
-                    NewFontQ = NewFontY + j - 1
-                    screen.drawLine(NewFontP, NewFontQ, NewFontP + 1, NewFontQ)
-                end
-            end
-        end
-    end
+function _(u,B,c)if type(c)=="number" then
+c=tostring(c)end
+C=e("F1")..e("F2")..e("F3")..e("F4")for j=1,c:len()do
+q=c:sub(j,j):byte()*5-159
+for i=1,5 do
+z="0x"..C:sub(q,q+4):sub(i,i)for n=1,3 do
+if z & 2^(4-n)>0 then
+p=u+j*4+n-5
+s=B+i-1
+f(p,s,p+1,s)end
+end
+end
+end
 end

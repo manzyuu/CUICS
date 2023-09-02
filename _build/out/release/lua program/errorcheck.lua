@@ -10,8 +10,8 @@
 a=screen
 _=false
 function onTick()_=not _
-b=input.getBool(1)if b then
-c=c+1
+c=input.getBool(1)if c then
+b=b+1
 end
 output.setBool(32,_)end
 function onDraw()a.setColor(10,10,10)a.drawClear()end

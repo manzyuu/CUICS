@@ -152,12 +152,12 @@ end
 function onDraw() --[====[ onDraw ]====]
     if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
         monitorID = true
-        if moduleID ~= 0 then
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-            drawdata()
-            drawbutton()
-        end
+
+        screen.setColor(10, 10, 10)
+        screen.drawClear()
+        drawdata()
+        drawbutton()
+
     else
         monitorID = true
     end
