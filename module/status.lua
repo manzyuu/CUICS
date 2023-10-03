@@ -62,28 +62,35 @@ end
 function onDraw()
     if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
         monitorID = true
+        if monitorSwap and moduleID == 3 then
+            moduleUnit()
+        end
     else
         monitorID = true
-        if moduleID == 3 then
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-
-            screen.setColor(1, 1, 1)
-            screen.drawLine(0,12,32,12)
-            screen.setColor(7, 7, 7)
-            screen.drawLine(0,20,32,20)
-            screen.drawLine(0,26,32,26)
-
-            screen.setColor(255, 255, 255)
-            drawNewFont(0, 15, "RPS")
-            drawNewFont(0, 21, "TEMP")
-            drawNewFont(0, 27, "FUEL")
-
-            drawNewFont(21,15,string.format("%03d",rps))
-            drawNewFont(21,21,string.format("%03d",temp))
-            drawNewFont(17,27,string.format("%04d",fuel))
+        if not monitorSwap and moduleID == 3 then
+            moduleUnit()
         end
     end
+end
+
+function moduleUnit()
+    screen.setColor(10, 10, 10)
+    screen.drawClear()
+
+    screen.setColor(1, 1, 1)
+    screen.drawLine(0,12,32,12)
+    screen.setColor(7, 7, 7)
+    screen.drawLine(0,20,32,20)
+    screen.drawLine(0,26,32,26)
+
+    screen.setColor(255, 255, 255)
+    drawNewFont(0, 15, "RPS")
+    drawNewFont(0, 21, "TEMP")
+    drawNewFont(0, 27, "FUEL")
+
+    drawNewFont(21,15,string.format("%03d",rps//1))
+    drawNewFont(21,21,string.format("%03d",temp//1))
+    drawNewFont(17,27,string.format("%04d",fuel//1))
 end
 
 function drawNewFont(NewFontX, NewFontY, text)

@@ -5,170 +5,178 @@
 -- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
--- Minimized Size: 3330 (3697 with comment) chars
+-- Minimized Size: 3389 (3756 with comment) chars
 
-y=255
-C=150
-s=100
-f=false
-g=true
-au=input
-B=math
-v=screen
-Z=property
-Q=Z.getText
-an=v.drawText
-H=v.drawRect
-as=B.cos
-ar=B.sin
-z=v.drawLine
-L=B.pi
-x=v.drawRectF
-E=map.mapToScreen
-h=v.setColor
-M=output.setBool
-X=B.max
-R=B.min
-ab=B.floor
-a=au.getNumber
-U=au.getBool
+x=255
+D=150
+p=100
+e=false
+h=true
+ai=input
+A=math
+t=screen
+Y=property
+U=Y.getText
+an=t.drawText
+F=t.drawRect
+aw=A.cos
+ao=A.sin
+E=t.drawLine
+L=A.pi
+w=t.drawRectF
+B=map.mapToScreen
+g=t.setColor
+T=output.setBool
+ac=A.max
+W=A.min
+b=ai.getNumber
+Z=A.floor
+Q=ai.getBool
 do
-ae=10000
-aJ=g
-aH=Z.getBool("Monitor Swap")J=f
-ac=f
-D=1
-ak=Z.getNumber("Passcode")q,r=0,0
-t,n=1,10
-p={}l={}l.u=1
-l.ad=f
-_={}_.aq={}_.ag={}_.ah={}_.ao={}_.o={}_.m={}_.O={}_.aB={}_.aD={}_.aj={}_.am={}b={0,0,0,0,0,0,0,0}F={}F.o=0
-F.m=0
-w={}w.o=0
-w.m=0
-aM=g
-e={}e.A=f
-aL=1
-K=f
-N=g
+ab=10000
+aO=h
+au=Y.getBool("Monitor Swap")K=e
+ad=e
+y=1
+at=Y.getNumber("Passcode")r,q=0,0
+s,l=1,10
+o={}I={}I.aL=1
+I.ae=e
+_={}_.ap={}_.am={}_.ax={}_.aj={}_.m={}_.n={}_.X={}_.az={}_.aA={}_.ak={}_.aq={}c={0,0,0,0,0,0,0,0}z={}z.m=0
+z.n=0
+v={}v.m=0
+v.n=0
+aN=h
+f={}f.C=e
+aP=1
+O=e
+R=h
+K=e
+V=5
 end
 function onTick()do
-e.G=U(1)ac=not ac
-_.ao[b[l.u]]=a(1)or 0
-if a(1)==ak and not U(32)then
-_.o[b[l.u]]=a(2)//1 or 0
-_.m[b[l.u]]=a(3)//1 or 0
-_.O[b[l.u]]=a(4)or 0
-_.aB[b[l.u]]=a(5)//1 or 0
-_.aD[b[l.u]]=a(6)//1 or 0
-_.aj[b[l.u]]=a(7)//1 or 0
-_.am[b[l.u]]=a(8)//1 or 0
+f.G=Q(1)ad=not ad
+V=Q(32)and 5 or
+V>0 and V-1 or 0
+for a=1,8,1 do
+c[a]=Z(b(24+a))%ab and
+Z(b(24+a))%ab or 0
+if 0<c[a]then
+local af=Z(b(24+a)/ab)_.ap[c[a]]=af & 1==1
+_.am[c[a]]=af & 2==2
+_.ax[c[a]]=af & 4==4
 end
-p.i=a(9)p.k=a(10)p.T=a(11)p.aN=a(12)p.aP=a(13)aK=a(14)aO=a(15)F.o=a(16)F.m=a(17)e.o=a(18)e.m=a(19)w.o=a(21)w.m=a(22)D=a(23)l.ad=U(20)w.ax=U(21)for c=1,8,1 do
-b[c]=ab(a(24+c))%ae and
-ab(a(24+c))%ae or 0
-if 0<b[c]then
-local af=ab(a(24+c)/ae)_.aq[b[c]]=af & 1==1
-_.ag[b[c]]=af & 2==2
-_.ah[b[c]]=af & 4==4
+local u=c[a]if b(1)==at and V==0 and c[a]==b(13)then
+_.aj[u]=b(1)_.m[u]=b(2)//1
+_.n[u]=b(3)//1
+_.X[u]=b(4)_.az[u]=b(5)//1
+_.aA[u]=b(6)//1
+_.ak[u]=b(7)//1
+_.aq[u]=b(8)//1
+end
+end
+o.i=b(9)o.j=b(10)o.N=b(11)o.aR=b(12)aM=b(14)aQ=b(15)z.m=b(16)z.n=b(17)f.m=b(18)f.n=b(19)v.m=b(21)v.n=b(22)y=b(23)I.ae=Q(20)v.aI=Q(21)end
+do
+if y==1 then
+do
+if k(0,0,5,5,h)then
+f.C=h
+s=s-1
+end
+if k(0,6,5,5,h)then
+f.C=h
+s=s+1
+end
+s=W(ac(s,1),22)l=W(s-5,0)/5+W(ac(s-4,1),10)+W(ac(s-14,0),8)*5
+end
+do
+R=k(13,13,6,6,e)and h or R
+if R then
+r,q=o.i,o.j
+end
+local d=O and 23 or 6
+if f.G and not(k(0,0,5,11,e)or k(26,0,6,d,e)or k(13,13,6,6,e))then
+R=e
+r=(f.m-16)*l/2+r
+q=-(f.n-16)*l/2+q
+end
+if k(27,0,5,4,h)then
+f.C=h
+O=not O
+end
 end
 end
 end
 do
-if D==1 then
-do
-if j(0,0,5,5,g)then
-e.A=g
-t=t-1
+T(1,k(27,6,5,5,h)and y==1)T(2,k(27,12,5,5,h)and y==1)T(3,k(27,18,5,5,h)and y==1)T(32,ad)end
+f.C=f.G and f.C or e
 end
-if j(0,6,5,5,g)then
-e.A=g
-t=t+1
-end
-t=R(X(t,1),22)n=R(t-5,0)/5+R(X(t-4,1),10)+R(X(t-14,0),8)*5
-end
-do
-N=j(13,13,6,6,f)and g or N
-if N then
-q,r=p.i,p.k
-end
-local d=K and 23 or 6
-if e.G and not(j(0,0,5,11,f)or j(26,0,6,d,f)or j(13,13,6,6,f))then
-N=f
-q=(e.o-16)*n/2+q
-r=-(e.m-16)*n/2+r
-end
-if j(27,0,5,4,g)then
-e.A=g
-K=not K
-end
-end
-end
-end
-do
-M(1,j(27,6,5,5,g)and D==1)M(2,j(27,12,5,5,g)and D==1)M(3,j(27,18,5,5,g)and D==1)M(32,ac)end
-J=f
-e.A=e.G and e.A or f
-end
-function onDraw()if J~=aH then
-J=g
+function onDraw()if K
+then
+K=e
+if au and y==1 then
+ah()end
 else
-J=g
-if D==1 then
+K=h
+if not au and y==1 then
+ah()end
+end
+end
+function ah()do
+t.drawMap(r,q,l)g(p,p,p)P(0,26,l)g(30,30,30)local i,j=B(r,q,l,32,32,o.i,o.j)w(i-1,j-1,3,3)local al=((o.N+1.75)%1-.5)*2*L+L/2
+E(i,j,ao(al)*8+i,aw(al)*8+j)end
+if v.aI then
+g(D,D,0,70)local i,j=B(r,q,l,32,32,v.m,v.n)t.drawCircleF(i,j,10/l)end
+for a=1,8,1 do
+if _.ap[c[a]]and c[a]~=0 and _.aj[c[a]]==at and I.ae then
+local J,S=B(r,q,l,32,32,_.m[c[a]],_.n[c[a]])g(D,50,D)w(J-1,S-1,3,3)if _.am[c[a]]then
+_.X[c[a]]=_.X[c[a]]or 0
+local N=((_.X[c[a]]+1.75)%1-.5)*2*L+L/2
+E(J,S,ao(N)*8+J,aw(N)*8+S)if _.ax[c[a]]then
+local ag,aH=B(r,q,l,32,32,_.ak[c[a]],_.aq[c[a]])g(D,D,p)E(J,S,ag,aH)w(ag-1,ag-1,3,3)end
+end
+end
+if c[a+1]==0 then
+break
+end
+end
+if O then
+local i,j=B(r,q,l,32,32,o.i,o.j)local aG,aD=B(r,q,l,32,32,z.m,z.n)g(p,10,p)E(i,j,aG,aD)local d=0
+g(5,5,5)w(27,6,5,16)g(20,20,20)F(27,6,4,5)F(27,11,4,5)F(27,16,4,6)d=k(27,6,5,4,e)and p or x
+g(d,d,d)P(28,6,"p")d=I.ae and x or 50
+d=k(27,12,5,4,e)and p or d
+g(d,d,d)w(28,13,3,2)E(28,13,28,16)d=k(27,18,5,4,e)and p or x
+g(d,d,d)P(28,17,"B")end
 do
-v.drawMap(q,r,n)h(s,s,s)W(0,26,n)h(30,30,30)local i,k=E(q,r,n,32,32,p.i,p.k)x(i-1,k-1,3,3)local av=((p.T+1.75)%1-.5)*2*L+L/2
-z(i,k,ar(av)*8+i,as(av)*8+k)end
-if w.ax then
-h(C,C,0,70)local i,k=E(q,r,n,32,32,w.o,w.m)v.drawCircleF(i,k,10/n)end
-for c=1,8,1 do
-if _.aq[b[c]]and b[c]~=0 and _.ao[b[c]]==ak and l.ad then
-local V,S=E(q,r,n,32,32,_.o[b[c]],_.m[b[c]])h(C,50,C)x(V-1,S-1,3,3)if _.ag[b[c]]then
-_.O[b[c]]=_.O[b[c]]or 0
-local T=((_.O[b[c]]+1.75)%1-.5)*2*L+L/2
-z(V,S,ar(T)*8+V,as(T)*8+S)end
-if _.ah[b[c]]then
-local aa,az=E(q,r,n,32,32,_.aj[b[c]],_.am[b[c]])h(C,C,s)z(V,S,aa,az)x(aa-1,aa-1,3,3)end
+g(5,5,5)w(0,0,5,10)w(27,0,4,4)g(20,20,20)F(0,0,4,4)F(0,5,4,4)F(27,0,4,4)g(x,x,x)an(1,0,"+")an(1,5,"-")d=k(27,0,5,4,e)and p or x
+g(d,d,d)P(28,-1,"w")g(200,200,200,200)t.drawCircle(16,16,4)end
 end
-end
-if K then
-local i,k=E(q,r,n,32,32,p.i,p.k)local aF,aw=E(q,r,n,32,32,F.o,F.m)h(s,10,s)z(i,k,aF,aw)local d=0
-h(5,5,5)x(27,6,5,16)h(20,20,20)H(27,6,4,5)H(27,11,4,5)H(27,16,4,6)d=j(27,6,5,4,f)and s or y
-h(d,d,d)W(28,6,"p")d=l.ad and y or 50
-d=j(27,12,5,4,f)and s or d
-h(d,d,d)x(28,13,3,2)z(28,13,28,16)d=j(27,18,5,4,f)and s or y
-h(d,d,d)W(28,17,"B")end
-do
-h(5,5,5)x(0,0,5,10)x(27,0,4,4)h(20,20,20)H(0,0,4,4)H(0,5,4,4)H(27,0,4,4)h(y,y,y)an(1,0,"+")an(1,5,"-")d=j(27,0,5,4,f)and s or y
-h(d,d,d)W(28,-1,"w")h(200,200,200,200)v.drawCircle(16,16,4)end
-end
-end
-end
-function j(i,k,aA,aE,G)local P=f
-if i<=e.o and
-i+aA>=e.o and
-k<=e.m and
-k+aE>=e.m and
-e.G then
-if not e.A and G then
-P=g
+function k(i,j,aB,aF,G)local M=e
+if i<=f.m and
+i+aB>=f.m and
+j<=f.n and
+j+aF>=f.n and
+f.G then
+if not f.C and G then
+M=h
 elseif not G then
-P=g
+M=h
 end
 else
-P=f
+M=e
 end
-return P
+return M
 end
-function W(aI,aG,I)if type(I)=="number" then
-I=tostring(I)end
-aC=Q("F1")..Q("F2")..Q("F3")..Q("F4")for c=1,I:len()do
-ai=I:sub(c,c):byte()*5-159
-for Y=1,5 do
-ay="0x"..aC:sub(ai,ai+4):sub(Y,Y)for ap=1,3 do
-if ay & 2^(4-ap)>0 then
-al=aI+c*4+ap-5
-at=aG+Y-1
-z(al,at,al+1,at)end
+function P(aK,aE,H)if type(H)=="number" then
+H=tostring(H)end
+aC=U("F1")..U("F2")..U("F3")..U("F4")for a=1,H:len()do
+ar=H:sub(a,a):byte()*5-159
+for aa=1,5 do
+aJ="0x"..aC:sub(ar,ar+4):sub(aa,aa)for as=1,3 do
+if aJ & 2^(4-as)>0 then
+ay=aK+a*4+as-5
+av=aE+aa-1
+E(ay,av,ay+1,av)end
 end
 end
 end

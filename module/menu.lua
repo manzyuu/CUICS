@@ -27,7 +27,7 @@ do
         "EAECBE8E2EE4444AAAAEAAAA4AAEEAAA4AAAAE44E248EC888C88422622264A0000000E84000006AE88EAE00E8E22EAE00ECE64E446AE2E88EAA404444044C")
     simulator:setProperty("F4",
         "88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
-    simulator:setProperty("Monitor Swap", false)
+    simulator:setProperty("Monitor Swap", true)
 
     -- Runs every tick just before onTick; allows you to simulate the inputs changing
     ---@param simulator Simulator Use simulator:<function>() to set inputs etc.
@@ -74,7 +74,8 @@ do
     moduleID    = 2
     MaxVS       = 20
 
-
+    monitorID = false
+    
     Phys          = {}
     Phys.speed    = 0
     Phys.alt      = 0
@@ -140,7 +141,7 @@ function onTick()
 
 
 
-    monitorID = false
+    --monitorID = false
     output.setBool(1, touch.bool)
     output.setBool(2, button(23, 15, 8, 7, false)) --becon
 
@@ -150,16 +151,27 @@ function onTick()
 end
 
 function onDraw() --[====[ onDraw ]====]
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
+    if monitorID then --[====[ 左のモニター用の描画 ]====]
+        monitorID = false
 
-        screen.setColor(10, 10, 10)
-        screen.drawClear()
-        drawdata()
-        drawbutton()
+        if not monitorSwap then
+            screen.setColor(10, 10, 10)
+            screen.drawClear()
+            drawdata()
+            drawbutton()
+        end
+
+
 
     else
         monitorID = true
+        if monitorSwap then
+            screen.setColor(10, 10, 10)
+            screen.drawClear()
+            drawdata()
+            drawbutton()
+        end
+
     end
 end -------------------------------------------onDraw終わり-------------------------------------------
 

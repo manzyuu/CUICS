@@ -54,15 +54,24 @@ function onTick()
     temp=input.getNumber(2)
     fuel=input.getNumber(3)
 
+    addrps=input.getNumber(4)
+
+    touch.bool=input.getBool(1)
     touch.X   = input.getNumber(30)
     touch.Y   = input.getNumber(31)
     moduleID  = input.getNumber(32)
-    monitorID = false
+
+    output.setBool(1,button(25,1,5,5,false))--up
+    output.setBool(2,button(25,7,5,5,false))--down
+
+
+
+   
 end
 
 function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
+    if monitorID then --[====[ 左のモニター用の描画 ]====]
+        monitorID = false
         if monitorSwap and moduleID == 3 then
             moduleUnit()
         end
@@ -74,25 +83,47 @@ function onDraw()
     end
 end
 
+
 function moduleUnit()
     screen.setColor(10, 10, 10)
-    screen.drawClear()
+            screen.drawClear()
 
-    screen.setColor(1, 1, 1)
-    screen.drawLine(0,12,32,12)
-    screen.setColor(7, 7, 7)
-    screen.drawLine(0,20,32,20)
-    screen.drawLine(0,26,32,26)
+            screen.setColor(1, 1, 1)
+            screen.drawLine(0,12,32,13)
+            screen.setColor(7, 7, 7)
+            screen.drawLine(0,20,32,20)
+            screen.drawLine(0,26,32,26)
 
-    screen.setColor(255, 255, 255)
-    drawNewFont(0, 15, "RPS")
-    drawNewFont(0, 21, "TEMP")
-    drawNewFont(0, 27, "FUEL")
+            screen.setColor(255, 255, 255)
+            drawNewFont(0, 0, "ADD")
+            drawNewFont(3, 6, "RPS")
+            screen.drawText(18,7,string.format("%0d",addrps//1%10))
 
-    drawNewFont(21,15,string.format("%03d",rps//1))
-    drawNewFont(21,21,string.format("%03d",temp//1))
-    drawNewFont(17,27,string.format("%04d",fuel//1))
+            screen.setColor(3, 3, 3)
+            screen.drawRectF(24,0,7,13)
+
+            screen.setColor(50, 50, 50)
+            screen.drawRectF(25,1,5,5)
+            screen.drawRectF(25,7,5,5)
+
+            screen.setColor(255, 255, 255)
+            screen.drawText(26,1,"+")
+            screen.drawText(26,7,"-")
+
+
+
+
+            screen.setColor(255, 255, 255)
+            drawNewFont(0, 15, "RPS")
+            drawNewFont(0, 21, "TEMP")
+            drawNewFont(0, 27, "FUEL")
+
+            drawNewFont(21,15,string.format("%03d",rps//1))
+            drawNewFont(21,21,string.format("%03d",temp//1))
+            drawNewFont(17,27,string.format("%04d",fuel//1))
 end
+
+
 
 function drawNewFont(NewFontX, NewFontY, text)
     if type(text) == "number" then
@@ -112,4 +143,21 @@ function drawNewFont(NewFontX, NewFontY, text)
             end
         end
     end
+end
+function button(x, y, w, h, palse)
+    local returnvalue = false
+    if x <= touch.X and
+        x + w >= touch.X and
+        y <= touch.Y and
+        y + h >= touch.Y and
+        touch.bool then
+        if not touch.flags and palse then
+            returnvalue = true
+        elseif not palse then
+            returnvalue = true
+        end
+    else
+        returnvalue = false
+    end
+    return returnvalue
 end

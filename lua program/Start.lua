@@ -1,11 +1,3 @@
--- Author: <Authorname> (Please change this in user settings, Ctrl+Comma)
--- GitHub: <GithubLink>
--- Workshop: <WorkshopLink>
---
---- Developed using LifeBoatAPI - Stormworks Lua plugin for VSCode - https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
---- If you have any issues, please report them here: https://github.com/nameouschangey/STORMWORKS_VSCodeExtension/issues - by Nameous Changey
-
-
 --[====[ HOTKEYS ]====]
 -- Press F6 to simulate this file
 -- Press F7 to build the project, copy the output from /_build/out/ into the game to use
@@ -62,12 +54,12 @@ end
 
 
 do
-ticks = 0
-cutFlag = false
-startflag = false
-touchflag = true
-monitorSwap         = property.getBool("Monitor Swap")
-monitorID           = false
+    ticks       = 0
+    cutFlag     = false
+    startflag   = false
+    touchflag   = true
+    monitorSwap = property.getBool("Monitor Swap")
+    monitorID   = true
 end
 
 function onTick()
@@ -91,8 +83,7 @@ function onTick()
         touchflag = true
     end
 
-    output.setBool(1,cutFlag)
-    monitorID = false
+    output.setBool(1, cutFlag)
 end
 
 function onDraw()
@@ -105,83 +96,99 @@ function onDraw()
     end
 
 
-    if monitorID ~= monitorSwap then ------LeftMonitor
+    if monitorID then ------LeftMonitor
         --drawNewFont(2,2,monitorID)
-        if ticks < 60 and ticks > 1 then
-            screen.setColor(100, 100, 100)
-            screen.drawLine(0, 0, 32, 32)
-            screen.drawLine(0, 32, 32, 0)
-        elseif ticks < 120 then
-            screen.setColor(100, 100, 100)
-            drawRectF((ticks - 90) / 60 * 128, 15, (ticks - 60) / 60 * 128, 16)
-        elseif ticks < 245 then
-            screen.setColor(100, 100, 100)
-            screen.setColor(clamp(ticks - 120, 0, 128) / 16, clamp(ticks - 120, 0, 128) / 16,
-                clamp(ticks - 120, 0, 128) /
-                16)
-            screen.drawCircleF(33, 15, (ticks - 120) * 4)
-            --drawRectF(0,0,32,32)
-
-            screen.setColor(0, 0, 0)
-            drawNewFont(7, 14, "CUICS")
-        elseif ticks < 350 then
-            screen.setColor(10, 10, 10)
-            drawRectF(0, 0, 32, 32)
-            screen.setColor(0, 0, 0)
-            drawNewFont(7, 14, "CUICS")
-            drawNewFont(17, 25, "Cpl.")
-        elseif ticks < 410 then
-            screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
-            drawRectF(0, 0, 32, 32)
-            screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
-            drawNewFont(7, 14, "CUICS")
-            drawNewFont(17, 25, "Cpl.")
+        if monitorSwap then
+            right()
         else
-            cutFlag = true
+            left()
         end
 
 
 
+
+
+        monitorID = false
+    else ----------------------RightMonitor
+        --drawNewFont(2,2,monitorID)
+        if monitorSwap then
+            left()
+        else
+            right()
+        end
 
 
         monitorID = true
-    else ----------------------RightMonitor
-        --drawNewFont(2,2,monitorID)
-        if ticks < 60 and ticks > 1 then
-            screen.setColor(100, 100, 100)
-            screen.drawLine(0, 0, 32, 32)
-            screen.drawLine(0, 32, 32, 0)
-        elseif ticks < 120 then
-            screen.setColor(100, 100, 100)
-            drawRectF((ticks - 105) / 60 * 128, 15, (ticks - 75) / 60 * 128, 16)
-        elseif ticks < 245 then
-            screen.setColor(100, 100, 100)
-            screen.setColor(clamp(ticks - 120, 0, 128) / 16, clamp(ticks - 120, 0, 128) / 16,
-                clamp(ticks - 120, 0, 128) /
-                16)
-            screen.drawCircleF(-1, 15, (ticks - 120) * 4)
-            --drawRectF(0,0,32,32)
+    end
 
-            screen.setColor(0, 0, 0)
-            drawNewFont(7, 14, "CUICS")
-        elseif ticks < 350 then
-            screen.setColor(10, 10, 10)
-            drawRectF(0, 0, 32, 32)
-            screen.setColor(0, 0, 0)
-            drawNewFont(3, 3, "Var,1.0")
-            drawNewFont(1, 19, "Powerd")
-            drawNewFont(2, 25, "ByMAKKI")
-        elseif ticks < 410 then
-            screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
-            drawRectF(0, 0, 32, 32)
-            screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
-            drawNewFont(3, 3, "Var,1.0")
-            drawNewFont(1, 19, "Powerd")
-            drawNewFont(2, 25, "ByMAKKI")
-        end
+    cutFlag = ticks>410
+end
 
- 
-        monitorID = true       
+function left()
+    if ticks < 60 and ticks > 1 then
+        screen.setColor(100, 100, 100)
+        screen.drawLine(0, 0, 32, 32)
+        screen.drawLine(0, 32, 32, 0)
+    elseif ticks < 120 then
+        screen.setColor(100, 100, 100)
+        drawRectF((ticks - 90) / 60 * 128, 15, (ticks - 60) / 60 * 128, 16)
+    elseif ticks < 245 then
+        screen.setColor(100, 100, 100)
+        screen.setColor(clamp(ticks - 120, 0, 128) / 16, clamp(ticks - 120, 0, 128) / 16,
+            clamp(ticks - 120, 0, 128) /
+            16)
+        screen.drawCircleF(33, 15, (ticks - 120) * 4)
+        --drawRectF(0,0,32,32)
+
+        screen.setColor(0, 0, 0)
+        drawNewFont(7, 14, "CUICS")
+    elseif ticks < 350 then
+        screen.setColor(10, 10, 10)
+        drawRectF(0, 0, 32, 32)
+        screen.setColor(0, 0, 0)
+        drawNewFont(7, 14, "CUICS")
+        drawNewFont(17, 25, "Cpl.")
+    elseif ticks < 410 then
+        screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+        drawRectF(0, 0, 32, 32)
+        screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+        drawNewFont(7, 14, "CUICS")
+        drawNewFont(17, 25, "Cpl.")
+    end
+end
+
+function right()
+    if ticks < 60 and ticks > 1 then
+        screen.setColor(100, 100, 100)
+        screen.drawLine(0, 0, 32, 32)
+        screen.drawLine(0, 32, 32, 0)
+    elseif ticks < 120 then
+        screen.setColor(100, 100, 100)
+        drawRectF((ticks - 105) / 60 * 128, 15, (ticks - 75) / 60 * 128, 16)
+    elseif ticks < 245 then
+        screen.setColor(100, 100, 100)
+        screen.setColor(clamp(ticks - 120, 0, 128) / 16, clamp(ticks - 120, 0, 128) / 16,
+            clamp(ticks - 120, 0, 128) /
+            16)
+        screen.drawCircleF(-1, 15, (ticks - 120) * 4)
+        --drawRectF(0,0,32,32)
+
+        screen.setColor(0, 0, 0)
+        drawNewFont(7, 14, "CUICS")
+    elseif ticks < 350 then
+        screen.setColor(10, 10, 10)
+        drawRectF(0, 0, 32, 32)
+        screen.setColor(0, 0, 0)
+        drawNewFont(3, 3, "Var,1.0")
+        drawNewFont(1, 19, "Powerd")
+        drawNewFont(2, 25, "ByMAKKI")
+    elseif ticks < 410 then
+        screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+        drawRectF(0, 0, 32, 32)
+        screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
+        drawNewFont(3, 3, "Var,1.0")
+        drawNewFont(1, 19, "Powerd")
+        drawNewFont(2, 25, "ByMAKKI")
     end
 end
 

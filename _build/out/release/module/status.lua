@@ -5,47 +5,50 @@
 -- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
--- Minimized Size: 804 (1169 with comment) chars
-G="%03d"
+-- Minimized Size: 868 (1233 with comment) chars
+H="%03d"
 
-o=true
-d=false
-m=screen
-r=property
-e=r.getText
-l=string.format
-f=m.drawLine
-h=m.setColor
-a=input.getNumber
+v=true
+c=false
+i=screen
+q=property
+g=q.getText
+j=string.format
+f=i.drawLine
+h=i.setColor
+b=input.getNumber
 do
-t=r.getBool("Monitor Swap")g=d
-k=d
-b={}b.y=0
-b.w=0
-b.F=d
-b.E=d
+n=q.getBool("Monitor Swap")e=c
+l=c
+a={}a.y=0
+a.z=0
+a.F=c
+a.G=c
 end
-function onTick()k=not k
-output.setBool(32,k)A=a(1)D=a(2)x=a(3)b.y=a(30)b.w=a(31)v=a(32)g=d
+function onTick()l=not l
+output.setBool(32,l)D=b(1)A=b(2)C=b(3)a.y=b(30)a.z=b(31)p=b(32)e=c
 end
-function onDraw()if g~=t then
-g=o
+function onDraw()if e~=n then
+e=v
+if n and p==3 then
+t()end
 else
-g=o
-if v==3 then
-h(10,10,10)m.drawClear()h(1,1,1)f(0,12,32,12)h(7,7,7)f(0,20,32,20)f(0,26,32,26)h(255,255,255)_(0,15,"RPS")_(0,21,"TEMP")_(0,27,"FUEL")_(21,15,l(G,A))_(21,21,l(G,D))_(17,27,l("%04d",x))end
+e=v
+if not n and p==3 then
+t()end
 end
 end
-function _(u,B,c)if type(c)=="number" then
-c=tostring(c)end
-C=e("F1")..e("F2")..e("F3")..e("F4")for j=1,c:len()do
-q=c:sub(j,j):byte()*5-159
-for i=1,5 do
-z="0x"..C:sub(q,q+4):sub(i,i)for n=1,3 do
-if z & 2^(4-n)>0 then
-p=u+j*4+n-5
-s=B+i-1
-f(p,s,p+1,s)end
+function t()h(10,10,10)i.drawClear()h(1,1,1)f(0,12,32,12)h(7,7,7)f(0,20,32,20)f(0,26,32,26)h(255,255,255)_(0,15,"RPS")_(0,21,"TEMP")_(0,27,"FUEL")_(21,15,j(H,D//1))_(21,21,j(H,A//1))_(17,27,j("%04d",C//1))end
+function _(E,x,d)if type(d)=="number" then
+d=tostring(d)end
+w=g("F1")..g("F2")..g("F3")..g("F4")for m=1,d:len()do
+u=d:sub(m,m):byte()*5-159
+for k=1,5 do
+B="0x"..w:sub(u,u+4):sub(k,k)for s=1,3 do
+if B & 2^(4-s)>0 then
+o=E+m*4+s-5
+r=x+k-1
+f(o,r,o+1,r)end
 end
 end
 end

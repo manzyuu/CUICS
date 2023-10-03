@@ -9,11 +9,11 @@
 j="color"
 
 _=255
-c=tonumber
-d=property.getText
-a=c(d(j),16)g=(a>>16)& _
-h=(a>>8)& _
+d=tonumber
+c=property.getText
+a=d(c(j),16)g=(a>>16)& _
+i=(a>>8)& _
 e=a & _
-b=c(d(j),16)e=(b>>16)& _
-f=(b>>8)& _
-i=b & _
+b=d(c(j),16)e=(b>>16)& _
+h=(b>>8)& _
+f=b & _

@@ -1,149 +1,149 @@
-b_="way"
-aZ="vis"
-aY="+"
-aX="X"
-aW="-"
-aV="touch"
-aU="dir"
-aT="x"
-aS="%04d"
-aR="%03d"
-aQ="Y"
-aP="y"
-aO="%02d"
-aN="way2"
+b_="touch"
+aZ="way2"
+aY="x"
+aX="way"
+aW="%03d"
+aV="%04d"
+aU="Y"
+aT="vis"
+aS="%02d"
+aR="y"
+aQ="dir"
+aP="X"
+aO="-"
+aN="+"
 
 a=255
 m=false
 x=true
-aa=input
-I=math
+W=input
+E=math
 t=screen
-V=property
-H=V.getText
-S=t.drawTriangleF
-w=t.drawRect
-f=t.drawRectF
-h=t.drawLine
-p=t.drawText
-L=I.abs
-q=string.format
-T=t.drawClear
+M=property
+F=M.getText
+Q=t.drawTriangleF
+v=t.drawRect
+h=t.drawRectF
+f=t.drawLine
+n=t.drawText
+D=E.abs
+p=string.format
+N=t.drawClear
 _=t.setColor
-N=I.max
-C=I.min
-r=aa.getBool
+P=E.max
+y=E.min
+q=W.getBool
 j=output.setBool
-b=aa.getNumber
+b=W.getNumber
 do
-K,Q,O=x,x,V.getBool("Monitor Swap")v=2
-aJ=20
-D,E=0,0
-n,y=1,10
-F=0
-z={}g={}g.ah=0
-g.ac=0
-k={}k.ab=0
-G={}G.u=0
-G.s=0
-c={}c.aB,c.aC,c.aI,c.az,c.av,c.aH,c.at,c.aE,c.aD,c.aG,c.ax={},{},{},{},{},{},{},{},{},{},{}l={[aT]={},[aP]={},[aV]={}}end
-function onTick()if K==m then return end
-K=m
-g.u,g.s=b(9),b(10)F=I.sqrt((G.u-g.u)^2+(G.s-g.s)^2)j(13,K)j(14,r(1)or r(2))B=m
-l[aT][1],l[aP][1],l[aV][1]=b(1),b(2),r(1)l[aT][2],l[aP][2],l[aV][2]=b(3),b(4),r(2)z.ai,z.d=b(5),b(6)aM,au=b(7),b(8)g.ac=g.ah
-g.u=b(9)g.s=b(10)g.ah=b(11)g.aL=(b(11)-g.ac)*60
-g.aK=b(17)g.aw=b(18)aA=b(29)aF=b(30)as=r(3)am=r(4)aj=b(13)ao=b(14)k.o=b(15)k.ab=b(16)c[aZ][k.o]=r(5)c[aU][k.o]=r(6)c[b_][k.o]=r(7)c[aN][k.o]=r(8)do
-if l[aV][1]then
-v=e(0,15,12,6,1)and 1 or
+J,R,T=x,x,M.getBool("Monitor Swap")w=2
+aM=20
+L,I=0,0
+o,C=1,10
+K=0
+B={}g={}g.ac=0
+g.X=0
+l={}l.af=0
+H={}H.s=0
+H.u=0
+c={}c.av,c.aB,c.aF,c.at,c.au,c.az,c.aK,c.aG,c.ax,c.aw,c.aE={},{},{},{},{},{},{},{},{},{},{}k={[aY]={},[aR]={},[b_]={}}end
+function onTick()if J==m then return end
+J=m
+g.s,g.u=b(9),b(10)K=E.sqrt((H.s-g.s)^2+(H.u-g.u)^2)j(13,J)j(14,q(1)or q(2))z=m
+k[aY][1],k[aR][1],k[b_][1]=b(1),b(2),q(1)k[aY][2],k[aR][2],k[b_][2]=b(3),b(4),q(2)B.ap,B.d=b(5),b(6)ay,aC=b(7),b(8)g.X=g.ac
+g.s=b(9)g.u=b(10)g.ac=b(11)g.aH=(b(11)-g.X)*60
+g.aL=b(17)g.aA=b(18)aJ=b(29)aD=b(30)ar=q(3)ak=q(4)an=b(13)aq=b(14)l.r=b(15)l.af=b(16)c[aT][l.r]=q(5)c[aQ][l.r]=q(6)c[aX][l.r]=q(7)c[aZ][l.r]=q(8)do
+if k[b_][1]then
+w=e(0,15,12,6,1)and 1 or
 e(15,15,6,6,1)and 2 or
 e(0,24,16,6,1)and 3 or
 e(15,24,16,6,1)and 4 or 0
 end
 j(13,e(15,24,16,6,1))end
-if v==1 then
-if Q then
-D,E=g.u,g.s
+if w==1 then
+if R then
+L,I=g.s,g.u
 end
-if l[aV][2]==m then
-J=m
+if k[b_][2]==m then
+G=m
 end
 if e(0,0,5,5,2)then
-if J==m then
-n=n+1
+if G==m then
+o=o+1
 end
-J=x
+G=x
 end
 if e(0,6,5,5,2)then
-if J==m then
-n=n-1
+if G==m then
+o=o-1
 end
-J=x
+G=x
 end
-n=C(N(n,1),22)y=C(n-5,0)/5+C(N(n-4,1),10)+C(N(n-14,0),8)*5
+o=y(P(o,1),22)C=y(o-5,0)/5+y(P(o-4,1),10)+y(P(o-14,0),8)*5
 if e(13,13,6,6,2)then
-Q=x
+R=x
 else
-if l[aV][2]and n==m then
-D=-(l[aT][2]-16)*y/2+D
-E=-(l[aP][2]-16)*y/2+E
-Q=m
+if k[b_][2]and o==m then
+L=-(k[aY][2]-16)*C/2+L
+I=-(k[aR][2]-16)*C/2+I
+R=m
 end
 end
 end
-if v==2 then
+if w==2 then
 j(1,e(27,0,5,6,2))j(2,e(27,7,5,5,2))j(3,e(2,14,5,5,2))j(4,e(8,14,5,5,2))j(5,e(14,14,5,5,2))j(6,e(20,14,5,5,2))j(7,e(27,14,5,5,2))j(8,e(27,20,5,5,2))j(9,e(0,20,5,5,2))j(10,e(27,27,5,5,2))j(11,e(0,26,9,6,2))j(12,e(22,20,4,6,1))end
-if(b(21)==V.getNumber("Passcode"))then
-d=b(20)c[aX][d]=b(22)c[aQ][d]=b(22)c["Dir"][d]=b(22)c["Alt"][d]=b(22)c["Spd"][d]=b(22)c["WayX"][d]=b(22)c["WayY"][d]=b(22)end
+if(b(21)==M.getNumber("Passcode"))then
+d=b(20)c[aP][d]=b(22)c[aU][d]=b(22)c["Dir"][d]=b(22)c["Alt"][d]=b(22)c["Spd"][d]=b(22)c["WayX"][d]=b(22)c["WayY"][d]=b(22)end
 end
-function onDraw()K=x
-if M(B==m,O)then
-_(10,10,10)T()_(200,50,20)i(29,1,aX)i(17,1,q(aR,L(g.u//100)))_(20,50,200)i(29,7,aQ)i(17,7,q(aR,L(g.s//100)))_(a,a,a)i(0,1,q(aO,C(L(F//1000),99)))p(7,1,".")i(10,1,q("%01d",L(F)//100%10))i(8,7,"KM")ay(F)_(5,5,5)h(15,0,15,13)_(1,1,1)h(0,13,32,13)_(30,30,30)f(0,15,13,7)_(50,50,50)w(0,15,12,6)_(a,a,a)i(1,16,"MAP")_(30,30,30)f(15,15,7,7)_(50,50,50)w(15,15,6,6)_(a,a,a)h(16,19,16,21)h(16,19,19,16)h(19,16,21,16)h(18,19,18,21)h(19,18,21,18)h(20,20,21,20)if am then
-_(70,70,70)f(23,15,8,7)_(50,50,50)w(23,15,8,6)_(a,20,50)else
-_(30,30,30)f(23,15,8,7)_(50,50,50)w(23,15,8,6)_(a,a,a)end
-i(24,16,"Be")_(30,30,30)f(0,24,13,7)_(50,50,50)w(0,24,12,6)_(a,a,a)i(1,25,"STA")_(30,30,30)f(16,24,17,7)_(50,50,50)w(15,24,16,6)_(a,a,a)i(16,25,"EXTE")B=M(B==m,O)else
-if v==0 then
-elseif v==1 then
-t.drawMap(D,E,y)i(0,26,y)_(5,5,5)f(0,0,5,10)_(20,20,20)w(0,0,4,4)w(0,5,4,4)_(a,a,a)p(1,0,aY)p(1,5,aW)t.drawCircle(16,16,4)elseif v==2 then
-_(10,10,10)T()_(a,a,a)S(2,1,0,4,5,4)h(2,4,2,6)p(6,1,q(aS,k.ab//1))p(6,8,q(aS,aj//1))_(30,30,30)h(0,6,32,6)_(50,50,50)p(6,20,q(aS,ao//1))_(25,25,25)f(27,0,5,6)f(27,7,5,5)f(2,14,5,5)f(8,14,5,5)f(14,14,5,5)f(20,14,5,5)f(27,14,5,5)f(27,20,5,5)f(0,20,5,5)f(27,27,5,5)f(0,26,13,6)_(a,a,a)p(28,2,"^")p(28,7,aY)d=c[aZ][k.o]or 50
-_(d,d,d)i(3,13,"v")d=c[aU][k.o]and a or 50
-_(d,d,d)h(9,15,11,15)h(11,16,11,17)h(9,17,11,17)h(9,16,9,17)d=c[b_][k.o]and a or 50
-_(d,d,d)p(15,14,aY)if(c[aN][k.o])then
+function onDraw()J=x
+if S(z==m,T)then
+_(10,10,10)N()_(200,50,20)i(29,1,aP)i(17,1,p(aW,D(g.s//100)))_(20,50,200)i(29,7,aU)i(17,7,p(aW,D(g.u//100)))_(a,a,a)i(0,1,p(aS,y(D(K//1000),99)))n(7,1,".")i(10,1,p("%01d",D(K)//100%10))i(8,7,"KM")aI(K)_(5,5,5)f(15,0,15,13)_(1,1,1)f(0,13,32,13)_(30,30,30)h(0,15,13,7)_(50,50,50)v(0,15,12,6)_(a,a,a)i(1,16,"MAP")_(30,30,30)h(15,15,7,7)_(50,50,50)v(15,15,6,6)_(a,a,a)f(16,19,16,21)f(16,19,19,16)f(19,16,21,16)f(18,19,18,21)f(19,18,21,18)f(20,20,21,20)if ak then
+_(70,70,70)h(23,15,8,7)_(50,50,50)v(23,15,8,6)_(a,20,50)else
+_(30,30,30)h(23,15,8,7)_(50,50,50)v(23,15,8,6)_(a,a,a)end
+i(24,16,"Be")_(30,30,30)h(0,24,13,7)_(50,50,50)v(0,24,12,6)_(a,a,a)i(1,25,"STA")_(30,30,30)h(16,24,17,7)_(50,50,50)v(15,24,16,6)_(a,a,a)i(16,25,"EXTE")z=S(z==m,T)else
+if w==0 then
+elseif w==1 then
+t.drawMap(L,I,C)i(0,26,C)_(5,5,5)h(0,0,5,10)_(20,20,20)v(0,0,4,4)v(0,5,4,4)_(a,a,a)n(1,0,aN)n(1,5,aO)t.drawCircle(16,16,4)elseif w==2 then
+_(10,10,10)N()_(a,a,a)Q(2,1,0,4,5,4)f(2,4,2,6)n(6,1,p(aV,l.af//1))n(6,8,p(aV,an//1))_(30,30,30)f(0,6,32,6)_(50,50,50)n(6,20,p(aV,aq//1))_(25,25,25)h(27,0,5,6)h(27,7,5,5)h(2,14,5,5)h(8,14,5,5)h(14,14,5,5)h(20,14,5,5)h(27,14,5,5)h(27,20,5,5)h(0,20,5,5)h(27,27,5,5)h(0,26,13,6)_(a,a,a)n(28,2,"^")n(28,7,aN)d=c[aT][l.r]or 50
+_(d,d,d)i(3,13,"v")d=c[aQ][l.r]and a or 50
+_(d,d,d)f(9,15,11,15)f(11,16,11,17)f(9,17,11,17)f(9,16,9,17)d=c[aX][l.r]and a or 50
+_(d,d,d)n(15,14,aN)if(c[aZ][l.r])then
 _(a,a,a)else
 _(50,50,50)end
-f(21,15,3,2)h(21,17,21,18)_(a,a,a)S(29,15,27,18,32,18)S(29,25,26,21,32,21)p(1,20,aW)if(as)then _(a,a,a)else _(50,50,50)end
-h(28,29,28,31)h(29,28,31,28)h(30,30,30,31)i(1,27,"DEL")if k.o==11 then
+h(21,15,3,2)f(21,17,21,18)_(a,a,a)Q(29,15,27,18,32,18)Q(29,25,26,21,32,21)n(1,20,aO)if(ar)then _(a,a,a)else _(50,50,50)end
+f(28,29,28,31)f(29,28,31,28)f(30,30,30,31)i(1,27,"DEL")if l.r==11 then
 i(15,27,"EMG")else
-i(19,27,q(aO,k.o//1))end
-elseif(v==3)then
-_(10,10,10)T()_(a,30,60)i(0,0,"RPS :"..q(aR,z.ai//1))if(z.d>100)then
+i(19,27,p(aS,l.r//1))end
+elseif(w==3)then
+_(10,10,10)N()_(a,30,60)i(0,0,"RPS :"..p(aW,B.ap//1))if(B.d>100)then
 _(a,0,10)end
-i(0,6,"TEMP:"..q(aR,z.d//1))elseif(v==4)then
+i(0,6,"TEMP:"..p(aW,B.d//1))elseif(w==4)then
 end
-B=M(B,O)end
+z=S(z,T)end
 end
-function e(u,s,ak,al,R)af,ag=l[aT][R],l[aP][R]if u<=af and
-u+ak>=af and
-s<=ag and
-s+al>=ag and
-l[aV][R]then
+function e(s,u,ao,ai,V)Y,Z=k[aY][V],k[aR][V]if s<=Y and
+s+ao>=Y and
+u<=Z and
+u+ai>=Z and
+k[b_][V]then
 return x
 else
 return m
 end
 end
-function i(ap,an,A)if type(A)=="number" then
+function i(as,am,A)if type(A)=="number" then
 A=tostring(A)end
-ar=H("F1")..H("F2")..H("F3")..H("F4")for U=1,A:len()do
-ae=A:sub(U,U):byte()*5-159
-for P=1,5 do
-aq="0x"..ar:sub(ae,ae+4):sub(P,P)for ad=1,3 do
-if aq & 2^(4-ad)>0 then
-Y=ap+U*4+ad-5
-W=an+P-1
-h(Y,W,Y+1,W)end
+aj=F("F1")..F("F2")..F("F3")..F("F4")for U=1,A:len()do
+ah=A:sub(U,U):byte()*5-159
+for O=1,5 do
+al="0x"..aj:sub(ah,ah+4):sub(O,O)for ad=1,3 do
+if al & 2^(4-ad)>0 then
+ae=as+U*4+ad-5
+ab=am+O-1
+f(ae,ab,ae+1,ab)end
 end
 end
 end
 end
-function M(Z,X)return Z or X and(Z and X)==m
+function S(aa,ag)return aa or ag and(aa and ag)==m
 end

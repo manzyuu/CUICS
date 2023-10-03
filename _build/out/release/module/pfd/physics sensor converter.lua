@@ -8,30 +8,30 @@
 -- Minimized Size: 577 (942 with comment) chars
 
 g=math
-f=g.pi
-o=g.sqrt
+c=g.pi
+u=g.sqrt
 b=g.atan
-u=g.sin
-n=g.cos
+q=g.sin
+s=g.cos
 a=input.getNumber
-function J()_={}local t=a(4)local q=a(5)local C=a(6)local i,l=n(t),u(t)local m,h=n(q),u(q)local j,k=n(C),u(C)local z=m*j
-local B=-i*k+l*h*j
-local y=l*k+i*h*j
-local e=m*k
-local d=i*j+l*h*k
-local c=-l*j+i*h*k
-local x=-h
-local w=l*m
-local v=i*m
-_.F=b(e,o(c*c+d*d))/f*2
-_.D=b(d,o(e*e+c*c))/f*2
-_.E=b(c,o(d*d+e*e))/f*2
-_.O=b(z,x)/-f*2
-_.A=b(B,w)/-f*2
-_.K=b(y,v)/-f*2
-local p=a(10)local s=a(11)local r=a(12)_.G=z*p+e*s+x*r
-_.L=B*p+d*s+w*r
-_.N=y*p+c*s+v*r
-_.t=a(1)_.q=a(3)_.M=a(2)_.A=_.A
-_.H=atan(_.D,_.F)_.I=_.E
+function N()_={}local r=a(4)local t=a(5)local B=a(6)local j,i=s(r),q(r)local m,k=s(t),q(t)local l,h=s(B),q(B)local z=m*l
+local x=-j*h+i*k*l
+local C=i*h+j*k*l
+local e=m*h
+local f=j*l+i*k*h
+local d=-i*l+j*k*h
+local y=-k
+local A=i*m
+local w=j*m
+_.E=b(e,u(d*d+f*f))/c*2
+_.F=b(f,u(e*e+d*d))/c*2
+_.D=b(d,u(f*f+e*e))/c*2
+_.J=b(z,y)/-c*2
+_.v=b(x,A)/-c*2
+_.M=b(C,w)/-c*2
+local o=a(10)local p=a(11)local n=a(12)_.L=z*o+e*p+y*n
+_.K=x*o+f*p+A*n
+_.G=C*o+d*p+w*n
+_.r=a(1)_.t=a(3)_.O=a(2)_.v=_.v
+_.I=atan(_.F,_.E)_.H=_.D
 end

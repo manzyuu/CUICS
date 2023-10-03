@@ -14,6 +14,7 @@ do
     simulator:setProperty("F4",
         "88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
     simulator:setProperty("Monitor Swap", false)
+    simulator:setProperty("namebox","preset send freq,priset receive freq 1,priset receive freq 2,priset receive freq 3,priset receive freq 4")
 
     -- Runs every tick just before onTick; allows you to simulate the inputs changing
     ---@diagnostic disable-next-line: undefined-doc-param
@@ -55,9 +56,9 @@ do
         simulator:setInputNumber(27, lerp(0, 999, simulator:getSlider(21)))    --Receive WayX
         simulator:setInputNumber(28, lerp(0, 999, simulator:getSlider(22)))    --Receive WayY
 ]]
-
         simulator:setInputNumber(1, 4000)
         simulator:setInputNumber(23, 2)
+        simulator:setInputNumber(24, 1)
         simulator:setInputNumber(25, 00147)
         simulator:setInputNumber(26, 11111)
         simulator:setInputNumber(27, 22434)
@@ -70,7 +71,10 @@ end
 ---@endsection
 
 
+
+
 do
+    
     interval            = 10000
     --screenpower= true
     centering           = true
@@ -87,6 +91,7 @@ do
     radio               = {}
     radio.Channelnumber = 1
     radio.switch        = false
+    radio.sendFreq      = 0
 
     receive             = {}
     receive.vis         = {}
@@ -95,7 +100,8 @@ do
 
 
     receive.code = {}
---[[
+    receive.dispflag = {}
+    --[[
     receive.X       = {}
     receive.Y       = {}
     receive.Dir     = {}
@@ -117,7 +123,7 @@ do
     touch               = {}
     touch.X             = 0
     touch.Y             = 0
-    touch.time          = 0
+    touch.time          = 10
     touch.flags         = false
     touch.palse         = true
     touch.buffer        = false
@@ -127,7 +133,9 @@ do
 
     dataflag            = false
 
-    
+    clockcount          = 0
+
+    farstflag=true
 end
 
 
@@ -159,7 +167,7 @@ end
     10,gpsy     3
     11,compass  17
     12,alt      2
-    13,speed    13
+    13,receiveFREQ
 
     14,keypadX
     15,keypadY
@@ -172,7 +180,7 @@ end
 
     20,SendFREQ
 
-    21,pageNumber
+    21,receiveFREQ
 
     23,SelectModuleNumber
 
@@ -190,18 +198,19 @@ function onTick() --[====[ onTick ]====]
         touch.palse = touch.time == 0 and input.getBool(1) and touch.buffer
         --touch.palse= touch.Bool and false or touch.palse
         touch.time = (input.getBool(1) and (touch.time == 0)) and 5 or
-            touch.time > 0 and touch.time - 1 or 0
+                        touch.time > 0 and touch.time - 1 or 0
 
         touch.buffer = not input.getBool(1)
         --print(touch.time)
 
-
+        clockbool = input.getBool(32) 
+        clockcount = clockbool and 6 or clockcount > 0 and clockcount - 1 or 0
 
         --dataflag = input.getBool(10) and false or dataflag
 
         errorcheck = not errorcheck
 
-        if not input.getBool(32) and freqlist[radio.Channelnumber] ~= 0 and radio.switch then
+        if freqlist[radio.Channelnumber] ~= 0 and radio.switch and clockcount == 0 then
             receive.code[freqlist[radio.Channelnumber]] = input.getNumber(1)
             receive.WayX[freqlist[radio.Channelnumber]] = input.getNumber(7) // 1
             receive.WayY[freqlist[radio.Channelnumber]] = input.getNumber(8) // 1
@@ -212,7 +221,7 @@ function onTick() --[====[ onTick ]====]
         Phys.y       = input.getNumber(10)
         Phys.compass = input.getNumber(11)
         Phys.alt     = input.getNumber(12)
-        Phys.spd     = input.getNumber(13)
+        --Phys.spd     = input.getNumber(13)
 
         --14~15 keypad
         KeypadX      = input.getNumber(14)
@@ -227,10 +236,12 @@ function onTick() --[====[ onTick ]====]
         --21,radio.Channelnumber
 
 
+
+
         moduleID = input.getNumber(23)
 
         if touch.time == 0 then
-            radio.sendFreq = input.getNumber(20)
+            radio.sendFreq = input.getNumber(20) or 0
             radio.switch   = input.getBool(20)
 
             pageNumber     = input.getNumber(24)
@@ -238,6 +249,7 @@ function onTick() --[====[ onTick ]====]
             for i = 1, 8, 1 do --FreqData
                 freqlist[i] = math.floor(input.getNumber(24 + i)) % interval or 0
 
+                receive.dispflag[freqlist[i]] = receive.dispflag[freqlist[i]] or false
                 if 0 ~= freqlist[i] then --設定情報更新
                     local settingdata = math.floor(input.getNumber(24 + i) / interval)
                     receive.vis[freqlist[i]] = settingdata & 1 == 1
@@ -255,7 +267,7 @@ function onTick() --[====[ onTick ]====]
                 end
             end
 
-
+--[[
             for j = 1, 8, 1 do --重複削除
                 if i ~= j and freqlist[i] == freqlist[j] and i < j then
                     freqlist[j] = 0
@@ -263,6 +275,7 @@ function onTick() --[====[ onTick ]====]
                     freqlist[i] = 0
                 end
             end
+]]
         end
     end
 
@@ -286,7 +299,7 @@ function onTick() --[====[ onTick ]====]
             --------------------------------------------------------------------------
             if button(27, 0, 5, 6, touch.palse, true) and KeypadX ~= 0 then --送信チャンネル設定ボタン
                 touch.flags = true
-                radio.sendFreq = KeypadX
+                radio.sendFreq = (KeypadX//1) % interval
             end
 
 
@@ -296,7 +309,7 @@ function onTick() --[====[ onTick ]====]
                         break
                     end
                     if freqlist[i] == 0 and KeypadY ~= 0 then
-                        freqlist[i] = KeypadY % interval
+                        freqlist[i] = (KeypadY//1) % interval
                         receive.vis[freqlist[i]] = true
                         break
                     end
@@ -307,22 +320,23 @@ function onTick() --[====[ onTick ]====]
 
 
             for i = 0, 1, 1 do --設定更新
-                if button(1, 14 + i * 12, 5, 5, touch.palse, true) and freqlist[pageNumber + i] ~= 0 then
+                local trigger=freqlist[pageNumber + i] ~= 0
+                if button(1, 14 + i * 12, 5, 5, touch.palse, true) and trigger then
                     touch.flags = true
                     receive.vis[freqlist[pageNumber + i]] = not receive.vis[freqlist[pageNumber + i]]
                 end
 
-                if button(7, 14 + i * 12, 5, 5, touch.palse, true) and freqlist[pageNumber + i] ~= 0 then
+                if button(7, 14 + i * 12, 5, 5, touch.palse, true) and trigger then
                     touch.flags = true
                     receive.dir[freqlist[pageNumber + i]] = not receive.dir[freqlist[pageNumber + i]]
                 end
 
-                if button(13, 14 + i * 12, 5, 5, touch.palse, true) and freqlist[pageNumber + i] ~= 0 then
+                if button(13, 14 + i * 12, 5, 5, touch.palse, true) and trigger then
                     touch.flags = true
                     receive.way[freqlist[pageNumber + i]] = not receive.way[freqlist[pageNumber + i]]
                 end
 
-                if button(20, 15 + i * 12, 3, 2, touch.palse, true) and freqlist[pageNumber + i] ~= 0 then
+                if button(20, 15 + i * 12, 3, 2, touch.palse, true) and trigger then
                     touch.flags = true
                     waypoint.selectfreq = freqlist[pageNumber + i] == waypoint.selectfreq and 0 or freqlist
                         [pageNumber + i]
@@ -343,25 +357,24 @@ function onTick() --[====[ onTick ]====]
         end
     end
 
-    do --outputdata
-
+    do     --outputdata
         dataflag = moduleID <= 2 and touch.palse
         do -- waypoint Update
             if input.getBool(29) then
                 waypoint.X = KeypadX // 1
                 waypoint.Y = KeypadY // 1
-                dataflag=true
+                dataflag = true
             end
             if input.getBool(30) and waypoint.selectfreq ~= 0 then
                 waypoint.X = receive.WayX[waypoint.selectfreq] or 0
                 waypoint.Y = receive.WayY[waypoint.selectfreq] or 0
-                dataflag=true
+                dataflag = true
             end
 
             if input.getBool(31) then
-                waypoint.X=input.getNumber(21)
-                waypoint.Y=input.getNumber(22)
-                dataflag=true
+                waypoint.X = input.getNumber(21)
+                waypoint.Y = input.getNumber(22)
+                dataflag = true
             end
         end
 
@@ -370,8 +383,9 @@ function onTick() --[====[ onTick ]====]
 
 
 
-        
-        output.setBool(10, dataflag)
+
+        output.setBool(10, dataflag or farstflag)
+        farstflag=false
         output.setBool(11, button(27, 27, 5, 5, touch.palse, true)) --radio swich
         output.setBool(12, button(27, 20, 5, 5, touch.palse, true)) --pagedown +
         output.setBool(13, button(27, 14, 5, 5, touch.palse, true)) --pageup   -
@@ -387,14 +401,15 @@ function onTick() --[====[ onTick ]====]
 
 
 
-        radio.Channelnumber = input.getBool(32) and radio.Channelnumber + 1 or radio.Channelnumber
-        radio.Channelnumber = radio.Channelnumber + 1 == 9 and 1 or radio.Channelnumber
-        radio.Channelnumber = 1
+        radio.Channelnumber = clockbool and radio.Channelnumber + 1 or radio.Channelnumber
+        radio.Channelnumber = radio.Channelnumber == 9 and 1 or radio.Channelnumber
+        radio.Channelnumber = freqlist[radio.Channelnumber] == 0 and 1 or radio.Channelnumber
 
         output.setNumber(16, waypoint.X // 1)
         output.setNumber(17, waypoint.Y // 1)
 
         output.setNumber(20, radio.sendFreq)
+        output.setNumber(13, freqlist[radio.Channelnumber])
         output.setNumber(21, freqlist[radio.Channelnumber])
         --output.setNumber(22, pageNumber)
         for i = 1, 8, 1 do --FreqData
@@ -405,7 +420,7 @@ function onTick() --[====[ onTick ]====]
         end
     end
 
-    monitorID = false
+
 
 
 
@@ -416,81 +431,93 @@ function onTick() --[====[ onTick ]====]
 end -------------------------------------------onTick終わり-------------------------------------------
 
 function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
+    if monitorID then --[====[ 左のモニター用の描画 ]====]
+        monitorID = false
+        if monitorSwap and moduleID==2 then
+            moduleUnit()
+            
+        end
     else
         monitorID = true
-        if moduleID == 2 then --WIFI
-            local temp = 0
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-            screen.setColor(30, 30, 30) --送信チャンネルの下の線
-            screen.drawLine(0, 6, 32, 6)
-
-
-
-            -------------------------------------------------Send-------------------------------------------------
-
-            screen.setColor(255, 255, 255)
-            screen.drawTriangleF(2, 1, 0, 4, 5, 4) --左の送信矢印
-            screen.drawLine(2, 4, 2, 6)
-            temp = radio.switch and 255 or 80
-            screen.setColor(temp, temp, temp)
-            screen.drawText(6, 1, string.format("%04d", radio.sendFreq // 1)) --送信チャンネル
-
-            screen.setColor(25, 25, 25)
-            screen.drawRectF(27, 0, 5, 6) --送信ボタン
-
-            temp = button(27, 0, 5, 6, touch.Bool, false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawText(28, 2, "^") --送信ボタン
-
-
-            --------------------receive-------------------------------------------------------------------------
-
-            screen.setColor(25, 25, 25)
-            screen.drawRectF(27, 14, 5, 5) --チャンネル上
-            screen.drawRectF(27, 20, 5, 5) --チャンネル下
-            screen.drawRectF(27, 7, 5, 5)  --受信チャンネル追加
-            screen.drawRectF(27, 27, 5, 5) --無線ON/OFF
-
-            temp = button(27, 7, 5, 5, touch.Bool, false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawText(28, 7, "+") --受信チャンネル追加
-
-            temp = button(27, 14, 5, 5, touch.Bool, false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawTriangleF(29, 15, 27, 18, 32, 18) --チャンネル上
-            temp = button(27, 20, 5, 5, touch.Bool, false) and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
-
-            temp = radio.switch and 255 or 50
-            screen.setColor(temp, temp, temp)
-            screen.drawLine(28, 29, 28, 31)
-            screen.drawLine(29, 28, 31, 28)
-            screen.drawLine(30, 30, 30, 31) --無線ON/OFF
-
-
-            receiveunit(freqlist[pageNumber], 0)
-            receiveunit(freqlist[pageNumber + 1], 1)
-
-            screen.setColor(100, 100, 100)
-            drawNewFont(24, 27, string.format("%01d", pageNumber % 2 + pageNumber // 2))
+        if not monitorSwap and moduleID == 2 then --WIFI
+            moduleUnit()
         end
     end
 end
 
+function moduleUnit()
+    local temp = 0
+    screen.setColor(10, 10, 10)
+    screen.drawClear()
+    screen.setColor(30, 30, 30) --送信チャンネルの下の線
+    screen.drawLine(0, 6, 32, 6)
+
+
+
+    -------------------------------------------------Send-------------------------------------------------
+
+    screen.setColor(255, 255, 255)
+    screen.drawTriangleF(2, 1, 0, 4, 5, 4) --左の送信矢印
+    screen.drawLine(2, 4, 2, 6)
+    temp = radio.switch and 255 or 80
+    screen.setColor(temp, temp, temp)
+    screen.drawText(6, 1, string.format("%04d", radio.sendFreq // 1)) --送信チャンネル
+
+    screen.setColor(25, 25, 25)
+    screen.drawRectF(27, 0, 5, 6) --送信ボタン
+
+    temp = button(27, 0, 5, 6, touch.Bool, false) and 255 or 50
+    screen.setColor(temp, temp, temp)
+    screen.drawText(28, 2, "^") --送信ボタン
+
+
+    --------------------receive-------------------------------------------------------------------------
+
+    screen.setColor(25, 25, 25)
+    screen.drawRectF(27, 14, 5, 5) --チャンネル上
+    screen.drawRectF(27, 20, 5, 5) --チャンネル下
+    screen.drawRectF(27, 7, 5, 5)  --受信チャンネル追加
+    screen.drawRectF(27, 27, 5, 5) --無線ON/OFF
+
+    temp = button(27, 7, 5, 5, touch.Bool, false) and 255 or 50
+    screen.setColor(temp, temp, temp)
+    screen.drawText(28, 7, "+") --受信チャンネル追加
+
+    temp = button(27, 14, 5, 5, touch.Bool, false) and 255 or 50
+    screen.setColor(temp, temp, temp)
+    screen.drawTriangleF(29, 15, 27, 18, 32, 18) --チャンネル上
+    temp = button(27, 20, 5, 5, touch.Bool, false) and 255 or 50
+    screen.setColor(temp, temp, temp)
+    screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
+
+    temp = radio.switch and 255 or 50
+    screen.setColor(temp, temp, temp)
+    screen.drawLine(28, 29, 28, 31)
+    screen.drawLine(29, 28, 31, 28)
+    screen.drawLine(30, 30, 30, 31) --無線ON/OFF
+
+
+    receiveunit(freqlist[pageNumber], 0)
+    receiveunit(freqlist[pageNumber + 1], 1)
+
+    screen.setColor(100, 100, 100)
+    drawNewFont(24, 27, string.format("%01d", pageNumber % 2 + pageNumber // 2))
+end
+
+
 function receiveunit(ch, num)
-    local Channel = ch or 0
+    ch = ch or 0
     local temp = 0
     num = num * 12
     temp = ch ~= 0 and 150 or 45 --freq
     screen.setColor(temp, temp, temp)
-    if receive.code[ch] == 4000 and ch ~= 0 then
+
+
+    if receive.code[ch] == 4000 and radio.switch then
         screen.setColor(50, 255, 50)
     end
-    screen.drawText(6, 8 + num, string.format("%04d", Channel // 1))
+
+    screen.drawText(6, 8 + num, string.format("%04d", ch // 1))
 
     screen.setColor(25, 25, 25)
 
@@ -561,3 +588,4 @@ function drawNewFont(NewFontX, NewFontY, NewFontZ)
         end
     end
 end
+

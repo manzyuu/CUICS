@@ -5,97 +5,103 @@
 -- Developed & Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
--- Minimized Size: 1882 (2249 with comment) chars
+-- Minimized Size: 1956 (2323 with comment) chars
+Y="ByMAKKI"
+X="Var,1.0"
 W="Powerd"
-V="Var,1.0"
-U="CUICS"
-T="Cpl."
-S="ByMAKKI"
+V="CUICS"
+U="Cpl."
 
-g=128
+e=128
 f=120
 b=100
 h=350
-e=255
+g=255
 i=true
-j=false
-m=screen
-J=property
+n=false
+o=screen
+K=property
 A=math
-C=A.abs
-q=J.getText
-B=m.drawCircleF
-l=m.drawLine
-a=m.setColor
-s=input.getBool
+M=A.abs
+r=K.getText
+I=o.drawCircleF
+l=o.drawLine
+a=o.setColor
+p=input.getBool
 do
 _=0
-n=j
-k=j
-p=i
-K=J.getBool("Monitor Swap")r=j
+k=n
+j=n
+q=i
+L=K.getBool("Monitor Swap")w=i
 end
-function onTick()E=(s(1)or s(2))and p
-if E and not k then
-p=j
+function onTick()F=(p(1)or p(2))and q
+if F and not j then
+q=n
+j=i
+elseif F and j then
+q=n
 k=i
-elseif E and k then
-p=j
-n=i
 _=0
 return
-elseif k and not n then
+elseif j and not k then
 _=_+1
 end
-if not(s(1)or s(2))then
-p=i
+if not(p(1)or p(2))then
+q=i
 end
-output.setBool(1,n)r=j
-end
-function onDraw()if n then
+output.setBool(1,k)end
+function onDraw()if k then
 return
 else
-local z=k and 10 or 0
-a(z,z,z,e-d(_-h,0,60)/60*e)m.drawClear()end
-if r~=K then
-if _<60 and _>1 then
-a(b,b,b)l(0,0,32,32)l(0,32,32,0)elseif _<f then
-a(b,b,b)drawRectF((_-90)/60*g,15,(_-60)/60*g,16)elseif _<245 then
-a(b,b,b)a(d(_-f,0,g)/16,d(_-f,0,g)/16,d(_-f,0,g)/16)B(33,15,(_-f)*4)a(0,0,0)c(7,14,U)elseif _<h then
-a(10,10,10)drawRectF(0,0,32,32)a(0,0,0)c(7,14,U)c(17,25,T)elseif _<410 then
-a(10,10,10,e-d(_-h,0,60)/60*e)drawRectF(0,0,32,32)a(0,0,0,e-d(_-h,0,60)/60*e)c(7,14,U)c(17,25,T)else
-n=i
-end
-r=i
+local v=j and 10 or 0
+a(v,v,v,g-d(_-h,0,60)/60*g)o.drawClear()end
+if w then
+if L then
+E()else
+C()end
+w=n
 else
-if _<60 and _>1 then
+if L then
+C()else
+E()end
+w=i
+end
+k=_>410
+end
+function C()if _<60 and _>1 then
 a(b,b,b)l(0,0,32,32)l(0,32,32,0)elseif _<f then
-a(b,b,b)drawRectF((_-105)/60*g,15,(_-75)/60*g,16)elseif _<245 then
-a(b,b,b)a(d(_-f,0,g)/16,d(_-f,0,g)/16,d(_-f,0,g)/16)B(-1,15,(_-f)*4)a(0,0,0)c(7,14,U)elseif _<h then
-a(10,10,10)drawRectF(0,0,32,32)a(0,0,0)c(3,3,V)c(1,19,W)c(2,25,S)elseif _<410 then
-a(10,10,10,e-d(_-h,0,60)/60*e)drawRectF(0,0,32,32)a(0,0,0,e-d(_-h,0,60)/60*e)c(3,3,V)c(1,19,W)c(2,25,S)end
-r=i
+a(b,b,b)drawRectF((_-90)/60*e,15,(_-60)/60*e,16)elseif _<245 then
+a(b,b,b)a(d(_-f,0,e)/16,d(_-f,0,e)/16,d(_-f,0,e)/16)I(33,15,(_-f)*4)a(0,0,0)c(7,14,V)elseif _<h then
+a(10,10,10)drawRectF(0,0,32,32)a(0,0,0)c(7,14,V)c(17,25,U)elseif _<410 then
+a(10,10,10,g-d(_-h,0,60)/60*g)drawRectF(0,0,32,32)a(0,0,0,g-d(_-h,0,60)/60*g)c(7,14,V)c(17,25,U)end
+end
+function E()if _<60 and _>1 then
+a(b,b,b)l(0,0,32,32)l(0,32,32,0)elseif _<f then
+a(b,b,b)drawRectF((_-105)/60*e,15,(_-75)/60*e,16)elseif _<245 then
+a(b,b,b)a(d(_-f,0,e)/16,d(_-f,0,e)/16,d(_-f,0,e)/16)I(-1,15,(_-f)*4)a(0,0,0)c(7,14,V)elseif _<h then
+a(10,10,10)drawRectF(0,0,32,32)a(0,0,0)c(3,3,X)c(1,19,W)c(2,25,Y)elseif _<410 then
+a(10,10,10,g-d(_-h,0,60)/60*g)drawRectF(0,0,32,32)a(0,0,0,g-d(_-h,0,60)/60*g)c(3,3,X)c(1,19,W)c(2,25,Y)end
+end
+function c(R,P,m)local y,B,H,u,z
+if type(m)=="number" then
+m=tostring(m)end
+B=r("F1")..r("F2")..r("F3")..r("F4")for x=1,m:len()do
+y=m:sub(x,x):byte()*5-159
+for s=1,5 do
+H="0x"..B:sub(y,y+4):sub(s,s)for G=1,3 do
+if H & 2^(4-G)>0 then
+u=R+x*4+G-5
+z=P+s-1
+l(u,z,u+1,z)end
 end
 end
-function c(L,N,o)local x,H,D,u,w
-if type(o)=="number" then
-o=tostring(o)end
-H=q("F1")..q("F2")..q("F3")..q("F4")for y=1,o:len()do
-x=o:sub(y,y):byte()*5-159
-for t=1,5 do
-D="0x"..H:sub(x,x+4):sub(t,t)for G=1,3 do
-if D & 2^(4-G)>0 then
-u=L+y*4+G-5
-w=N+t-1
-l(u,w,u+1,w)end
 end
 end
-end
-end
-function drawRectF(F,I,R,Q)m.drawRectF(F,I,C(F-R)+1,C(I-Q)+1)end
-function d(M,P,O)local v=A.min(A.max(M,P),O)if v~=v then
+function drawRectF(D,J,S,T)o.drawRectF(D,J,M(D-S)+1,M(J-T)+1)end
+function d(Q,N,O)local t=A.min(A.max(Q,N),O)if t~=t then
 return 0
 else
-return v
+return t
 end
 end

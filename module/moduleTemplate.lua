@@ -52,22 +52,29 @@ function onTick()
     touch.X   = input.getNumber(30)
     touch.Y   = input.getNumber(31)
     moduleID  = input.getNumber(32)
-    monitorID = false
 end
 
 function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
+    if monitorID ~= monitorSwap then
+        monitorID = false
+        if monitorSwap and moduleID == 3 then
+            moduleUnit()
+        end
     else
         monitorID = true
-        if moduleID == 3 then
-            screen.setColor(10, 10, 10)
-            screen.drawClear()
-
-
+        if not monitorSwap and moduleID == 3 then
+            moduleUnit()
         end
     end
 end
+
+function moduleUnit()
+    screen.setColor(10, 10, 10)
+    screen.drawClear()
+end
+
+
+
 
 function drawNewFont(NewFontX, NewFontY, text)
     if type(text) == "number" then

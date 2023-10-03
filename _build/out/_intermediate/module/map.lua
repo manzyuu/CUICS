@@ -60,17 +60,17 @@ do
         simulator:setInputNumber(27, lerp(0, 999, simulator:getSlider(21)))    --Receive WayX
         simulator:setInputNumber(28, lerp(0, 999, simulator:getSlider(22)))    --Receive WayY
 ]]
-        simulator:setInputBool(21,true)
+        simulator:setInputBool(21,false)
 
         simulator:setInputNumber(1, 4000)
         simulator:setInputNumber(23, 1)
         simulator:setInputNumber(25, 00147)
         simulator:setInputNumber(26, 11111)
         simulator:setInputNumber(27, 22434)
-        simulator:setInputNumber(28, 33756)
-        simulator:setInputNumber(29, 44613)
-        simulator:setInputNumber(30, 55603)
-        simulator:setInputNumber(31, 66200)
+        simulator:setInputNumber(28, 0)
+        simulator:setInputNumber(29, 0)
+        simulator:setInputNumber(30, 0)
+        simulator:setInputNumber(31, 0)
     end
 end
 ---@endsection
@@ -129,6 +129,10 @@ do
     waypointmenu  = false
 
     moveflag      = true
+
+    monitorID = false
+
+    timing=5
 end
 
 
@@ -147,18 +151,39 @@ function onTick() --[====[ onTick ]====]
 
         errorcheck = not errorcheck
 
+        timing=input.getBool(32) and 5 or
+               timing>0 and timing-1 or 0
+
+
+        for i = 1, 8, 1 do --FreqData
+            freqlist[i] = math.floor(input.getNumber(24 + i)) % interval and
+                math.floor(input.getNumber(24 + i)) % interval or 0
+
+            if 0 < freqlist[i] then --設定情報更新
+                local settingdata = math.floor(input.getNumber(24 + i) / interval)
+                receive.vis[freqlist[i]] = settingdata & 1 == 1
+                receive.dir[freqlist[i]] = settingdata & 2 == 2
+                receive.way[freqlist[i]] = settingdata & 4 == 4
+            end
+
+
+            local selectFreqNumber=freqlist[i]
+            if input.getNumber(1) == Passcode and timing==0 and freqlist[i]==input.getNumber(13) then
+                receive.code[selectFreqNumber] = input.getNumber(1) 
+                receive.X   [selectFreqNumber] = input.getNumber(2) // 1
+                receive.Y   [selectFreqNumber] = input.getNumber(3) // 1
+                receive.Dir [selectFreqNumber] = input.getNumber(4)
+                receive.Alt [selectFreqNumber] = input.getNumber(5) // 1
+                receive.Spd [selectFreqNumber] = input.getNumber(6) // 1
+                receive.WayX[selectFreqNumber] = input.getNumber(7) // 1
+                receive.WayY[selectFreqNumber] = input.getNumber(8) // 1
+            end
+
+        end
 
         --1~8 ReceiveData
-        receive.code[freqlist[radio.Channelnumber]] = input.getNumber(1) or 0
-        if input.getNumber(1) == Passcode and not input.getBool(32) then
-            receive.X[freqlist[radio.Channelnumber]] = input.getNumber(2) // 1 or 0
-            receive.Y[freqlist[radio.Channelnumber]] = input.getNumber(3) // 1 or 0
-            receive.Dir[freqlist[radio.Channelnumber]] = input.getNumber(4) or 0
-            receive.Alt[freqlist[radio.Channelnumber]] = input.getNumber(5) // 1 or 0
-            receive.Spd[freqlist[radio.Channelnumber]] = input.getNumber(6) // 1 or 0
-            receive.WayX[freqlist[radio.Channelnumber]] = input.getNumber(7) // 1 or 0
-            receive.WayY[freqlist[radio.Channelnumber]] = input.getNumber(8) // 1 or 0
-        end
+        
+        
 
 
 
@@ -168,7 +193,7 @@ function onTick() --[====[ onTick ]====]
         Phys.y       = input.getNumber(10)
         Phys.compass = input.getNumber(11)
         Phys.alt     = input.getNumber(12)
-        Phys.spd     = input.getNumber(13)
+        --Phys.spd     = input.getNumber(13)
 
         --14~15 keypad
         KeypadX      = input.getNumber(14)
@@ -188,17 +213,7 @@ function onTick() --[====[ onTick ]====]
 
         radio.switch = input.getBool(20)
         beconSignal.bool=input.getBool(21)
-        for i = 1, 8, 1 do --FreqData
-            freqlist[i] = math.floor(input.getNumber(24 + i)) % interval and
-                math.floor(input.getNumber(24 + i)) % interval or 0
 
-            if 0 < freqlist[i] then --設定情報更新
-                local settingdata = math.floor(input.getNumber(24 + i) / interval)
-                receive.vis[freqlist[i]] = settingdata & 1 == 1
-                receive.dir[freqlist[i]] = settingdata & 2 == 2
-                receive.way[freqlist[i]] = settingdata & 4 == 4
-            end
-        end
     end
 
     do                        --updatadata
@@ -241,7 +256,7 @@ function onTick() --[====[ onTick ]====]
     end
 
     do --output
-        output.setBool(1, button(27, 6, 5, 5, true) and moduleID == 1)
+        output.setBool(1, button(27,  6, 5, 5, true) and moduleID == 1)
         output.setBool(2, button(27, 12, 5, 5, true) and moduleID == 1)
         output.setBool(3, button(27, 18, 5, 5, true) and moduleID == 1)
         output.setBool(32, errorcheck)
@@ -249,7 +264,7 @@ function onTick() --[====[ onTick ]====]
         --touch.flags=button(27,0,5,10,false) and true or touch.flags
     end
 
-    monitorID = false
+    
 
 
 
@@ -261,116 +276,127 @@ function onTick() --[====[ onTick ]====]
 end -------------------------------------------onTick終わり-------------------------------------------
 
 function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
+    if monitorID  then --[====[ 左のモニター用の描画 ]====]
+        monitorID = false
+        if monitorSwap and moduleID == 1 then
+            moduleUnit()
+        end
     else
         monitorID = true
-        if moduleID == 1 then --map
-            do                --draw base
-                screen.drawMap(mapX, mapY, zoom)
-                screen.setColor(100, 100, 100)
-                drawNewFont(0, 26, zoom)
-                screen.setColor(30, 30, 30)
-                local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
-                screen.drawRectF(x - 1, y - 1, 3, 3)
-                local mycompass = ((Phys.compass + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
-                screen.drawLine(x, y, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
-            end
-
-            if beconSignal.bool then
-                screen.setColor(150,150,0,70)
-                local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, beconSignal.X, beconSignal.Y)
-                screen.drawCircleF(x,y,10/zoom)
-            end
-
-            for i = 1, 8, 1 do --draw wifi data
-                if receive.vis[freqlist[i]] and freqlist[i] ~= 0 and receive.code[freqlist[i]] == Passcode and radio.switch then
-                    local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]],
-                        receive.Y[freqlist[i]])
-                    screen.setColor(150, 50, 150)
-                    screen.drawRectF(pixelX - 1, pixelY - 1, 3, 3)
-                    if receive.dir[freqlist[i]] then
-                        receive.Dir[freqlist[i]] = receive.Dir[freqlist[i]] or 0
-                        local compass = ((receive.Dir[freqlist[i]] + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
-                        screen.drawLine(pixelX, pixelY, math.sin(compass) * 8 + pixelX, math.cos(compass) * 8 + pixelY)
-                    end
-                    if receive.way[freqlist[i]] then
-                        local waypointX, waypointY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.WayX[freqlist[i]],
-                            receive.WayY[freqlist[i]])
-                        screen.setColor(150, 150, 100)
-                        screen.drawLine(pixelX, pixelY, waypointX, waypointY)
-                        screen.drawRectF(waypointX - 1, waypointX - 1, 3, 3)
-                    end
-                end
-            end
-
-            if waypointmenu then --weypointmenu
-                local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
-                local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
-                screen.setColor(100, 10, 100)
-                screen.drawLine(x , y , wayx, wayy)
-
-
-                local temp = 0
-                screen.setColor(5, 5, 5)
-                screen.drawRectF(27, 6, 5, 16) --
-
-
-                screen.setColor(20, 20, 20)
-
-                screen.drawRect(27, 6, 4, 5)  --waypoint from keypad
-                screen.drawRect(27, 11, 4, 5) --waypoint from wifi
-                screen.drawRect(27, 16, 4, 6) --waypoint from Becon
-
-
-                temp = button(27, 6, 5, 4, false) and 100 or 255
-                screen.setColor(temp, temp, temp)
-                drawNewFont(28, 6, "p") --waypoint from keypad
-
-                temp = radio.switch and 255 or 50
-                temp = button(27, 12, 5, 4, false) and 100 or temp
-                screen.setColor(temp, temp, temp)
-                screen.drawRectF(28, 13, 3, 2) --waypoint from keypad
-                screen.drawLine(28, 13, 28, 16)
-
-                temp = button(27, 18, 5, 4, false) and 100 or 255
-                screen.setColor(temp, temp, temp)
-                drawNewFont(28, 17, "B") --waypoint from keypad
-
-
-
-
-
-            end
-            do                                --draw button
-                screen.setColor(5, 5, 5)
-                screen.drawRectF(0, 0, 5, 10) --Zoomボタン
-                screen.drawRectF(27, 0, 4, 4) --waypoint from keypad
-
-
-                screen.setColor(20, 20, 20)
-                screen.drawRect(0, 0, 4, 4) --Zoomボタン
-                screen.drawRect(0, 5, 4, 4)
-
-                screen.drawRect(27, 0, 4, 4)
-
-                screen.setColor(255, 255, 255)
-                screen.drawText(1, 0, "+") --Zoomボタン
-                screen.drawText(1, 5, "-")
-
-                temp = button(27, 0, 5, 4, false) and 100 or 255
-                screen.setColor(temp, temp, temp)
-                drawNewFont(28, -1, "w") --waypoint from keypad
-
-
-
-                screen.setColor(200, 200, 200, 200)
-                screen.drawCircle(16, 16, 4) --中心に戻る
-            end
-
+        if not monitorSwap and moduleID == 1 then --map
+            moduleUnit()
         end
     end
 end
+
+function moduleUnit()
+    do                --draw base
+        screen.drawMap(mapX, mapY, zoom)
+        screen.setColor(100, 100, 100)
+        drawNewFont(0, 26, zoom)
+        screen.setColor(30, 30, 30)
+        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
+        screen.drawRectF(x - 1, y - 1, 3, 3)
+        local mycompass = ((Phys.compass + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
+        screen.drawLine(x, y, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
+    end
+
+    if beconSignal.bool then
+        screen.setColor(150,150,0,70)
+        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, beconSignal.X, beconSignal.Y)
+        screen.drawCircleF(x,y,10/zoom)
+    end
+
+    for i = 1, 8, 1 do --draw wifi data
+        --print(i,freqlist[i])
+        if receive.vis[freqlist[i]] and freqlist[i] ~= 0 and receive.code[freqlist[i]] == Passcode and radio.switch then
+            local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]],
+                receive.Y[freqlist[i]])
+            screen.setColor(150, 50, 150)
+            screen.drawRectF(pixelX - 1, pixelY - 1, 3, 3)
+
+            if receive.dir[freqlist[i]] then
+                receive.Dir[freqlist[i]] = receive.Dir[freqlist[i]] or 0
+                local compass = ((receive.Dir[freqlist[i]] + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
+                screen.drawLine(pixelX, pixelY, math.sin(compass) * 8 + pixelX, math.cos(compass) * 8 + pixelY)
+                if receive.way[freqlist[i]] then
+                    local waypointX, waypointY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.WayX[freqlist[i]], receive.WayY[freqlist[i]])
+                    screen.setColor(150, 150, 100)
+                    screen.drawLine(pixelX, pixelY, waypointX, waypointY)
+                    screen.drawRectF(waypointX - 1, waypointX - 1, 3, 3)
+                end
+            end
+        end
+        if freqlist[i+1]==0 then
+            break
+        end
+    end
+
+    if waypointmenu then --weypointmenu
+        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
+        local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
+        screen.setColor(100, 10, 100)
+        screen.drawLine(x , y , wayx, wayy)
+
+
+        local temp = 0
+        screen.setColor(5, 5, 5)
+        screen.drawRectF(27, 6, 5, 16) --
+
+
+        screen.setColor(20, 20, 20)
+
+        screen.drawRect(27, 6, 4, 5)  --waypoint from keypad
+        screen.drawRect(27, 11, 4, 5) --waypoint from wifi
+        screen.drawRect(27, 16, 4, 6) --waypoint from Becon
+
+
+        temp = button(27, 6, 5, 4, false) and 100 or 255
+        screen.setColor(temp, temp, temp)
+        drawNewFont(28, 6, "p") --waypoint from keypad
+
+        temp = radio.switch and 255 or 50
+        temp = button(27, 12, 5, 4, false) and 100 or temp
+        screen.setColor(temp, temp, temp)
+        screen.drawRectF(28, 13, 3, 2) --waypoint from keypad
+        screen.drawLine(28, 13, 28, 16)
+
+        temp = button(27, 18, 5, 4, false) and 100 or 255
+        screen.setColor(temp, temp, temp)
+        drawNewFont(28, 17, "B") --waypoint from keypad
+
+
+
+
+
+    end
+    do         --draw button
+        screen.setColor(5, 5, 5)
+        screen.drawRectF(0, 0, 5, 10) --Zoomボタン
+        screen.drawRectF(27, 0, 4, 4) --waypoint from keypad
+
+
+        screen.setColor(20, 20, 20)
+        screen.drawRect(0, 0, 4, 4) --Zoomボタン
+        screen.drawRect(0, 5, 4, 4)
+
+        screen.drawRect(27, 0, 4, 4)
+
+        screen.setColor(255, 255, 255)
+        screen.drawText(1, 0, "+") --Zoomボタン
+        screen.drawText(1, 5, "-")
+
+        temp = button(27, 0, 5, 4, false) and 100 or 255
+        screen.setColor(temp, temp, temp)
+        drawNewFont(28, -1, "w") --waypoint from keypad
+
+
+
+        screen.setColor(200, 200, 200, 200)
+        screen.drawCircle(16, 16, 4) --中心に戻る
+    end
+end
+
 
 function button(x, y, w, h, palse)
     local returnvalue = false
