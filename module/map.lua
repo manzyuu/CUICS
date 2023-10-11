@@ -59,11 +59,12 @@ do
         simulator:setInputNumber(27, lerp(0, 999, simulator:getSlider(21)))    --Receive WayX
         simulator:setInputNumber(28, lerp(0, 999, simulator:getSlider(22)))    --Receive WayY
 ]]
+        simulator:setInputBool(20,true)
         simulator:setInputBool(21,false)
 
         simulator:setInputNumber(1, 4000)
         simulator:setInputNumber(23, 1)
-        simulator:setInputNumber(25, 00147)
+        simulator:setInputNumber(25, 10147)
         simulator:setInputNumber(26, 11111)
         simulator:setInputNumber(27, 22434)
         simulator:setInputNumber(28, 0)
@@ -131,7 +132,9 @@ do
 
     monitorID = false
 
-    timing=5
+    oldReceiveFreq=0
+
+    clockcount=0
 end
 
 
@@ -144,20 +147,19 @@ function onTick() --[====[ onTick ]====]
 
 
 
-
     do --input data
         touch.palse = input.getBool(1)
 
         errorcheck = not errorcheck
 
-        timing=input.getBool(32) and 6 or timing > 0 and timing-1 or 0
+        --clockcount=input.getBool(32) and 6 or 0 timing > 0 and timing-1 or 0
 
 
         for i = 1, 8, 1 do --FreqData
             freqlist[i] = math.floor(input.getNumber(24 + i)) % interval and
                 math.floor(input.getNumber(24 + i)) % interval or 0
 
-            if 0 < freqlist[i] then --設定情報更新
+            if 0 ~= freqlist[i] then --設定情報更新
                 local settingdata = math.floor(input.getNumber(24 + i) / interval)
                 receive.vis[freqlist[i]] = settingdata & 1 == 1
                 receive.dir[freqlist[i]] = settingdata & 2 == 2
@@ -165,23 +167,24 @@ function onTick() --[====[ onTick ]====]
             end
 
 
-            local selectFreqNumber=freqlist[i]
-            if input.getNumber(1) == Passcode and timing==0 and freqlist[i]==input.getNumber(13) then
-                receive.code[selectFreqNumber] = input.getNumber(1) 
-                receive.X   [selectFreqNumber] = input.getNumber(2) // 1
-                receive.Y   [selectFreqNumber] = input.getNumber(3) // 1
-                receive.Dir [selectFreqNumber] = input.getNumber(4)
-                receive.Alt [selectFreqNumber] = input.getNumber(5) // 1
-                receive.Spd [selectFreqNumber] = input.getNumber(6) // 1
-                receive.WayX[selectFreqNumber] = input.getNumber(7) // 1
-                receive.WayY[selectFreqNumber] = input.getNumber(8) // 1
-            end
+
 
         end
 
         --1~8 ReceiveData
-        
-        
+        local selectFreqNumber=input.getNumber(13)
+        clockcount=selectFreqNumber~=oldReceiveFreq and 4 or clockcount>0 and clockcount-1 or 0
+        oldReceiveFreq=selectFreqNumber
+        if input.getNumber(1) == Passcode and clockcount==0 and selectFreqNumber~=0 then
+            receive.code[selectFreqNumber] = input.getNumber(1)
+            receive.X   [selectFreqNumber] = input.getNumber(2) // 1
+            receive.Y   [selectFreqNumber] = input.getNumber(3) // 1
+            receive.Dir [selectFreqNumber] = input.getNumber(4)
+            receive.Alt [selectFreqNumber] = input.getNumber(5) // 1
+            receive.Spd [selectFreqNumber] = input.getNumber(6) // 1
+            receive.WayX[selectFreqNumber] = input.getNumber(7) // 1
+            receive.WayY[selectFreqNumber] = input.getNumber(8) // 1
+        end
 
 
 
@@ -260,6 +263,19 @@ function onTick() --[====[ onTick ]====]
         output.setBool(32, errorcheck)
 
         --touch.flags=button(27,0,5,10,false) and true or touch.flags
+
+        
+        for i = 1, 8, 1 do
+            output.setNumber(i,receive.code[freqlist[i]])
+        end
+
+        output.setNumber(10,receive.code[freqlist[1]])
+        output.setNumber(11,receive.X   [freqlist[1]])
+        output.setNumber(12,receive.Y   [freqlist[1]])
+        output.setNumber(13,receive.Dir [freqlist[1]])
+        output.setNumber(14,receive.Alt [freqlist[1]])
+        output.setNumber(15,receive.Spd [freqlist[1]])
+        output.setNumber(16,input.getNumber(13))
     end
 
     
@@ -311,8 +327,7 @@ function moduleUnit()
             break
         end
         if receive.vis[freqlist[i]] and radio.switch then
-            local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]],
-                receive.Y[freqlist[i]])
+            local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]], receive.Y[freqlist[i]])
             screen.setColor(150, 50, 150)
             screen.drawRectF(pixelX - 1, pixelY - 1, 3, 3)
 

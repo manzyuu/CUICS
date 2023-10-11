@@ -56,18 +56,19 @@ function onTick()
     touch.X   = input.getNumber(30)
     touch.Y   = input.getNumber(31)
     moduleID  = input.getNumber(32)
-    monitorID = false
+    
 end
 
 function onDraw()
-    if monitorID ~= monitorSwap then --[====[ 左のモニター用の描画 ]====]
-        monitorID = true
-        if monitorSwap and moduleID == 3 then
+    if monitorID then --[====[ 左のモニター用の描画 ]====]
+        monitorID = false
+        if monitorSwap and moduleID==2 then
             moduleUnit()
+            
         end
     else
         monitorID = true
-        if not monitorSwap and moduleID == 3 then
+        if not monitorSwap and moduleID == 2 then --WIFI
             moduleUnit()
         end
     end

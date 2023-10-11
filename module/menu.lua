@@ -96,6 +96,8 @@ do
     distmenu      = false
 
     autopilotDist = 0
+
+    oldModuleID=1
 end
 
 
@@ -129,13 +131,14 @@ function onTick()
 
 
     if touch.bool and not touch.flags then
+        oldModuleID=moduleID~=0 and moduleID or oldModuleID
         moduleID =
             (button(5, 0, 32, 13, false) and moduleID ~= 0) and 0 or --pfd
             button(0, 15, 12, 6, false) and 1 or                     --Map
             button(15, 15, 6, 6, false) and 2 or                     --Ch
             button(0, 24, 16, 6, false) and 3 or                     --State
             button(15, 24, 16, 6, false) and 4 or                    --Ex
-            moduleID == 0 and 1 or moduleID
+            moduleID == 0 and oldModuleID or moduleID
         touch.flags = true
     end
 
