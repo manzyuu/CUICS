@@ -36,8 +36,8 @@ do
     monitorSwap = property.getBool("Monitor Swap")
     monitorID   = false
     errorcheck  = false
-    maxSquat=6
-    Passcode=1000
+    maxSquat=4
+    Passcode=4989
 
 
     touch       = {}
@@ -53,17 +53,18 @@ do
     SquatData.MissionNumber={}
     SquatData.CurrentVitalData={}
     SquatData.VitalSheet={}
-    SquatData.VitalSheet[00]={r=100,g=100,b=100,t="NILL"}
-    SquatData.VitalSheet[01]={r=200,g=200,b=200,t="INBASE"}
-    SquatData.VitalSheet[02]={r=20,g=100,b=20,t="F-WAIT"}
-    SquatData.VitalSheet[03]={r=100,g=80,b=10,t="ORDER"}
-    SquatData.VitalSheet[04]={r=200,g=200,b=20,t="DEP"}
-    SquatData.VitalSheet[05]={r=200,g=200,b=200,t="SEARCH"}
-    SquatData.VitalSheet[06]={r=80,g=80,b=200,t="WORK"}
-    SquatData.VitalSheet[07]={r=200,g=200,b=200,t="RTB"}
-    SquatData.VitalSheet[08]={r=200,g=200,b=200,t="MAINT"}
-    SquatData.VitalSheet[09]={r=200,g=0,b=0,t="FAIL"}
-    SquatData.CycleMode=true
+    SquatData.VitalSheet[00]={r=100,g=100,b=100,t="x"}
+    SquatData.VitalSheet[01]={r=  0,g= 32,b=  0,blink=false,t="INBASE"}
+    SquatData.VitalSheet[02]={r=  0,g= 64,b=  0,blink= true,t="F-WAIT"}
+    SquatData.VitalSheet[03]={r=128,g= 64,b=  0,blink= true,t="ORDER"}
+    SquatData.VitalSheet[04]={r=128,g= 64,b=  0,blink=false,t="DEP"}
+    SquatData.VitalSheet[05]={r=  0,g= 64,b= 64,blink=false,t="SEARCH"}
+    SquatData.VitalSheet[06]={r=  0,g= 64,b= 64,blink=false,t="WORK"}
+    SquatData.VitalSheet[07]={r=  0,g= 64,b=  0,blink=false,t="RTB"}
+    SquatData.VitalSheet[08]={r= 32,g= 32,b= 32,blink=false,t="MAINT"}
+    SquatData.VitalSheet[09]={r= 64,g=  0,b=  0,blink=false,t="FAIL"}
+    SquatData.CycleMode=false
+    SquatData.oldCycleMode=false
     timer=0
 end
 
@@ -77,33 +78,41 @@ function onTick()
 
     do--nsm
         SquatData.CycleMode=input.getBool(2)
-        SquatData.mySquatNumber=input.getNumber(9)
+        clock=input.getBool(3)
+        local temp=input.getNumber(9)-1000
+        SquatData.mySquatNumber=(temp>0 and temp<=maxSquat) and temp or 0
         SquatData.Passcode=input.getNumber(10)
-        if SquatData.Passcode==1000 then
+        if SquatData.Passcode==Passcode then
             for i = 1, maxSquat, 1 do
                 buffer=input.getNumber(10+i)
-                SquatData.CurrentVitalData=buffer//100
-                SquatData.MissionNumber=(buffer%100)//1
+                SquatData.CurrentVitalData[i]=(buffer//100) or 0
+                SquatData.MissionNumber[i]=(buffer%100)//1
             end
         end
 
-        if SquatData.CycleMode then
-            timer=timer==0 and 250 or timer>0 and timer-1 or timer
-            SquatData.selectNumber=(timer==0 and SquatData.selectNumber>=maxSquat) and 1 or 
-                                    (timer==0) and SquatData.selectNumber+1 or SquatData.selectNumber
-        else
-            SquatData.selectNumber=(button(23,2,7,5,true) and SquatData.selectNumber<maxSquat) and SquatData.selectNumber+1 or
-                                (button(23,8,7,5,true) and SquatData.selectNumber>1       ) and SquatData.selectNumber-1 or 
-                                (timer==0 and SquatData.mySquatNumber~=SquatData.selectNumber)and SquatData.mySquatNumber or SquatData.selectNumber
+        if moduleID==3 then
+            if SquatData.CycleMode then
+                timer =SquatData.CycleMode~=SquatData.oldCycleMode and 0 or timer
+                timer=timer==0 and 100 or timer>0 and timer-1 or timer
+                SquatData.selectNumber=(timer==0 and SquatData.selectNumber>=maxSquat) and 1 or 
+                                       (timer==0) and SquatData.selectNumber+1 or SquatData.selectNumber
+            else
+                SquatData.selectNumber=(button(23,2,7,5,true) and SquatData.selectNumber<maxSquat) and SquatData.selectNumber+1 or
+                                       (button(23,8,7,5,true) and SquatData.selectNumber>1       ) and SquatData.selectNumber-1 or 
+                                       (timer==0 and SquatData.mySquatNumber~=SquatData.selectNumber)and SquatData.mySquatNumber or SquatData.selectNumber
 
-            timer=(SquatData.mySquatNumber~=SquatData.selectNumber and touch.bool) and 1500 or timer>0 and timer-1 or timer 
-            
+                timer=(SquatData.mySquatNumber~=SquatData.selectNumber and touch.bool) and 800 or (timer>0 and SquatData.mySquatNumber~=0) and timer-1 or timer 
+                
+            end
+            output.setBool(1,button(0,0,9,9,false))
         end
-        output.setBool(1,button(0,0,9,9,false))
+
+            SquatData.oldCycleMode=SquatData.CycleMode
+
         touch.flags=touch.bool
         --print(SquatData.selectNumber)
         --print(touch.flags)
-        print(timer)
+        --print(timer)
     end
 
     do--statas
@@ -140,7 +149,8 @@ function moduleUnit()
         local SquatInfo=SquatData.CurrentVitalData[SquatData.selectNumber] or 0
         screen.setColor(200,200,200)
         drawNewFont(9,1,"SQ:")
-        drawNewFont(20,1,SquatData.selectNumber)
+        local label=SquatData.selectNumber>0 and tostring(SquatData.selectNumber) or "x"
+        drawNewFont(20,1,label)
 
         screen.setColor(3, 3, 3)
         screen.drawRectF(25,1,7,13)
@@ -154,15 +164,19 @@ function moduleUnit()
         screen.setColor(255, 255, 255)
         screen.drawText(27,2,"+")
         screen.drawText(27,8,"-")
+
+        local temp=SquatData.CycleMode and 200 or 30
+        screen.setColor(temp, temp, temp)
         screen.drawRect(2,2,2,2)
 
-        screen.setColor(SquatData.VitalSheet[SquatInfo].r,SquatData.VitalSheet[SquatInfo].g,SquatData.VitalSheet[SquatInfo].b)
+        temp=(SquatData.VitalSheet[SquatInfo].blink and clock) and 192 or 255
+        screen.setColor(SquatData.VitalSheet[SquatInfo].r,SquatData.VitalSheet[SquatInfo].g,SquatData.VitalSheet[SquatInfo].b,temp)
         drawNewFont(1,7,SquatData.VitalSheet[SquatInfo].t)
 
         --screen.setColor(200,200,200)
 
         drawNewFont(1,14,"M'No.")
-        drawNewFont(20,14,SquatData.MissionNumber[SquatData.selectNumber]or"NIL")
+        drawNewFont(20,14,string.format("%d",SquatData.MissionNumber[SquatData.selectNumber]or 0))
     end
     screen.setColor(1, 1, 1)
     screen.drawLine(0,19,32,19)

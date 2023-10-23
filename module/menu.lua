@@ -41,6 +41,8 @@ do
         simulator:setInputNumber(31, screenConnection.touchX)
         simulator:setInputNumber(32, screenConnection.touchY)
 
+        simulator:setInputNumber(25, 2)
+
         -- NEW! button/slider options from the UI
         simulator:setInputBool(31, simulator:getIsClicked(1)) -- if button 1 is clicked, provide an ON pulse for input.getBool(31)
         --simulator:setInputNumber(31, simulator:getSlider(1))      -- set input 31 to the value of slider 1
@@ -69,75 +71,80 @@ do
     --screenpower= true
     --luaerror= true
     --centering= true
-    monitorSwap = property.getBool("Monitor Swap")
+    monitorSwap    = property.getBool("Monitor Swap")
 
-    moduleID    = 2
-    MaxVS       = 20
+    moduleID       = 2
+    MaxVS          = 20
+    monitorID      = false
 
-    monitorID = false
-    
-    Phys          = {}
-    Phys.speed    = 0
-    Phys.alt      = 0
-    Phys.oldalt   = 0
+    Phys           = {}
+    Phys.speed     = 0
+    Phys.alt       = 0
+    Phys.oldalt    = 0
 
-    target        = {}
-    target.x      = 0
-    target.y      = 0
+    target         = {}
+    target.x       = 0
+    target.y       = 0
 
-    touch         = {}
-    touch.X       = 0
-    touch.Y       = 0
-    touch.bool    = false
-    touch.flags   = false
+    touch          = {}
+    touch.X        = 0
+    touch.Y        = 0
+    touch.bool     = false
+    touch.flags    = false
 
-    errorcheck    = false
+    errorcheck     = false
 
-    distmenu      = false
+    distmenu       = false
 
-    autopilotDist = 0
+    autopilotDist  = 0
+    viewDataNumver = 0
 
-    oldModuleID=1
+    oldModuleID    = 1
+
+    timer=0
 end
 
 
 
 function onTick()
-    touch.X      = input.getNumber(21)
-    touch.Y      = input.getNumber(22)
-    touch.bool   = input.getBool(1)
+    touch.X       = input.getNumber(21)
+    touch.Y       = input.getNumber(22)
+    touch.bool    = input.getBool(1)
 
-    Phys.oldalt  = Phys.alt
+    Phys.oldalt   = Phys.alt
 
-    Phys.x       = input.getNumber(1)
-    Phys.y       = input.getNumber(3)
+    Phys.x        = input.getNumber(1)
+    Phys.alt      = input.getNumber(2)*property.getNumber("Altitude Unit")
+    Phys.y        = input.getNumber(3)
+    Phys.speed    = input.getNumber(13)*property.getNumber("Speed Unit")
 
-    autopilotDist=((input.getNumber(23)-Phys.x)^2+(input.getNumber(24)-Phys.y)^2)^0.5
+    autopilotDist = ((input.getNumber(23) - Phys.x) ^ 2 + (input.getNumber(24) - Phys.y) ^ 2) ^ 0.5
 
-    errorcheck   = not errorcheck
-    beconmode    = input.getBool(2)
-    radioswitch  = input.getBool(3)
-    beconSignal  = input.getBool(4)
-    beconConfirm = input.getBool(5)
-
-
+    errorcheck    = not errorcheck
+    beconmode     = input.getBool(2)
+    radioswitch   = input.getBool(3)
+    beconSignal   = input.getBool(4)
+    beconConfirm  = input.getBool(5)
 
 
-    if button(0, 0, 3, 13, true) then
-        distmenu=not distmenu
-        touch.flags=true
-    end
+    viewDataNumver = input.getNumber(25)
+
+    timer = timer>0 and timer-1 or 0
+    moduleID =  timer==0 and input.getNumber(26) or moduleID
+
+
 
 
 
     if touch.bool and not touch.flags then
-        oldModuleID=moduleID~=0 and moduleID or oldModuleID
+        timer=6
+        oldModuleID = moduleID ~= 0 and moduleID or oldModuleID
         moduleID =
-            (button(5, 0, 32, 13, false) and moduleID ~= 0) and 0 or --pfd
-            button(0, 15, 12, 6, false) and 1 or                     --Map
-            button(15, 15, 6, 6, false) and 2 or                     --Ch
-            button(0, 24, 16, 6, false) and 3 or                     --State
-            button(15, 24, 16, 6, false) and 4 or                    --Ex
+           (button( 7,  0, 32, 13, false) and moduleID ~= 0) and 0 or --pfd
+            button( 0, 15, 12,  6, false) and 1 or                    --Map
+            button(15, 15,  6,  6, false) and 2 or                    --Ch
+            button( 0, 24, 16,  6, false) and 3 or                    --State
+            button(15, 24, 16,  6, false) and 4 or                    --Ex
             moduleID == 0 and oldModuleID or moduleID
         touch.flags = true
     end
@@ -146,8 +153,8 @@ function onTick()
 
     --monitorID = false
     output.setBool(1, touch.bool)
-    output.setBool(2, button(23, 15, 8, 7, false)) --becon
-
+    output.setBool(2, button(23, 15, 8,  7, false)) --becon
+    output.setBool(3, button( 0,  0, 5, 13, false))
     output.setNumber(1, moduleID)
     output.setBool(32, errorcheck)
     touch.flags = touch.bool and touch.flags or false
@@ -163,9 +170,6 @@ function onDraw() --[====[ onDraw ]====]
             drawdata()
             drawbutton()
         end
-
-
-
     else
         monitorID = true
         if monitorSwap then
@@ -174,14 +178,26 @@ function onDraw() --[====[ onDraw ]====]
             drawdata()
             drawbutton()
         end
-
     end
 end -------------------------------------------onDraw終わり-------------------------------------------
 
 function drawdata()
     screen.setColor(1, 1, 1)
     screen.drawLine(0, 13, 32, 13)
-    do --GPSX,Y座標表示
+
+    screen.setColor(50, 50, 50)
+    screen.drawRectF(0, 0, 3, 13)
+    screen.setColor(150, 150, 150)
+    screen.drawTriangleF(0, 3, 3, 7, 0, 11)
+
+
+
+    if viewDataNumver == 0 then
+        drawNewFont(3, 1, "ALT")
+        drawNewFont(16, 1, string.format("%04d", Phys.alt // 1))
+        drawNewFont(3, 7, "SPD")
+        drawNewFont(16, 7, string.format("%04d", Phys.speed // 1))
+    elseif viewDataNumver == 1 then --GPSX,Y座標表示
         screen.setColor(200, 50, 20)
         drawNewFont(8, 1, "X")
         if Phys.x < 0 then
@@ -201,24 +217,12 @@ function drawdata()
         drawNewFont(16, 7, string.format("%03d", math.abs(Phys.y // 100)))
         screen.drawLine(28, 11, 29, 11)
         screen.drawLine(30, 11, 31, 11)
-    end
-
-    screen.setColor(50, 50, 50)
-    screen.drawRectF(0, 0, 3, 13)
-    if distmenu then --Target Distance
-        screen.setColor(150, 150, 150)
-        screen.drawTriangleF(3,3,0,7,3,11)
-
-        screen.setColor(20, 20, 20)
-        screen.drawRectF(3, 0, 22, 13)
+    else --Target Distance
         screen.setColor(255, 255, 255)
-        drawNewFont(5, 1, string.format("%03d", math.min(math.abs(autopilotDist // 1000), 999)))
-        screen.drawText(16, 1, ".")
-        drawNewFont(19, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
-        drawNewFont(16, 7, "KM")
-    else
-        screen.setColor(150, 150, 150)
-        screen.drawTriangleF(0,3,3,7,0,11)
+        drawNewFont(7, 1, string.format("%03d", math.min(math.abs(autopilotDist // 1000), 999)))
+        screen.drawText(18, 1, ".")
+        drawNewFont(21, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
+        drawNewFont(23, 7, "KM")
     end
 
     --[[
