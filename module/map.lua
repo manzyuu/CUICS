@@ -18,7 +18,7 @@ do
     simulator:setProperty("F4",
         "88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
     simulator:setProperty("Monitor Swap", false)
-    simulator:setProperty("MapPlayerColor", "20,50,50")
+    simulator:setProperty("MapPlayerColor", "255,0,0")
     simulator:setProperty("MapAnotherColor", "20,50,50")
 
     -- Runs every tick just before onTick; allows you to simulate the inputs changing
@@ -178,11 +178,10 @@ function onTick() --[====[ onTick ]====]
 
 
         for i = 1, 8, 1 do --FreqData
-            freqlist[i] = math.floor(input.getNumber(24 + i)) % interval and
-                math.floor(input.getNumber(24 + i)) % interval or 0
+            freqlist[i] = math.floor(input.getNumber(24 + i)) % interval or 0
 
             if 0 ~= freqlist[i] then --設定情報更新
-                local settingdata = math.floor(input.getNumber(24 + i) / interval)
+                local settingdata = (input.getNumber(24 + i) // interval)
                 receive.vis[freqlist[i]] = settingdata & 1 == 1
                 receive.dir[freqlist[i]] = settingdata & 2 == 2
                 receive.way[freqlist[i]] = settingdata & 4 == 4
@@ -321,21 +320,15 @@ function onDraw()
 end
 
 function moduleUnit()
-    do --draw base
-        screen.drawMap(mapX, mapY, zoom)
-        screen.setColor(100, 100, 100)
-        drawNewFont(0, 26, zoom)
-        screen.setColor(color.player)
-        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
-        screen.drawRectF(x - 1, y - 1, 3, 3)
-        local mycompass = ((Phys.compass + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
-        screen.drawLine(x, y, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
-    end
 
-    if beconSignal.bool then
-        screen.setColor(150, 150, 0, 70)
-        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, beconSignal.X, beconSignal.Y)
-        screen.drawCircleF(x, y, 10 / zoom)
+    screen.drawMap(mapX, mapY, zoom)
+
+
+    if waypointmenu then --weypointmenu
+        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
+        local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
+        screen.setColor(100, 10, 100)
+        screen.drawLine(x, y, wayx, wayy)
     end
 
     for i = 1, 8, 1 do --draw wifi data
@@ -344,9 +337,8 @@ function moduleUnit()
             break
         end
         if receive.vis[freqlist[i]] and radio.switch then
-            local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]],
-                receive.Y[freqlist[i]])
-            screen.setColor(color.another)
+            local pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, 32, 32, receive.X[freqlist[i]], receive.Y[freqlist[i]])
+            screen.setColor(color.another[1],color.another[2],color.another[3])
             screen.drawRectF(pixelX - 1, pixelY - 1, 3, 3)
 
             if receive.dir[freqlist[i]] then
@@ -364,11 +356,24 @@ function moduleUnit()
         end
     end
 
-    if waypointmenu then --weypointmenu
+
+    
+    do --draw me
         local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, Phys.x, Phys.y)
-        local wayx, wayy = map.mapToScreen(mapX, mapY, zoom, 32, 32, waypoint.X, waypoint.Y)
-        screen.setColor(100, 10, 100)
-        screen.drawLine(x, y, wayx, wayy)
+        local mycompass = ((Phys.compass + 1.75) % 1 - 0.5) * 2 * math.pi + math.pi / 2
+        screen.setColor(color.player[1],color.player[2],color.player[3])
+        screen.drawRectF(x - 1, y - 1, 3, 3)
+        screen.drawLine(x, y, math.sin(mycompass) * 8 + x, math.cos(mycompass) * 8 + y)
+    end
+
+
+    if beconSignal.bool then
+        screen.setColor(150, 150, 0, 70)
+        local x, y = map.mapToScreen(mapX, mapY, zoom, 32, 32, beconSignal.X, beconSignal.Y)
+        screen.drawCircleF(x, y, 10 / zoom)
+    end
+
+    if waypointmenu then --weypointmenu
 
 
         local temp = 0
@@ -397,7 +402,11 @@ function moduleUnit()
         screen.setColor(temp, temp, temp)
         drawNewFont(28, 17, "B") --waypoint from keypad
     end
-    do                                --draw button
+    do --draw button
+        screen.setColor(100, 100, 100)
+        drawNewFont(0, 26, zoom)
+
+
         screen.setColor(5, 5, 5)
         screen.drawRectF(0, 0, 5, 10) --Zoomボタン
         screen.drawRectF(27, 0, 4, 4) --waypoint from keypad

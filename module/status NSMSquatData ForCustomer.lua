@@ -69,6 +69,7 @@ do
 end
 
 
+
 function onTick()
     errorcheck = not errorcheck
     output.setBool(32, errorcheck)
@@ -80,15 +81,15 @@ function onTick()
     do--nsm
         SquatData.CycleMode=input.getBool(2)
         clock=input.getBool(3)
-        local temp=input.getNumber(9)-1000
-        SquatData.mySquatNumber=(temp>0 and temp<=maxSquat) and temp or 0
+        local temp=input.getNumber(29)%1000
+        SquatData.mySquatNumber=(0<temp and temp<=maxSquat) and temp or 0
         SquatData.Passcode=input.getNumber(10)
         if SquatData.Passcode==Passcode then
             for i = 1, maxSquat, 1 do
                 buffer=input.getNumber(10+i)
                 SquatData.CurrentVitalData[i]=(buffer//100) or 0
                 SquatData.MissionNumber[i]=(buffer%100)//1
-            end
+            end 
         end
 
         if moduleID==3 then
@@ -117,10 +118,6 @@ function onTick()
         touch.flags=touch.bool and touch.flags or false
     end
 
-    do--statas
-    temp=input.getNumber(2)
-    fuel=input.getNumber(3)
-    end
 
 end
 
@@ -143,7 +140,7 @@ end
 
 function moduleUnit()
     screen.setColor(10, 10, 10)
-    screen.drawClear()
+    screen.drawRectF(0,0,32,20)
     do--nsm
         local buffer=SquatData.mySquatNumber==SquatData.selectNumber and 20 or 10
         screen.setColor(buffer,buffer,buffer)
@@ -182,19 +179,6 @@ function moduleUnit()
     end
     screen.setColor(1, 1, 1)
     screen.drawLine(0,19,32,19)
-    do --statas
-
-        screen.setColor(7, 7, 7)
-        
-        screen.drawLine(0,26,32,26)
-
-        screen.setColor(255, 255, 255)
-        drawNewFont(0, 21, "TEMP")
-        drawNewFont(0, 27, "FUEL")
-
-        drawNewFont(21,21,string.format("%03d",temp//1))
-        drawNewFont(17,27,string.format("%04d",fuel//1))
-    end
 end
 
 function drawNewFont(NewFontX, NewFontY, text)

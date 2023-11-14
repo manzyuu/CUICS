@@ -192,7 +192,9 @@ end
     pageNumber
 
 ]]
-
+for i = 1, 8, 1 do
+    receive.vis[freqlist[i]]=freqlist[i]~=0
+end
 
 
 
@@ -207,7 +209,7 @@ function onTick() --[====[ onTick ]====]
         touch.buffer = not input.getBool(1)
         --print(touch.time)
 
-        clockbool = input.getBool(32) 
+        clockbool = input.getBool(32)and not clockbool
         clockcount = clockbool and 6 or clockcount > 0 and clockcount - 1 or 0
 
         --dataflag = input.getBool(10) and false or dataflag
@@ -403,24 +405,31 @@ function onTick() --[====[ onTick ]====]
 
 
 
-        radio.Channelnumber = clockbool and radio.Channelnumber + 1 or radio.Channelnumber
-        radio.Channelnumber = radio.Channelnumber == 9 and 1 or radio.Channelnumber
-        radio.Channelnumber = freqlist[radio.Channelnumber] == 0 and 1 or radio.Channelnumber
+        
+        
 
         output.setNumber(16, waypoint.X // 1)
         output.setNumber(17, waypoint.Y // 1)
 
         output.setNumber(20, radio.sendFreq)
-        --output.setNumber(13, freqlist[radio.Channelnumber])
-        output.setNumber(21, freqlist[radio.Channelnumber])
-        --output.setNumber(22, pageNumber)
+        if radio.switch then
+            if clockbool then
+                radio.Channelnumber = (radio.Channelnumber == 9 or freqlist[radio.Channelnumber] == 0) and 1 or radio.Channelnumber+1
+            end
+            
+            --output.setNumber(13, freqlist[radio.Channelnumber])
+            output.setNumber(21, freqlist[radio.Channelnumber])
+            --output.setNumber(22, pageNumber)
+        end
         for i = 1, 8, 1 do --FreqData
             local number=freqlist[i]
-            local tempvis = receive.vis[number] and 1 or 0
-            local tempdir = receive.dir[number] and 2 or 0
-            local tempway = receive.way[number] and 4 or 0
-            output.setNumber(24 + i, (number + (tempvis + tempdir + tempway) * interval))
+            --local tempvis = receive.vis[number] and 1 or 0
+            --local tempdir = receive.dir[number] and 2 or 0
+            --local tempway = receive.way[number] and 4 or 0
+            --output.setNumber(24 + i, (number + (tempvis + tempdir + tempway) * interval))
+            output.setNumber(24 + i, (number + ((receive.vis[number] and 1 or 0) + (receive.dir[number] and 2 or 0) + (receive.way[number] and 4 or 0)) * interval)or 0)
         end
+    
     end
 
 
@@ -449,9 +458,7 @@ function onDraw()
 end
 
 function moduleUnit()
-    local color255={255,255,255}
-    local color50={50,50,50}
-    local temp = {}
+    local temp =0
     screen.setColor(10, 10, 10)
     screen.drawClear()
     screen.setColor(30, 30, 30) --送信チャンネルの下の線
@@ -461,18 +468,18 @@ function moduleUnit()
 
     -------------------------------------------------Send-------------------------------------------------
 
-    screen.setColor(color255)
+    screen.setColor(255,255,255)
     screen.drawTriangleF(2, 1, 0, 4, 5, 4) --左の送信矢印
     screen.drawLine(2, 4, 2, 6)
-    temp = radio.switch and color255 or {80,80,80}
-    screen.setColor(temp)
+    temp = radio.switch and 255 or 80
+    screen.setColor(temp,temp,temp)
     screen.drawText(6, 1, string.format("%04d", radio.sendFreq // 1)) --送信チャンネル
 
     screen.setColor(25, 25, 25)
     screen.drawRectF(27, 0, 5, 6) --送信ボタン
     
-    temp = button(27, 0, 5, 6, touch.Bool, false) and color255 or color50
-    screen.setColor(temp)
+    temp = button(27, 0, 5, 6, touch.Bool, false) and 255 or 50
+    screen.setColor(temp,temp,temp)
     screen.drawText(28, 2, "^") --送信ボタン
 
 
@@ -484,19 +491,19 @@ function moduleUnit()
     screen.drawRectF(27, 7, 5, 5)  --受信チャンネル追加
     screen.drawRectF(27, 27, 5, 5) --無線ON/OFF
 
-    temp = button(27, 7, 5, 5, touch.Bool, false) and color255 or color50
-    screen.setColor(temp)
+    temp = button(27, 7, 5, 5, touch.Bool, false) and 255 or 50
+    screen.setColor(temp,temp,temp)
     screen.drawText(28, 7, "+") --受信チャンネル追加
 
-    temp = button(27, 14, 5, 5, touch.Bool, false) and color255 or color50
-    screen.setColor(temp)
+    temp = button(27, 14, 5, 5, touch.Bool, false) and 255 or 50
+    screen.setColor(temp,temp,temp)
     screen.drawTriangleF(29, 15, 27, 18, 32, 18) --チャンネル上
-    temp = button(27, 20, 5, 5, touch.Bool, false) and color255 or color50
-    screen.setColor(temp)
+    temp = button(27, 20, 5, 5, touch.Bool, false) and 255 or 50
+    screen.setColor(temp,temp,temp)
     screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
 
-    temp = radio.switch and color255 or color50
-    screen.setColor(temp)
+    temp = radio.switch and 255 or 50
+    screen.setColor(temp,temp,temp)
     screen.drawLine(28, 29, 28, 31)
     screen.drawLine(29, 28, 31, 28)
     screen.drawLine(30, 30, 30, 31) --無線ON/OFF
