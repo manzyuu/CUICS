@@ -279,19 +279,26 @@ function onTick() --[====[ onTick ]====]
         output.setBool(32, errorcheck)
 
         --touch.flags=button(27,0,5,10,false) and true or touch.flags
+    
 
 
-        for i = 1, 8, 1 do
-            output.setNumber(i, receive.code[freqlist[i]])
-        end
+--[[
 
-        output.setNumber(10, receive.code[freqlist[1]])
-        output.setNumber(11, receive.X[freqlist[1]])
-        output.setNumber(12, receive.Y[freqlist[1]])
-        output.setNumber(13, receive.Dir[freqlist[1]])
-        output.setNumber(14, receive.Alt[freqlist[1]])
-        output.setNumber(15, receive.Spd[freqlist[1]])
-        output.setNumber(16, input.getNumber(13))
+        do
+            local temp=freqlist[i]
+            for i = 1, 8, 1 do
+                output.setNumber(i, receive.code[])
+            end
+
+            output.setNumber(10, receive.code[temp])
+            output.setNumber(11, receive.X[temp])
+            output.setNumber(12, receive.Y[temp])
+            output.setNumber(13, receive.Dir[temp])
+            output.setNumber(14, receive.Alt[temp])
+            output.setNumber(15, receive.Spd[temp])
+            output.setNumber(16, input.getNumber(13))
+            end
+]]
     end
 
 

@@ -411,7 +411,7 @@ function onTick() --[====[ onTick ]====]
         output.setNumber(16, waypoint.X // 1)
         output.setNumber(17, waypoint.Y // 1)
 
-        output.setNumber(20, radio.sendFreq)
+        output.setNumber(20, math.max(radio.sendFreq,1))
         if radio.switch then
             if clockbool then
                 radio.Channelnumber = (radio.Channelnumber == 9 or freqlist[radio.Channelnumber] == 0) and 1 or radio.Channelnumber+1

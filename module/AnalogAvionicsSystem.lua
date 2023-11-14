@@ -1,15 +1,3 @@
-phys = {}
-phys.altitude = 0
-phys.oldAlt = 0
-
-Receive = {}
-clock = true
-waypointX = 0
-waypointY = 0
-mfmSendFreq = 1
-mfmReceiveFreq = 9999
-passCode = property.getNumber("MFMPassCode")
-
 --[[
 1~8 MFM send data
 
@@ -27,6 +15,15 @@ passCode = property.getNumber("MFMPassCode")
 25.waypointDirection
 26.waypointAzimuthError(degrees if keypadA~=0 or keypadB~=0 then compass(-degrees))
 ]]
+do
+    phys = {}
+    phys.altitude = 0
+    phys.oldAlt = 0
+    waypointX = 0
+    waypointY = 0
+    passCode = property.getNumber("MFMPassCode")
+end
+
 function onTick()
     clock = not clock
     phys.oldAlt = phys.altitude
@@ -40,18 +37,9 @@ function onTick()
         phys.speed = input.getNumber(13)
         phys.deltaAlt = (phys.altitude - phys.oldAlt) * 60
 
-        Receive.passCode = input.getNumber(21)
-        Receive.gpsX = input.getNumber(22)
-        Receive.gpsY = input.getNumber(23)
-        Receive.compass = input.getNumber(24)
-        Receive.altitude = input.getNumber(25)
-        Receive.speed = input.getNumber(26)
-        Receive.waypointX = input.getNumber(27)
-        Receive.waypointY = input.getNumber(28)
 
-
-        KeyPadA = input.getNumber(31)
-        KeyPadB = input.getNumber(32)
+        waypointX = input.getNumber(31)
+        waypointY = input.getNumber(32)
     end
 
     do --matrix
@@ -69,26 +57,6 @@ function onTick()
             math.sin(phys.eulerX) * math.sin(phys.eulerZ) +
             math.cos(phys.eulerX) * math.sin(phys.eulerY) * math.cos(phys.eulerZ),
             math.cos(phys.eulerX) * math.cos(phys.eulerY)) / 2 / math.pi
-
-        local flag = Receive.passCode == passCode and Receive.waypointX ~= 0 and Receive.waypointY ~= 0
-        if KeyPadA == passCode and 0 < KeyPadB and KeyPadB < 10000 then
-            mfmReceiveFreq = KeyPadB
-        end
-
-        if KeyPadA == passCode and flag then
-            waypointX = Receive.waypointX
-            waypointY = Receive.waypointY
-        elseif KeyPadA == passCode + 0.1 and flag then
-            waypointX = Receive.gpsX
-            waypointY = Receive.gpsY
-        elseif KeyPadA ~= 0 and KeyPadB ~= 0 then
-            waypointX = KeyPadA
-            waypointY = KeyPadB
-        end
-
-        if KeyPadA == -passCode and 0 < KeyPadB and KeyPadB < 10000 and mfmSendFreq ~= KeyPadB and property.getBool("Addon MFM send Freq setting system") then
-            mfmSendFreq = KeyPadB
-        end
     end
 
     do --Antenna
@@ -98,10 +66,8 @@ function onTick()
         output.setNumber(4, compassSensor)
         output.setNumber(5, phys.altitude)
         output.setNumber(6, phys.speed)
-        output.setNumber(7, KeyPadA)
-        output.setNumber(8, KeyPadB)
-        output.setNumber(9, mfmSendFreq)
-        output.setNumber(10, mfmReceiveFreq)
+        output.setNumber(7, waypointX)
+        output.setNumber(8, waypointY)
     end
 
 
@@ -137,4 +103,8 @@ function onTick()
         output.setNumber(25, waypointDirection)
         output.setNumber(26, waypointAzimuthError)
     end
+
+
+
+    output.setNumber(32,(math.atan(phys.gpsX-waypointX,phys.gpsY-waypointY)+math.pi*2)%(math.pi*2))
 end
