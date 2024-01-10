@@ -9,40 +9,40 @@
 
 d=screen
 b=false
-q=property
-c=q.getText
-i=input.getNumber
+k=property
+c=k.getText
+j=input.getNumber
 do
-j=q.getBool("Monitor Swap")h=b
+f=k.getBool("Monitor Swap")i=b
 g=b
-_={}_.u=0
-_.v=0
+_={}_.w=0
+_.t=0
 _.z=b
-_.x=b
+_.y=b
 end
 function onTick()g=not g
-output.setBool(32,g)_.u=i(30)_.v=i(31)p=i(32)end
-function onDraw()if h~=j then
-h=b
-if j and p==3 then
-n()end
+output.setBool(32,g)_.w=j(30)_.t=j(31)o=j(32)end
+function onDraw()if i~=f then
+i=b
+if f and o==3 then
+q()end
 else
-h=true
-if not j and p==3 then
-n()end
+i=true
+if not f and o==3 then
+q()end
 end
 end
-function n()d.setColor(10,10,10)d.drawClear()end
-function y(t,w,a)if type(a)=="number" then
+function q()d.setColor(10,10,10)d.drawClear()end
+function x(r,u,a)if type(a)=="number" then
 a=tostring(a)end
-s=c("F1")..c("F2")..c("F3")..c("F4")for f=1,a:len()do
-m=a:sub(f,f):byte()*5-159
-for e=1,5 do
-r="0x"..s:sub(m,m+4):sub(e,e)for k=1,3 do
-if r & 2^(4-k)>0 then
-l=t+f*4+k-5
-o=w+e-1
-d.drawLine(l,o,l+1,o)end
+s=c("F1")..c("F2")..c("F3")..c("F4")for e=1,a:len()do
+m=a:sub(e,e):byte()*5-159
+for h=1,5 do
+v="0x"..s:sub(m,m+4):sub(h,h)for p=1,3 do
+if v & 2^(4-p)>0 then
+n=r+e*4+p-5
+l=u+h-1
+d.drawLine(n,l,n+1,l)end
 end
 end
 end

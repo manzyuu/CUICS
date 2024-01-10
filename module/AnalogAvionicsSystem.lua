@@ -75,7 +75,7 @@ function onTick()
         local pitch = clock and tilt_z or -tilt_z
         local roll = math.atan(-tilt_y, tilt_x) + math.pi / 2
         output.setNumber(11, pitch + roll)
-        output.setNumber(12, input.getNumber(2) * property.getNumber("Alt Unit"))    --alt
+        output.setNumber(12, input.getNumber(2) * property.getNumber("Altitude Unit"))    --alt
         output.setNumber(13, input.getNumber(13) * property.getNumber("Speed Unit")) --spd
         output.setNumber(14, math.deg((((1 - compassSensor) % 1) * (math.pi * -2))))
         output.setNumber(15, phys.deltaAlt)
@@ -106,5 +106,5 @@ function onTick()
 
 
 
-    output.setNumber(32,(math.atan(phys.gpsX-waypointX,phys.gpsY-waypointY)+math.pi*2)%(math.pi*2))
+    output.setNumber(30,(math.atan(phys.gpsX-waypointX,phys.gpsY-waypointY)+math.pi*2)%(math.pi*2))
 end

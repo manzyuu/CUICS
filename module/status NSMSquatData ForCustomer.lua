@@ -36,7 +36,7 @@ do
     monitorSwap = property.getBool("Monitor Swap")
     monitorID   = false
     errorcheck  = false
-    maxSquat=4
+    maxSquat=6
     Passcode=4989
 
 
@@ -53,7 +53,7 @@ do
     SquatData.MissionNumber={}
     SquatData.CurrentVitalData={}
     SquatData.VitalSheet={}
-    SquatData.VitalSheet[00]={r=100,g=100,b=100,t="x"}
+    SquatData.VitalSheet[00]={r=100,g=100,b=100,blink=false,t="x"}
     SquatData.VitalSheet[01]={r=  0,g= 32,b=  0,blink=false,t="INBASE"}
     SquatData.VitalSheet[02]={r=  0,g= 64,b=  0,blink= true,t="F-WAIT"}
     SquatData.VitalSheet[03]={r=128,g= 64,b=  0,blink= true,t="ORDER"}
@@ -81,13 +81,16 @@ function onTick()
     do--nsm
         SquatData.CycleMode=input.getBool(2)
         clock=input.getBool(3)
+        --自分隊情報
         local temp=input.getNumber(29)%1000
         SquatData.mySquatNumber=(0<temp and temp<=maxSquat) and temp or 0
         SquatData.Passcode=input.getNumber(10)
         if SquatData.Passcode==Passcode then
             for i = 1, maxSquat, 1 do
-                buffer=input.getNumber(10+i)
-                SquatData.CurrentVitalData[i]=(buffer//100) or 0
+                buffer=input.getNumber(10+i)%10000
+                --SquatData.CurrentVitalData[i]=(buffer//100) or 0
+                --もしNullなら0に
+                SquatData.CurrentVitalData[i]=(SquatData.VitalSheet[(buffer//100)].r)and (buffer//100)  or 0
                 SquatData.MissionNumber[i]=(buffer%100)//1
             end 
         end

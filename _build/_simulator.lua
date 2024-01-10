@@ -25,6 +25,6 @@ sandboxEnv.simulator = simulator
 simulator:_beginSimulation(false, arg[1], arg[2])
 
 -- main require
-sandboxEnv.require("module.map")
+sandboxEnv.require("module.WIFI")
 
 simulator:_giveControlToMainLoop()

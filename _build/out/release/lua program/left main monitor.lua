@@ -6,147 +6,147 @@
 -- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
 --      By Nameous Changey
 -- Minimized Size: 3212 (3579 with comment) chars
-aR="X"
+aR="0"
 aQ="touch"
-aP="%03d"
-aO="x"
-aN="Y"
-aM="0"
-aL="y"
-aK="1"
+aP="x"
+aO="Y"
+aN="X"
+aM="y"
+aL="1"
+aK="%03d"
 
 d=255
 i=false
-j=true
-Z=output
-V=input
-w=math
+k=true
+R=output
+ab=input
+x=math
 s=screen
-E=property
-y=E.getText
-r=s.drawRect
-q=s.drawRectF
+D=property
+B=D.getText
+q=s.drawRect
+r=s.drawRectF
 m=s.drawLine
-A=w.abs
-x=string.format
+y=x.abs
+z=string.format
 a=s.setColor
-M=w.max
-v=w.min
-n=V.getBool
-_=V.getNumber
-h=Z.setBool
+F=x.max
+u=x.min
+o=ab.getBool
+_=ab.getNumber
+h=R.setBool
 do
-z,aA,I,ah=j,j,j,E.getBool("Monitor Swap")J=i
-K=2
-at=20
-O,D=0,0
-l,N=1,10
-P=0
-X={}e={}e.U=0
-e.Y=0
-B={}B.p=0
-B.o=0
-b={}b.aw,b.aC,b.ay,b.au,b.aJ,b.aq,b.ap,b.ar,b.al,b.ax={},{},{},{},{},{},{},{},{},{}L={}L.ac=0
-g={[aO]={},[aL]={},[aQ]={}}end
-function onTick()if z==i then return end
-z=i
-J=not J
-h(32,J)e.p,e.o=_(9),_(10)P=w.sqrt((B.p-e.p)^2+(B.o-e.o)^2)h(13,z)h(14,n(1)or n(2))H=i
-g[aO][1],g[aL][1],g[aQ][1]=_(1),_(2),n(1)g[aO][2],g[aL][2],g[aQ][2]=_(3),_(4),n(2)X.aB,X.c=_(5),_(6)az,av=_(7),_(8)e.Y=e.U
-e.p=_(9)e.o=_(10)e.U=_(11)e.aH=(_(11)-e.Y)*60
-e.aI=_(17)e.aD=_(18)aG=_(29)ao=_(30)aE=n(3)ai=n(4)am=_(13)aF=_(14)G=_(15)an=_(16)b["vis"][G]=n(5)b["dir"][G]=n(6)b["way"][G]=n(7)if g[aQ][1]then
-K=f(0,15,12,6,1)and 1 or
+C,az,H,ah=k,k,k,D.getBool("Monitor Swap")I=i
+L=2
+aE=20
+G,J=0,0
+l,O=1,10
+N=0
+V={}e={}e.Y=0
+e.X=0
+A={}A.n=0
+A.p=0
+c={}c.aD,c.al,c.am,c.av,c.an,c.aG,c.aJ,c.ao,c.au,c.aF={},{},{},{},{},{},{},{},{},{}M={}M.ac=0
+g={[aP]={},[aM]={},[aQ]={}}end
+function onTick()if C==i then return end
+C=i
+I=not I
+h(32,I)e.n,e.p=_(9),_(10)N=x.sqrt((A.n-e.n)^2+(A.p-e.p)^2)h(13,C)h(14,o(1)or o(2))K=i
+g[aP][1],g[aM][1],g[aQ][1]=_(1),_(2),o(1)g[aP][2],g[aM][2],g[aQ][2]=_(3),_(4),o(2)V.aI,V.b=_(5),_(6)aA,aC=_(7),_(8)e.X=e.Y
+e.n=_(9)e.p=_(10)e.Y=_(11)e.at=(_(11)-e.X)*60
+e.aB=_(17)e.ay=_(18)ar=_(29)aq=_(30)aH=o(3)ae=o(4)ap=_(13)aw=_(14)Q=_(15)ax=_(16)c["vis"][Q]=o(5)c["dir"][Q]=o(6)c["way"][Q]=o(7)if g[aQ][1]then
+L=f(0,15,12,6,1)and 1 or
 f(15,15,6,6,1)and 2 or
 f(0,24,16,6,1)and 3 or
 f(15,24,16,6,1)and 4 or 0
 end
-h(13,f(15,24,16,6,1))if K==1 then
-if I then
-O,D=e.p,e.o
+h(13,f(15,24,16,6,1))if L==1 then
+if H then
+G,J=e.n,e.p
 end
 if g[aQ][2]==i then
-C=i
+w=i
 end
 if f(0,0,5,5,2)then
-if C==i then
+if w==i then
 l=l+1
 end
-C=j
+w=k
 end
 if f(0,6,5,5,2)then
-if C==i then
+if w==i then
 l=l-1
 end
-C=j
+w=k
 end
-l=v(M(l,1),22)N=v(l-5,0)/5+v(M(l-4,1),10)+v(M(l-14,0),8)*5
+l=u(F(l,1),22)O=u(l-5,0)/5+u(F(l-4,1),10)+u(F(l-14,0),8)*5
 if f(13,13,6,6,2)then
-I=j
+H=k
 else
 if g[aQ][2]and l==i then
-O=-(g[aO][2]-16)*N/2+O
-D=-(g[aL][2]-16)*N/2+D
-I=i
+G=-(g[aP][2]-16)*O/2+G
+J=-(g[aM][2]-16)*O/2+J
+H=i
 end
 end
 end
-if K==2 then
+if L==2 then
 if f(27,0,5,6,2)then
-c=""
+b=""
 if f(2,14,5,5,2)then
-c=aK
+b=aL
 else
-c=aM
+b=aR
 end
 if f(8,14,5,5,2)then
-c=c..aK
+b=b..aL
 else
-c=c..aM
+b=b..aR
 end
 if f(14,14,5,5,2)then
-c=c..aK
+b=b..aL
 else
-c=c..aM
+b=b..aR
 end
-L.ac=tonumber(c)Z.setNumber(2,L.as)h(2,f(27,7,5,5,2))h(7,f(27,14,5,5,2))h(8,f(27,20,5,5,2))h(9,f(0,20,5,5,2))h(10,f(27,27,5,5,2))h(11,f(0,26,9,6,2))h(12,f(22,20,4,6,1))end
-h(13,j)else
-for u=1,13 do
-h(u,i)end
+M.ac=tonumber(b)R.setNumber(2,M.as)h(2,f(27,7,5,5,2))h(7,f(27,14,5,5,2))h(8,f(27,20,5,5,2))h(9,f(0,20,5,5,2))h(10,f(27,27,5,5,2))h(11,f(0,26,9,6,2))h(12,f(22,20,4,6,1))end
+h(13,k)else
+for t=1,13 do
+h(t,i)end
 end
-if(_(21)==E.getNumber("Passcode"))then
-c=_(20)b[aR][c]=_(22)b[aN][c]=_(22)b["Dir"][c]=_(22)b["Alt"][c]=_(22)b["Spd"][c]=_(22)b["WayX"][c]=_(22)b["WayY"][c]=_(22)end
+if(_(21)==D.getNumber("Passcode"))then
+b=_(20)c[aN][b]=_(22)c[aO][b]=_(22)c["Dir"][b]=_(22)c["Alt"][b]=_(22)c["Spd"][b]=_(22)c["WayX"][b]=_(22)c["WayY"][b]=_(22)end
 end
-function onDraw()z=j
-if H~=ah then
-H=j
+function onDraw()C=k
+if K~=ah then
+K=k
 return
 else
-H=j
-a(10,10,10)s.drawClear()a(200,50,20)k(29,1,aR)k(17,1,x(aP,A(e.p//100)))a(20,50,200)k(29,7,aN)k(17,7,x(aP,A(e.o//100)))a(d,d,d)k(0,1,x("%02d",v(A(P//1000),99)))s.drawText(7,1,".")k(10,1,x("%01d",A(P)//100%10))k(8,7,"KM")a(5,5,5)m(15,0,15,13)a(1,1,1)m(0,13,32,13)a(30,30,30)q(0,15,13,7)a(50,50,50)r(0,15,12,6)a(d,d,d)k(1,16,"MAP")a(30,30,30)q(15,15,7,7)a(50,50,50)r(15,15,6,6)a(d,d,d)m(16,19,16,21)m(16,19,19,16)m(19,16,21,16)m(18,19,18,21)m(19,18,21,18)m(20,20,21,20)if ai then
-a(70,70,70)q(23,15,8,7)a(50,50,50)r(23,15,8,6)a(d,20,50)else
-a(30,30,30)q(23,15,8,7)a(50,50,50)r(23,15,8,6)a(d,d,d)end
-k(24,16,"Be")a(30,30,30)q(0,24,13,7)a(50,50,50)r(0,24,12,6)a(d,d,d)k(1,25,"STA")a(30,30,30)q(16,24,17,7)a(50,50,50)r(15,24,16,6)a(d,d,d)k(16,25,"EXTE")end
+K=k
+a(10,10,10)s.drawClear()a(200,50,20)j(29,1,aN)j(17,1,z(aK,y(e.n//100)))a(20,50,200)j(29,7,aO)j(17,7,z(aK,y(e.p//100)))a(d,d,d)j(0,1,z("%02d",u(y(N//1000),99)))s.drawText(7,1,".")j(10,1,z("%01d",y(N)//100%10))j(8,7,"KM")a(5,5,5)m(15,0,15,13)a(1,1,1)m(0,13,32,13)a(30,30,30)r(0,15,13,7)a(50,50,50)q(0,15,12,6)a(d,d,d)j(1,16,"MAP")a(30,30,30)r(15,15,7,7)a(50,50,50)q(15,15,6,6)a(d,d,d)m(16,19,16,21)m(16,19,19,16)m(19,16,21,16)m(18,19,18,21)m(19,18,21,18)m(20,20,21,20)if ae then
+a(70,70,70)r(23,15,8,7)a(50,50,50)q(23,15,8,6)a(d,20,50)else
+a(30,30,30)r(23,15,8,7)a(50,50,50)q(23,15,8,6)a(d,d,d)end
+j(24,16,"Be")a(30,30,30)r(0,24,13,7)a(50,50,50)q(0,24,12,6)a(d,d,d)j(1,25,"STA")a(30,30,30)r(16,24,17,7)a(50,50,50)q(15,24,16,6)a(d,d,d)j(16,25,"EXTE")end
 end
-function f(p,o,af,ae,Q)ab,aa=g[aO][Q],g[aL][Q]if p<=ab and
-p+af>=ab and
-o<=aa and
-o+ae>=aa and
-g[aQ][Q]then
-return j
+function f(n,p,ad,ak,P)T,Z=g[aP][P],g[aM][P]if n<=T and
+n+ad>=T and
+p<=Z and
+p+ak>=Z and
+g[aQ][P]then
+return k
 else
 return i
 end
 end
-function k(ad,aj,t)if type(t)=="number" then
-t=tostring(t)end
-ag=y("F1")..y("F2")..y("F3")..y("F4")for u=1,t:len()do
-R=t:sub(u,u):byte()*5-159
-for F=1,5 do
-ak="0x"..ag:sub(R,R+4):sub(F,F)for S=1,3 do
-if ak & 2^(4-S)>0 then
-T=ad+u*4+S-5
-W=aj+F-1
-m(T,W,T+1,W)end
+function j(af,ai,v)if type(v)=="number" then
+v=tostring(v)end
+ag=B("F1")..B("F2")..B("F3")..B("F4")for t=1,v:len()do
+U=v:sub(t,t):byte()*5-159
+for E=1,5 do
+aj="0x"..ag:sub(U,U+4):sub(E,E)for S=1,3 do
+if aj & 2^(4-S)>0 then
+aa=af+t*4+S-5
+W=ai+E-1
+m(aa,W,aa+1,W)end
 end
 end
 end

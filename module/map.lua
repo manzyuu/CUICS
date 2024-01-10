@@ -287,7 +287,7 @@ function onTick() --[====[ onTick ]====]
         do
             local temp=freqlist[i]
             for i = 1, 8, 1 do
-                output.setNumber(i, receive.code[])
+                output.setNumber(i, receive.code[temp])
             end
 
             output.setNumber(10, receive.code[temp])

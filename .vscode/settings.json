@@ -37,10 +37,10 @@
     ],
     "Lua.runtime.pathStrict": true,
     "Lua.workspace.library": [
-        "c:/Users/toshi/Documents/stormworksLua/GitHub/CUICS/MAKIOS-CUICS/",
+        "c:/GoogleDrive/development/stormworksLua/GitHub/CUICS/MAKIOS-CUICS/",
         "c:/Users/toshi/.vscode/extensions/nameouschangey.lifeboatapi-0.0.33/assets/lua/Common/",
         "c:/Users/toshi/.vscode/extensions/nameouschangey.lifeboatapi-0.0.33/assets/lua/Microcontroller/",
-        "c:/Users/toshi/Documents/stormworksLua/GitHub/CUICS/MAKIOS-CUICS/_build/libs/"
+        "c:/GoogleDrive/development/stormworksLua/GitHub/CUICS/MAKIOS-CUICS/_build/libs/"
     ],
     "lifeboatapi.stormworks.libs.gitLibraries": [
         {

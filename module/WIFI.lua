@@ -103,13 +103,14 @@ do
 
     receive.code = {}
     receive.dispflag = {}
-    --[[
+    
     receive.X       = {}
     receive.Y       = {}
+    --[[
     receive.Dir     = {}
     receive.Alt     = {}
     receive.Spd     = {}
-]]
+    ]]
     receive.WayX        = {}
     receive.WayY        = {}
 
@@ -219,6 +220,8 @@ function onTick() --[====[ onTick ]====]
         local number =freqlist[radio.Channelnumber]
         if number ~= 0 and radio.switch and clockcount == 0 then
             receive.code[number] = input.getNumber(1)
+            receive.X[number]    = input.getNumber(2) // 1
+            receive.Y[number]    = input.getNumber(3) // 1
             receive.WayX[number] = input.getNumber(7) // 1
             receive.WayY[number] = input.getNumber(8) // 1
         end
@@ -273,7 +276,7 @@ function onTick() --[====[ onTick ]====]
                 end
             end
 
---[[
+        --[[
             for j = 1, 8, 1 do --重複削除
                 if i ~= j and freqlist[i] == freqlist[j] and i < j then
                     freqlist[j] = 0
@@ -281,7 +284,7 @@ function onTick() --[====[ onTick ]====]
                     freqlist[i] = 0
                 end
             end
-]]
+        ]]
         end
     end
 
@@ -299,7 +302,7 @@ function onTick() --[====[ onTick ]====]
             end
 
             pageNumber=pageNumber<1 and 1 or pageNumber>7 and 7 or pageNumber
-]]
+            ]]
             --------------------------------------------------------------------------
             if button(27, 0, 5, 6, touch.palse, true) and KeypadX ~= 0 then --送信チャンネル設定ボタン
                 touch.flags = true
@@ -356,7 +359,7 @@ function onTick() --[====[ onTick ]====]
                 touch.flags = true
                 radio.switch = not radio.switch
             end
-]]
+            ]]
         end
     end
 
@@ -369,13 +372,14 @@ function onTick() --[====[ onTick ]====]
                 waypoint.Y = KeypadY // 1
                 dataflag = true
             end
-            if input.getBool(30) and waypoint.selectfreq ~= 0 then
-                waypoint.X = receive.WayX[waypoint.selectfreq] or 0
-                waypoint.Y = receive.WayY[waypoint.selectfreq] or 0
+            if input.getBool(30) and waypoint.selectfreq ~= 0 then--receiveWaypoint
+                waypoint.X = receive.way[waypoint.selectfreq] and receive.WayX[waypoint.selectfreq] or receive.X[waypoint.selectfreq]
+                waypoint.Y = receive.way[waypoint.selectfreq] and receive.WayY[waypoint.selectfreq] or receive.Y[waypoint.selectfreq]
+                
                 dataflag = true
             end
 
-            if input.getBool(31) then
+            if input.getBool(31) then--Becon
                 waypoint.X = input.getNumber(21)
                 waypoint.Y = input.getNumber(22)
                 dataflag = true

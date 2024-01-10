@@ -1,13 +1,5 @@
-2023/10/03 7:19:14 Launching, time stamp.
-2023/10/03 7:19:14 Opening connection on port 14238
-2023/10/03 7:19:14 Now Accepting TCP clients
-2023/10/03 7:19:14 MainWindow Initialized and running
-2023/10/03 7:19:14 Client accepted - Client Connected: True, beginning Message Loop
-
-2023/10/03 7:19:16 SocketReadTask - Exception - Closing Pipe - Client Connected: True - System.NullReferenceException: オブジェクト参照がオブジェクト インスタンスに設定されていません。
-   場所 STORMWORKS_Simulator.TickHandler.OnLineRead(Object sender, String messageFromVS) 場所 C:\Workspaces\stormworks\vscode_extension\CsharpSimulator\STORMWORKS_Simulator\src\TickHandler.cs:行 68
-   場所 STORMWORKS_Simulator.SocketConnection.<.ctor>b__13_0() 場所 C:\Workspaces\stormworks\vscode_extension\CsharpSimulator\STORMWORKS_Simulator\src\SocketConnection.cs:行 88
-
-
-2023/10/03 7:19:16 Pipe_OnPipeClosed - Closing Application
-
+2023/12/22 0:55:24 Launching, time stamp.
+2023/12/22 0:55:25 Opening connection on port 14238
+2023/12/22 0:55:25 Now Accepting TCP clients
+2023/12/22 0:55:25 MainWindow Initialized and running
+2023/12/22 0:55:25 Client accepted - Client Connected: True, beginning Message Loop

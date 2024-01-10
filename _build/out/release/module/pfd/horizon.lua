@@ -8,29 +8,29 @@
 -- Minimized Size: 687 (1052 with comment) chars
 
 a=255
-d=screen
-h=d.setColor
-g=input.getNumber
+e=screen
+j=e.setColor
+h=input.getNumber
 _=math
 min,max,abs,cos,sin,tan,acos,asin,atan,pi,C=_.min,_.max,_.abs,_.cos,_.sin,_.tan,_.acos,_.asin,_.tan,_.pi,_.pi*2
-u,p,r=i("SkyColor")B,p,r=i("LandColor")u,p,r=i("CenterLineColor")function onTick()c=g(1)-pi/2
-D=g(2)m=g(3)*-360
+y,k,q=g("SkyColor")D,k,q=g("LandColor")y,k,q=g("CenterLineColor")function onTick()c=h(1)-pi/2
+B=h(2)o=h(3)*-360
 end
-function onDraw()n,v=d.getWidth(),d.getHeight()e=10
-f=v/4
-for b=-360//e,360//e do
-w=cos(c)*(b+m)+n/2
-y=sin(c)*(b+m)+n/2
-l,o=cos(c)*b*e+w,sin(c)*b*e+y
-q=c+pi/2
-k=-c+pi/2
-z,x=cos(q)*f+l,sin(q)*f+o
-s,t=cos(k)*f+l,-sin(k)*f+o
+function onDraw()n,v=e.getWidth(),e.getHeight()f=10
+d=v/4
+for b=-360//f,360//f do
+u=cos(c)*(b+o)+n/2
+z=sin(c)*(b+o)+n/2
+m,r=cos(c)*b*f+u,sin(c)*b*f+z
+l=c+pi/2
+p=-c+pi/2
+A,t=cos(l)*d+m,sin(l)*d+r
+s,x=cos(p)*d+m,-sin(p)*d+r
 if b==0 then
-h(a,a,a)elseif b<0 then
-h(10,a,10)else
-h(10,10,a)end
-d.drawLine(z,x,s,t)end
+j(a,a,a)elseif b<0 then
+j(10,a,10)else
+j(10,10,a)end
+e.drawLine(A,t,s,x)end
 end
-function i(A)local j=tonumber(property.getText(A),16)return(j>>16)& a,(j>>8)& a,j & a
+function g(w)local i=tonumber(property.getText(w),16)return(i>>16)& a,(i>>8)& a,i & a
 end

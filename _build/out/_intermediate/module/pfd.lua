@@ -321,8 +321,6 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         end
         screen.drawRectF(0, 4, 4, 3) --
 
-
-
         if boolB then
             screen.setColor(tonumber(colorTable[4]), tonumber(colorTable[5]), tonumber(colorTable[6]))
         else
@@ -343,7 +341,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
 
 
         if boolD then
-            screen.setColor(tonumber(colorTable[7]), tonumber(colorTable[8]), tonumber(colorTable[9]))
+            screen.setColor(tonumber(colorTable[10]), tonumber(colorTable[11]), tonumber(colorTable[12]))
         else
             screen.setColor(30, 30, 30)
         end
