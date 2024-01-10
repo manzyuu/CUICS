@@ -245,7 +245,7 @@ function onTick() --[====[ onTick ]====]
         --20,radio.sendFreq
         --21,radio.Channelnumber
 
-
+--23B2026
 
 
         moduleID = input.getNumber(23)
