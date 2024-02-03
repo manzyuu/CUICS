@@ -1,6 +1,5 @@
-mainRAM
-number
-
+output mainRAM
+Number
 
 
 01.MonitorTouchX
@@ -9,20 +8,20 @@ number
 04.MFM Receive PassCode
 05.MFM Receive X
 06.MFM Receive Y
-07.MFM Receive Compass
+07.MFM Receive direction
 08.MFM Receive Waypoint X
 09.MFM Receive Waypoint Y
-10.GPSX
-11.GPSY
-12.alt
-13.compass
-14.KeypadA
-15.KeypadB
-16.////!!AnyData!!////
+10.phys GPSX
+11.phys GPSY
+12.phys alt
+13.phys Speed
+14.phys compass
+15.KeypadA
+16.KeypadB
 17.////!!AnyData!!////
 18.////!!AnyData!!////
-19.////!!AnyData!!////
-20.////!!AnyData!!////
+19.beconX
+20.beconY
 21.waypointX
 22.waypointY
 23.WifiSendFreq
@@ -50,6 +49,31 @@ freq+0~15*10000
 
 
 
+
+
+ramdata
+
+21.waypointX 
+22.waypointY 
+23.WifiSendFreq
+24.Wifi01Freq+settingdata
+25.Wifi02Freq+settingdata
+26.Wifi03Freq+settingdata
+27.Wifi04Freq+settingdata
+28.Wifi05Freq+settingdata
+29.Wifi06Freq+settingdata
+30.Wifi06Freq+settingdata
+31.Wifi07Freq+settingdata
+32.Wifi08Freq+settingdata
+
+
+
+IDCode
+0.PFD
+1.wifi
+2.map
+3.status
+4.ex
 
 
 

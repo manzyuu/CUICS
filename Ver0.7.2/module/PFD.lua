@@ -171,7 +171,7 @@ end
 
 do -------------------------------------[====[ 描画系 ]====]----------------------------------------
     ----------------------FONT----------------------
-    function drawNewFont(NewFontX, NewFontY, NewFontZ)
+    function DrawNewFont(NewFontX, NewFontY, NewFontZ)
         if type(NewFontZ) == "number" then
             NewFontZ = tostring(NewFontZ)
         end
@@ -276,7 +276,7 @@ do -------------------------------------[====[ 描画系 ]====]-----------------
         screen.drawRectF(9, 24, 13, 5)
 
         screen.setColor(255, 255, 225)
-        drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass))))) --現在方位を三桁表示
+        DrawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(Phys.compass))))) --現在方位を三桁表示
 
         screen.setColor(5, 70, 5)
         --[[

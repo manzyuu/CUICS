@@ -278,19 +278,19 @@ screenpower = true
 
         --GPSX,Y座標表示
             screen.setColor(200, 50, 20)
-            drawNewFont(29, 1, "X")
-            drawNewFont(17, 1, string.format("%03d", math.abs(Phys.x // 100))) --3桁表示し左を0埋め
+            DrawNewFont(29, 1, "X")
+            DrawNewFont(17, 1, string.format("%03d", math.abs(Phys.x // 100))) --3桁表示し左を0埋め
 
             screen.setColor(20, 50, 200)
-            drawNewFont(29, 7, "Y")
-            drawNewFont(17, 7, string.format("%03d", math.abs(Phys.y // 100)))
+            DrawNewFont(29, 7, "Y")
+            DrawNewFont(17, 7, string.format("%03d", math.abs(Phys.y // 100)))
 
         --Target Distance
             screen.setColor(255, 255, 255)
-            drawNewFont(0, 1, string.format("%02d", math.min(math.abs(autopilotDist // 1000), 99)))
+            DrawNewFont(0, 1, string.format("%02d", math.min(math.abs(autopilotDist // 1000), 99)))
             screen.drawText(7, 1, ".")
-            drawNewFont(10, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
-            drawNewFont(8, 7, "KM")
+            DrawNewFont(10, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
+            DrawNewFont(8, 7, "KM")
 
         screen.setColor(5, 5, 5)
         screen.drawLine(15, 0, 15, 13)
@@ -304,7 +304,7 @@ screenpower = true
             screen.setColor(50, 50, 50)
             screen.drawRect(0, 15, 12, 6)
             screen.setColor(255, 255, 255)
-            drawNewFont(1, 16, "MAP")
+            DrawNewFont(1, 16, "MAP")
 
         --チャンネル設定
             screen.setColor(30, 30, 30)
@@ -335,7 +335,7 @@ screenpower = true
                 screen.drawRect(23, 15, 8, 6)
                 screen.setColor(255, 255, 255)
             end
-            drawNewFont(24, 16, "Be")
+            DrawNewFont(24, 16, "Be")
 
 
         --エンジン、バッテリ、燃料
@@ -344,7 +344,7 @@ screenpower = true
             screen.setColor(50, 50, 50)
             screen.drawRect(0, 24, 12, 6)
             screen.setColor(255, 255, 255)
-            drawNewFont(1, 25, "STA")
+            DrawNewFont(1, 25, "STA")
 
         --外部映像
             screen.setColor(30, 30, 30)
@@ -352,7 +352,7 @@ screenpower = true
             screen.setColor(50, 50, 50)
             screen.drawRect(15, 24, 16, 6)
             screen.setColor(255, 255, 255)
-            drawNewFont(16, 25, "EXTE")
+            DrawNewFont(16, 25, "EXTE")
     end
 end -------------------------------------------onDraw終わり-------------------------------------------
 
@@ -369,7 +369,7 @@ function button(x, y, w, h, lr)
     end
 end
 
-function drawNewFont(NewFontX, NewFontY, NewFontZ)
+function DrawNewFont(NewFontX, NewFontY, NewFontZ)
     if type(NewFontZ) == "number" then
         NewFontZ = tostring(NewFontZ)
     end

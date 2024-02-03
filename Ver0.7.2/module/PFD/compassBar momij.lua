@@ -6,7 +6,7 @@ function compassBar(targetangle)    --targetangle = degrees
     screen.drawRectF(9,24,13,5)
 
     screen.setColor(255, 255, 225)
-    drawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(compass_y)))))
+    DrawNewFont(10, 24, string.format("%03d", tonumber(math.floor(math.deg(compass_y)))))
 
     screen.setColor(5, 70, 5)
     for i = 0, 72, 1 do

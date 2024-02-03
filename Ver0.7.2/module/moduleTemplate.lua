@@ -76,7 +76,7 @@ end
 
 
 
-function drawNewFont(NewFontX, NewFontY, text)
+function DrawNewFont(NewFontX, NewFontY, text)
     if type(text) == "number" then
         text = tostring(text)
     end

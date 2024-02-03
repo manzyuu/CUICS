@@ -244,10 +244,6 @@ function onTick() --[====[ onTick ]====]
         touch.Y      = input.getNumber(19)
         --20,radio.sendFreq
         --21,radio.Channelnumber
-
---23B2026
-
-
         moduleID = input.getNumber(23)
 
         if touch.time == 0 then
@@ -517,7 +513,7 @@ function moduleUnit()
     receiveunit(freqlist[pageNumber + 1], 1)
 
     screen.setColor(100, 100, 100)
-    drawNewFont(24, 27, string.format("%01d", pageNumber % 2 + pageNumber // 2))
+    DrawNewFont(24, 27, string.format("%01d", pageNumber % 2 + pageNumber // 2))
 end
 
 -----------ライブラリ-------------------------------------------------------------------
@@ -548,7 +544,7 @@ function receiveunit(ch, num)
 
     temp = receive.vis[ch] and 255 or 50 --vision
     screen.setColor(temp, temp, temp)
-    drawNewFont(2, 13 + num, "v")
+    DrawNewFont(2, 13 + num, "v")
 
     temp = receive.dir[ch] and 255 or 50 --direction
     screen.setColor(temp, temp, temp)
@@ -583,7 +579,7 @@ function button(x, y, w, h, bool, palsemode)
     end
 end
 
-function drawNewFont(NewFontX, NewFontY, NewFontZ)
+function DrawNewFont(NewFontX, NewFontY, NewFontZ)
     if type(NewFontZ) == "number" then
         NewFontZ = tostring(NewFontZ)
     end

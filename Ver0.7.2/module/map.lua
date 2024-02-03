@@ -397,7 +397,7 @@ function moduleUnit()
 
         temp = button(27, 6, 5, 4, false) and 100 or 255
         screen.setColor(temp, temp, temp)
-        drawNewFont(28, 6, "p") --waypoint from keypad
+        DrawNewFont(28, 6, "p") --waypoint from keypad
 
         temp = radio.switch and 255 or 50
         temp = button(27, 12, 5, 4, false) and 100 or temp
@@ -407,11 +407,11 @@ function moduleUnit()
 
         temp = button(27, 18, 5, 4, false) and 100 or 255
         screen.setColor(temp, temp, temp)
-        drawNewFont(28, 17, "B") --waypoint from keypad
+        DrawNewFont(28, 17, "B") --waypoint from keypad
     end
     do --draw button
         screen.setColor(100, 100, 100)
-        drawNewFont(0, 26, zoom)
+        DrawNewFont(0, 26, zoom)
 
 
         screen.setColor(5, 5, 5)
@@ -431,7 +431,7 @@ function moduleUnit()
 
         temp = button(27, 0, 5, 4, false) and 100 or 255
         screen.setColor(temp, temp, temp)
-        drawNewFont(28, -1, "w") --waypoint from keypad
+        DrawNewFont(28, -1, "w") --waypoint from keypad
 
 
 
@@ -458,7 +458,7 @@ function button(x, y, w, h, palse)
     return returnvalue
 end
 
-function drawNewFont(NewFontX, NewFontY, NewFontZ)
+function DrawNewFont(NewFontX, NewFontY, NewFontZ)
     if type(NewFontZ) == "number" then
         NewFontZ = tostring(NewFontZ)
     end

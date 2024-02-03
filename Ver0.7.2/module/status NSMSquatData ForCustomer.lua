@@ -150,9 +150,9 @@ function moduleUnit()
         screen.drawRectF(0,0,24,7)
         local SquatInfo=SquatData.CurrentVitalData[SquatData.selectNumber] or 0
         screen.setColor(200,200,200)
-        drawNewFont(9,1,"SQ:")
+        DrawNewFont(9,1,"SQ:")
         local label=SquatData.selectNumber>0 and tostring(SquatData.selectNumber) or "x"
-        drawNewFont(20,1,label)
+        DrawNewFont(20,1,label)
 
         screen.setColor(3, 3, 3)
         screen.drawRectF(25,1,7,13)
@@ -173,18 +173,18 @@ function moduleUnit()
 
         temp=(SquatData.VitalSheet[SquatInfo].blink and clock) and 192 or 255
         screen.setColor(SquatData.VitalSheet[SquatInfo].r,SquatData.VitalSheet[SquatInfo].g,SquatData.VitalSheet[SquatInfo].b,temp)
-        drawNewFont(1,7,SquatData.VitalSheet[SquatInfo].t)
+        DrawNewFont(1,7,SquatData.VitalSheet[SquatInfo].t)
 
         --screen.setColor(200,200,200)
 
-        drawNewFont(1,14,"M'No.")
-        drawNewFont(20,14,string.format("%d",SquatData.MissionNumber[SquatData.selectNumber]or 0))
+        DrawNewFont(1,14,"M'No.")
+        DrawNewFont(20,14,string.format("%d",SquatData.MissionNumber[SquatData.selectNumber]or 0))
     end
     screen.setColor(1, 1, 1)
     screen.drawLine(0,19,32,19)
 end
 
-function drawNewFont(NewFontX, NewFontY, text)
+function DrawNewFont(NewFontX, NewFontY, text)
     if type(text) == "number" then
         text = tostring(text)
     end

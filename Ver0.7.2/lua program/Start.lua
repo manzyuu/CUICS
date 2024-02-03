@@ -141,19 +141,19 @@ function left()
         --drawRectF(0,0,32,32)
 
         screen.setColor(0, 0, 0)
-        drawNewFont(7, 14, "CUICS")
+        DrawNewFont(7, 14, "CUICS")
     elseif ticks < 350 then
         screen.setColor(10, 10, 10)
         drawRectF(0, 0, 32, 32)
         screen.setColor(0, 0, 0)
-        drawNewFont(7, 14, "CUICS")
-        drawNewFont(17, 25, "Cpl.")
+        DrawNewFont(7, 14, "CUICS")
+        DrawNewFont(17, 25, "Cpl.")
     elseif ticks < 410 then
         screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
         drawRectF(0, 0, 32, 32)
         screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
-        drawNewFont(7, 14, "CUICS")
-        drawNewFont(17, 25, "Cpl.")
+        DrawNewFont(7, 14, "CUICS")
+        DrawNewFont(17, 25, "Cpl.")
     end
 end
 
@@ -174,25 +174,25 @@ function right()
         --drawRectF(0,0,32,32)
 
         screen.setColor(0, 0, 0)
-        drawNewFont(7, 14, "CUICS")
+        DrawNewFont(7, 14, "CUICS")
     elseif ticks < 350 then
         screen.setColor(10, 10, 10)
         drawRectF(0, 0, 32, 32)
         screen.setColor(0, 0, 0)
-        drawNewFont(3, 3, "Var,1.0")
-        drawNewFont(1, 19, "Powerd")
-        drawNewFont(2, 25, "ByMAKKI")
+        DrawNewFont(3, 3, "Var,1.0")
+        DrawNewFont(1, 19, "Powerd")
+        DrawNewFont(2, 25, "ByMAKKI")
     elseif ticks < 410 then
         screen.setColor(10, 10, 10, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
         drawRectF(0, 0, 32, 32)
         screen.setColor(0, 0, 0, 255 - clamp(ticks - 350, 0, 60) / 60 * 255)
-        drawNewFont(3, 3, "Var,1.0")
-        drawNewFont(1, 19, "Powerd")
-        drawNewFont(2, 25, "ByMAKKI")
+        DrawNewFont(3, 3, "Var,1.0")
+        DrawNewFont(1, 19, "Powerd")
+        DrawNewFont(2, 25, "ByMAKKI")
     end
 end
 
-function drawNewFont(NewFontX, NewFontY, NewFontTextValue)
+function DrawNewFont(NewFontX, NewFontY, NewFontTextValue)
     local NewFontC, NewFontD, NewFontF, NewFontP, NewFontQ
     if type(NewFontTextValue) == "number" then
         NewFontTextValue = tostring(NewFontTextValue)

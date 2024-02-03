@@ -94,8 +94,8 @@ function moduleUnit()
             screen.drawLine(0,26,32,26)
 
             screen.setColor(255, 255, 255)
-            drawNewFont(0, 0, "ADD")
-            drawNewFont(3, 6, "RPS")
+            DrawNewFont(0, 0, "ADD")
+            DrawNewFont(3, 6, "RPS")
             screen.drawText(18,7,string.format("%0d",addrps//1%10))
 
             screen.setColor(3, 3, 3)
@@ -113,18 +113,18 @@ function moduleUnit()
 
 
             screen.setColor(255, 255, 255)
-            drawNewFont(0, 15, "RPS")
-            drawNewFont(0, 21, "TEMP")
-            drawNewFont(0, 27, "FUEL")
+            DrawNewFont(0, 15, "RPS")
+            DrawNewFont(0, 21, "TEMP")
+            DrawNewFont(0, 27, "FUEL")
 
-            drawNewFont(21,15,string.format("%03d",rps//1))
-            drawNewFont(21,21,string.format("%03d",temp//1))
-            drawNewFont(17,27,string.format("%04d",fuel//1))
+            DrawNewFont(21,15,string.format("%03d",rps//1))
+            DrawNewFont(21,21,string.format("%03d",temp//1))
+            DrawNewFont(17,27,string.format("%04d",fuel//1))
 end
 
 
 
-function drawNewFont(NewFontX, NewFontY, text)
+function DrawNewFont(NewFontX, NewFontY, text)
     if type(text) == "number" then
         text = tostring(text)
     end

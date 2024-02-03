@@ -193,36 +193,36 @@ function drawdata()
 
 
     if viewDataNumver == 0 then
-        drawNewFont(3, 1, "ALT")
-        drawNewFont(16, 1, string.format("%04d", Phys.alt // 1))
-        drawNewFont(3, 7, "SPD")
-        drawNewFont(16, 7, string.format("%04d", Phys.speed // 1))
+        DrawNewFont(3, 1, "ALT")
+        DrawNewFont(16, 1, string.format("%04d", Phys.alt // 1))
+        DrawNewFont(3, 7, "SPD")
+        DrawNewFont(16, 7, string.format("%04d", Phys.speed // 1))
     elseif viewDataNumver == 1 then --GPSX,Y座標表示
         screen.setColor(200, 50, 20)
-        drawNewFont(8, 1, "X")
+        DrawNewFont(8, 1, "X")
         if Phys.x < 0 then
-            drawNewFont(12, 1, "-")
+            DrawNewFont(12, 1, "-")
         end
 
-        drawNewFont(16, 1, string.format("%03d", math.abs(Phys.x // 100))) --3桁表示し左を0埋め
+        DrawNewFont(16, 1, string.format("%03d", math.abs(Phys.x // 100))) --3桁表示し左を0埋め
         screen.drawLine(28, 5, 29, 5)
         screen.drawLine(30, 5, 31, 5)
 
 
         screen.setColor(20, 50, 200)
-        drawNewFont(8, 7, "Y")
+        DrawNewFont(8, 7, "Y")
         if Phys.y < 0 then
-            drawNewFont(12, 7, "-")
+            DrawNewFont(12, 7, "-")
         end
-        drawNewFont(16, 7, string.format("%03d", math.abs(Phys.y // 100)))
+        DrawNewFont(16, 7, string.format("%03d", math.abs(Phys.y // 100)))
         screen.drawLine(28, 11, 29, 11)
         screen.drawLine(30, 11, 31, 11)
     else --Target Distance
         screen.setColor(255, 255, 255)
-        drawNewFont(7, 1, string.format("%03d", math.min(math.abs(autopilotDist // 1000), 999)))
+        DrawNewFont(7, 1, string.format("%03d", math.min(math.abs(autopilotDist // 1000), 999)))
         screen.drawText(18, 1, ".")
-        drawNewFont(21, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
-        drawNewFont(23, 7, "KM")
+        DrawNewFont(21, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
+        DrawNewFont(23, 7, "KM")
     end
 
     --[[
@@ -243,7 +243,7 @@ function drawbutton()
     screen.drawRect(0, 15, 12, 6)
     temp = button(0, 15, 12, 6, false) and 100 or 255
     screen.setColor(temp, temp, temp)
-    drawNewFont(1, 16, "MAP")
+    DrawNewFont(1, 16, "MAP")
 
     --チャンネル設定
     temp = radioswitch and 50 or 30
@@ -273,7 +273,7 @@ function drawbutton()
     screen.drawRect(23, 15, 8, 6)
     temp = beconmode and 255 or 100
     screen.setColor(temp, temp, temp)
-    drawNewFont(24, 16, "Be")
+    DrawNewFont(24, 16, "Be")
 
 
     --エンジン、バッテリ、燃料
@@ -283,7 +283,7 @@ function drawbutton()
     screen.drawRect(0, 24, 12, 6)
     temp = button(0, 24, 16, 6, false) and 100 or 255
     screen.setColor(temp, temp, temp)
-    drawNewFont(1, 25, "STA")
+    DrawNewFont(1, 25, "STA")
 
     --外部映像
     screen.setColor(30, 30, 30)
@@ -292,7 +292,7 @@ function drawbutton()
     screen.drawRect(15, 24, 16, 6)
     temp = button(15, 24, 16, 6, false) and 100 or 255
     screen.setColor(temp, temp, temp)
-    drawNewFont(16, 25, "EXTE")
+    DrawNewFont(16, 25, "EXTE")
 end
 
 function button(x, y, w, h, palse)
@@ -313,7 +313,7 @@ function button(x, y, w, h, palse)
     return returnvalue
 end
 
-function drawNewFont(NewFontX, NewFontY, NewFontZ)
+function DrawNewFont(NewFontX, NewFontY, NewFontZ)
     if type(NewFontZ) == "number" then
         NewFontZ = tostring(NewFontZ)
     end
