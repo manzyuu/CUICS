@@ -91,24 +91,33 @@ do
     monitorSwap  = property.getBool("Monitor Swap")
     MFMPassCode  = property.getNumber("MFMPassCode")
     monitorID    = false
+    errorcheck   = false
     ThisModuleID = 1
-    moduleID     = 1
+    ModuleID     = 1
     DrawListKey  = 1
 end
 
 function onTick()
+
+    ------ErrorcheckClockSignal
+    errorcheck = not errorcheck
+    output.setBool(32, errorcheck)
+    ------endErrorcheckClockSignal
+
+    ModuleID = input.getNumber(3)
+    
     Phys.Update()
     Wifi.Update()
     Touch.Update()
-
-    KeypadX=input.getNumber(15)
-    KeypadY=input.getNumber(16)
+    
+    KeypadX = input.getNumber(15)
+    KeypadY = input.getNumber(16)
 
     Wifi.Output()
 end
 
 function onDraw()
-    flag = moduleID == ThisModuleID
+    flag = ModuleID == ThisModuleID
 
     if monitorID ~= monitorSwap then
         monitorID = false
@@ -151,11 +160,11 @@ function moduleUnit()
     screen.setColor(25, 25, 25)
     screen.drawRectF(27, 0, 5, 6) --送信ボタン
 
-    temp =MomentaryCollisionDetection(27, 0, 5, 5, Touch)and 255 or 50
-    if PalseCollisionDetection(27, 0, 5, 6, Touch)  then
+    temp = MomentaryCollisionDetection(27, 0, 5, 5, Touch) and 255 or 50
+    if PalseCollisionDetection(27, 0, 5, 6, Touch) then
         Wifi.SetSendFreq(KeypadY)
     end
-    
+
     screen.setColor(temp, temp, temp)
     screen.drawText(28, 2, "^") --送信ボタン
 
@@ -163,7 +172,7 @@ function moduleUnit()
     -------------EndSendSetting
 
     ---------------AddReceiveFreq
-    temp =MomentaryCollisionDetection(27, 7, 5, 5, Touch)and 255 or 50
+    temp = MomentaryCollisionDetection(27, 7, 5, 5, Touch) and 255 or 50
     if PalseCollisionDetection(27, 7, 5, 5, Touch) then
         Wifi.AddFreq(KeypadY)
     end

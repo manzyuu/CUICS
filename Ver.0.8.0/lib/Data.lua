@@ -27,7 +27,7 @@ Phys = {
 ---@endsection PhysData
 
 
-BeforTouch=false
+BeforTouch = false
 ---@section Touch
 Touch = {
     X = 0,
@@ -44,7 +44,6 @@ Touch = {
 
         Touch.ReloadTimer = (Touch.Bool and (Touch.ReloadTimer == 0)) and 6 or
             Touch.ReloadTimer > 0 and Touch.ReloadTimer - 1 or 0
-        
     end,
 
 
@@ -66,7 +65,7 @@ Wifi = {
     DrawDirection = {},
     DrawWaypoint = {},
     SetWaypointFreq = 0,
-    SendFreq=0,
+    SendFreq = 0,
     ListKey = 1,
     Clockcount = 0,
     Switch = false,
@@ -85,7 +84,7 @@ Wifi = {
         end
 
         if Touch.ReloadTimer == 0 then
-            Wifi.SendFreq=input.getNumber(23)
+            Wifi.SendFreq = input.getNumber(23)
             for i = 1, 8, 1 do
                 Wifi.FreqList[i] = math.floor(input.getNumber(24 + i)) % interval or 0
                 --receive.dispflag[Wifi.FreqList[i]] = receive.dispflag[Wifi.FreqList[i]] or false
@@ -105,9 +104,12 @@ Wifi = {
     ---@section AddFreq
     ---field freq number 0001~9999
     AddFreq = function(freq)
-        freq=math.floor(freq)
+        freq = math.floor(freq)
         if (0 < freq and freq < 10000) then
             for i = 1, 8, 1 do
+                if Wifi.FreqList[i] == freq then
+                    break
+                end
                 if Wifi.FreqList[i] == 0 then
                     Wifi.FreqList[i] = freq
                     break
@@ -119,7 +121,7 @@ Wifi = {
 
     ---@section RemoveFreq
     RemoveFreq = function(key)
-        for i = key, 8, 1 do
+        for i = key, 7, 1 do
             Wifi.FreqList[i] = Wifi.FreqList[i + 1]
         end
     end,
@@ -127,9 +129,9 @@ Wifi = {
 
 
     ---@section SetSendFreq
-    SetSendFreq=function (freq)
+    SetSendFreq = function(freq)
         if (0 < freq and freq < 10000) then
-            Wifi.SendFreq=freq
+            Wifi.SendFreq = freq
         end
     end,
     ---@endsection SetSendFreq
@@ -137,12 +139,12 @@ Wifi = {
 
 
     ---@section Output
-    Output=function ()
-        output.setNumber(23,Wifi.SendFreq)
+    Output = function()
+        output.setNumber(23, Wifi.SendFreq)
         for i = 1, 8, 1 do
-            local number=Wifi.FreqList[i]
-            local temp=((Wifi.Visible[number] and 2 or 0) + (Wifi.DrawDirection[number] and 4 or 0) + (receive.way[number] and 8 or 0)) * interval
-            output.setNumber(24 + i, number+temp)
+            local number = Wifi.FreqList[i]
+            local temp = ((Wifi.Visible[number] and 2 or 0) + (Wifi.DrawDirection[number] and 4 or 0) + (Wifi.DrawWaypoint[number] and 8 or 0)) *interval
+            output.setNumber(24 + i, number + temp)
         end
     end,
     ---@endsection output
@@ -179,6 +181,7 @@ function DrawNewFont(NewFontX, NewFontY, NewFontText)
         end
     end
 end
+
 ---@endsection DrawNewFont
 
 
@@ -186,6 +189,7 @@ end
 function PalseCollisionDetection(x, y, height, width, Touch)
     return Touch.Palse and x <= Touch.X and Touch.X <= x + width and y <= Touch.Y and Touch.Y <= y + height
 end
+
 ---@endsection PalseCollisionDetection
 
 
@@ -193,4 +197,5 @@ end
 function MomentaryCollisionDetection(x, y, height, width, Touch)
     return Touch.Bool and x <= Touch.X and Touch.X <= x + width and y <= Touch.Y and Touch.Y <= y + height
 end
+
 ---@endsection MomentaryCollisionDetection
