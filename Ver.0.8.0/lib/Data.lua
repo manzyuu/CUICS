@@ -1,8 +1,8 @@
 ---@section PhysData
 Phys = {
-    ---@section update
+    ---@section Update
     ---@return nil
-    update = function()
+    Update = function()
         GpsX = input.getNumber(10)
         GpsY = input.getNumber(11)
         Alt = input.getNumber(12)
@@ -10,7 +10,7 @@ Phys = {
         CompassDeg = ((((1 - input.getNumber(14)) % 1) * (math.pi * 2)) / math.pi * 180)
         CompassRad = input.getNumber(14) * math.pi * 2
     end,
-    ---@endsection update
+    ---@endsection Update
 
     ---@section printData
     printData = function()
@@ -27,7 +27,7 @@ Phys = {
 ---@endsection PhysData
 
 
-
+BeforTouch=false
 ---@section Touch
 Touch = {
     X = 0,
@@ -35,16 +35,16 @@ Touch = {
     Bool = false,
     ReloadTimer = 0,
     Palse = false,
-    update = function()
-        local beforTouch = false
-        beforTouch = Bool
-        Palse = not beforTouch and Bool
-        X = input.getNumber(1)
-        Y = input.getNumber(2)
-        Bool = input.getBool(1)
+    Update = function()
+        BeforTouch = Touch.Bool
+        Touch.X = input.getNumber(1)
+        Touch.Y = input.getNumber(2)
+        Touch.Bool = input.getBool(1)
+        Touch.Palse = not BeforTouch and Touch.Bool
 
-        ReloadTimer = (Bool and (ReloadTimer == 0)) and 5 or
-            ReloadTimer > 0 and ReloadTimer - 1 or 0
+        Touch.ReloadTimer = (Touch.Bool and (Touch.ReloadTimer == 0)) and 6 or
+            Touch.ReloadTimer > 0 and Touch.ReloadTimer - 1 or 0
+        
     end,
 
 
@@ -53,10 +53,6 @@ Touch = {
 interval = 10000
 
 ---@section Wifi
----@class Wifi
----@field Passcode number
----@field CurrentX number
-
 Wifi = {
     Passcode = {},
     CurrentX = {},
@@ -70,15 +66,16 @@ Wifi = {
     DrawDirection = {},
     DrawWaypoint = {},
     SetWaypointFreq = 0,
+    SendFreq=0,
     ListKey = 1,
     Clockcount = 0,
-    switch = false,
+    Switch = false,
 
-    ---@section update
+    ---@section Update
     Update = function()
-        switch = input.getBool(1)
+        Wifi.Switch = input.getBool(10)
         local number = Wifi.FreqList[Wifi.ListKey]
-        if number ~= 0 and Wifi.switch and Wifi.clockcount == 0 then
+        if number ~= 0 and Wifi.Switch and Wifi.clockcount == 0 then
             Wifi.Passcode[number]  = input.getNumber(11)
             Wifi.CurrentX[number]  = input.getNumber(12) // 1
             Wifi.CurrentY[number]  = input.getNumber(13) // 1
@@ -88,6 +85,7 @@ Wifi = {
         end
 
         if Touch.ReloadTimer == 0 then
+            Wifi.SendFreq=input.getNumber(23)
             for i = 1, 8, 1 do
                 Wifi.FreqList[i] = math.floor(input.getNumber(24 + i)) % interval or 0
                 --receive.dispflag[Wifi.FreqList[i]] = receive.dispflag[Wifi.FreqList[i]] or false
@@ -101,16 +99,17 @@ Wifi = {
             end
         end
     end,
-    ---@endsection update
+    ---@endsection Update
 
 
     ---@section AddFreq
     ---field freq number 0001~9999
-    AddFreq=function (freq)
-        if (0<freq and freq<10000)then
+    AddFreq = function(freq)
+        freq=math.floor(freq)
+        if (0 < freq and freq < 10000) then
             for i = 1, 8, 1 do
-                if Wifi.FreqList[i]==0 then
-                    Wifi.FreqList[i]=freq
+                if Wifi.FreqList[i] == 0 then
+                    Wifi.FreqList[i] = freq
                     break
                 end
             end
@@ -119,17 +118,34 @@ Wifi = {
     ---@endsection AddFreq
 
     ---@section RemoveFreq
-    RemoveFreq=function (freq)
-        for i = 1, 8, 1 do
-            if Wifi.FreqList[i]==freq then
-                for j = i, 8, 1 do
-                    Wifi.FreqList[j]=Wifi.FreqList[j+1]
-                end
-                break
-            end
+    RemoveFreq = function(key)
+        for i = key, 8, 1 do
+            Wifi.FreqList[i] = Wifi.FreqList[i + 1]
         end
     end,
     ---@endsection RemoveFreq
+
+
+    ---@section SetSendFreq
+    SetSendFreq=function (freq)
+        if (0 < freq and freq < 10000) then
+            Wifi.SendFreq=freq
+        end
+    end,
+    ---@endsection SetSendFreq
+
+
+
+    ---@section Output
+    Output=function ()
+        output.setNumber(23,Wifi.SendFreq)
+        for i = 1, 8, 1 do
+            local number=Wifi.FreqList[i]
+            local temp=((Wifi.Visible[number] and 2 or 0) + (Wifi.DrawDirection[number] and 4 or 0) + (receive.way[number] and 8 or 0)) * interval
+            output.setNumber(24 + i, number+temp)
+        end
+    end,
+    ---@endsection output
 }
 ---@endsection Wifi
 
@@ -143,14 +159,14 @@ Wifi = {
 
 
 
-
-function DrawNewFont(NewFontX, NewFontY, NewFontZ)
-    if type(NewFontZ) == "number" then
-        NewFontZ = tostring(NewFontZ)
+---@section DrawNewFont
+function DrawNewFont(NewFontX, NewFontY, NewFontText)
+    if type(NewFontText) == "number" then
+        NewFontText = tostring(NewFontText)
     end
     NewFontD = property.getText("F1") .. property.getText("F2") .. property.getText("F3") .. property.getText("F4")
-    for i = 1, NewFontZ:len() do
-        NewFontC = NewFontZ:sub(i, i):byte() * 5 - 159
+    for i = 1, NewFontText:len() do
+        NewFontC = NewFontText:sub(i, i):byte() * 5 - 159
         for j = 1, 5 do
             NewFontF = "0x" .. NewFontD:sub(NewFontC, NewFontC + 4):sub(j, j)
             for k = 1, 3 do
@@ -163,12 +179,18 @@ function DrawNewFont(NewFontX, NewFontY, NewFontZ)
         end
     end
 end
+---@endsection DrawNewFont
 
 
-
-
-
----@section CollisionDetection
-function CollisionDetection(x,y,height,width,Touch)
-    return x+width<Touch.X and Touch.X<x and y+height<Touch.Y and Touch.Y<y 
+---@section PalseCollisionDetection
+function PalseCollisionDetection(x, y, height, width, Touch)
+    return Touch.Palse and x <= Touch.X and Touch.X <= x + width and y <= Touch.Y and Touch.Y <= y + height
 end
+---@endsection PalseCollisionDetection
+
+
+---@section MomentaryCollisionDetection
+function MomentaryCollisionDetection(x, y, height, width, Touch)
+    return Touch.Bool and x <= Touch.X and Touch.X <= x + width and y <= Touch.Y and Touch.Y <= y + height
+end
+---@endsection MomentaryCollisionDetection

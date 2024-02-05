@@ -42,11 +42,12 @@ do
         end
         -- touchscreen defaults
         local screenConnection = simulator:getTouchScreen(1)
-        simulator:setInputBool(1, true)
-        simulator:setInputNumber(1, screenConnection.width)
-        simulator:setInputNumber(2, screenConnection.height)
-        simulator:setInputNumber(3, screenConnection.touchX)
-        simulator:setInputNumber(4, screenConnection.touchY)
+        simulator:setInputBool(1, screenConnection.isTouched)
+        simulator:setInputBool(10, true)
+        simulator:setInputNumber(1, screenConnection.touchX)
+        simulator:setInputNumber(2, screenConnection.touchY)
+        simulator:setInputNumber(3, 5000)
+        simulator:setInputNumber(4, 0)
         simulator:setInputNumber(5, lerp(0, 50, simulator:getSlider(1)))       --Engine RPS
         simulator:setInputNumber(6, lerp(0, 120, simulator:getSlider(2)))      --Engine Temp
         simulator:setInputNumber(7, lerp(0, 1, simulator:getSlider(3)))        --Battery
@@ -58,7 +59,7 @@ do
         simulator:setInputNumber(13, lerp(1, 9999, simulator:getSlider(8)))    --Keypad B
         simulator:setInputNumber(14, lerp(1, 10, simulator:getSlider(9)))      --N番目に格納されている受信チャンネル
         simulator:setInputNumber(15, lerp(1, 10, simulator:getSlider(10)))     --何番目の受信チャンネルか
-        simulator:setInputNumber(16, lerp(1, 9999, simulator:getSlider(11)))   --Send Channel
+        simulator:setInputNumber(16, lerp(1, 9999, simulator:getSlider(10)))   --Send Channel
         simulator:setInputNumber(17, lerp(0.5, -0.5, simulator:getSlider(12))) --Compass
         simulator:setInputNumber(18, lerp(0, 999, simulator:getSlider(13)))    --Speed
         simulator:setInputNumber(19, 0)                                        --None
@@ -68,12 +69,12 @@ do
         simulator:setInputNumber(23, 2)
         simulator:setInputNumber(24, (simulator:getSlider(1) * 6 + 1) // 1)
         simulator:setInputNumber(25, 000147)
-        simulator:setInputNumber(26, 011111)
-        simulator:setInputNumber(27, 022434)
-        simulator:setInputNumber(28, 043756)
+        simulator:setInputNumber(26, 021111)
+        simulator:setInputNumber(27, 042434)
+        simulator:setInputNumber(28, 063756)
         simulator:setInputNumber(29, 084613)
-        simulator:setInputNumber(30, 165603)
-        simulator:setInputNumber(31, 066200)
+        simulator:setInputNumber(30, 105603)
+        simulator:setInputNumber(31, 146200)
     end;
 end
 ---@endsection
@@ -87,16 +88,23 @@ end
 
 do
     require("Ver.0.8.0.lib.Data")
-    monitorSwap = property.getBool("Monitor Swap")
-    monitorID   = false
+    monitorSwap  = property.getBool("Monitor Swap")
+    MFMPassCode  = property.getNumber("MFMPassCode")
+    monitorID    = false
     ThisModuleID = 1
-    moduleID=1
+    moduleID     = 1
+    DrawListKey  = 1
 end
 
 function onTick()
-    Phys.update()
-    Wifi.update()
-    Touch.update()
+    Phys.Update()
+    Wifi.Update()
+    Touch.Update()
+
+    KeypadX=input.getNumber(15)
+    KeypadY=input.getNumber(16)
+
+    Wifi.Output()
 end
 
 function onDraw()
@@ -116,28 +124,109 @@ function onDraw()
 end
 
 function moduleUnit()
-    receiveunit(0,0,Wifi)
-    receiveunit(1,1,Wifi)
+    ---------layout
+    screen.setColor(10, 10, 10)
+    screen.drawClear()
+    screen.setColor(30, 30, 30) --送信チャンネルの下の線
+    screen.drawLine(0, 6, 32, 6)
+
+
+    screen.setColor(25, 25, 25)
+    screen.drawRectF(27, 14, 5, 5) --チャンネル上
+    screen.drawRectF(27, 20, 5, 5) --チャンネル下
+    screen.drawRectF(27, 7, 5, 5)  --受信チャンネル追加
+    screen.drawRectF(27, 27, 5, 5) --無線ON/OFF
+    ----------end layout
+
+
+
+    -------------SendSetting
+    screen.setColor(255, 255, 255)
+    screen.drawTriangleF(2, 1, 0, 4, 5, 4) --左の送信矢印
+    screen.drawLine(2, 4, 2, 6)
+    temp = Wifi.Switch and 255 or 80
+    screen.setColor(temp, temp, temp)
+    screen.drawText(6, 1, string.format("%04d", Wifi.SendFreq // 1)) --送信チャンネル
+
+    screen.setColor(25, 25, 25)
+    screen.drawRectF(27, 0, 5, 6) --送信ボタン
+
+    temp =MomentaryCollisionDetection(27, 0, 5, 5, Touch)and 255 or 50
+    if PalseCollisionDetection(27, 0, 5, 6, Touch)  then
+        Wifi.SetSendFreq(KeypadY)
+    end
+    
+    screen.setColor(temp, temp, temp)
+    screen.drawText(28, 2, "^") --送信ボタン
+
+
+    -------------EndSendSetting
+
+    ---------------AddReceiveFreq
+    temp =MomentaryCollisionDetection(27, 7, 5, 5, Touch)and 255 or 50
+    if PalseCollisionDetection(27, 7, 5, 5, Touch) then
+        Wifi.AddFreq(KeypadY)
+    end
+    screen.setColor(temp, temp, temp)
+    screen.drawText(28, 7, "+") --受信チャンネル追加
+    ---------------EndAddReceiveFreq
+
+
+
+    --------------ListUpDown
+    temp = MomentaryCollisionDetection(27, 14, 5, 5, Touch) and 255 or 50
+    DrawListKey = (PalseCollisionDetection(27, 14, 5, 5, Touch) and DrawListKey > 1) and DrawListKey - 1 or DrawListKey
+    screen.setColor(temp, temp, temp)
+    screen.drawTriangleF(29, 15, 27, 18, 32, 18) --チャンネル上
+
+
+    temp = MomentaryCollisionDetection(27, 20, 5, 5, Touch) and 255 or 50
+    DrawListKey = (PalseCollisionDetection(27, 20, 5, 5, Touch) and DrawListKey < 4) and DrawListKey + 1 or DrawListKey
+    screen.setColor(temp, temp, temp)
+    screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
+    --------------EndListUpDown
+
+
+
+
+    ---------------DrawScrollBar
+    screen.setColor(3, 5, 3)
+    screen.drawLine(26, 7, 26, 31)
+
+    screen.setColor(200, 100, 200)
+    screen.drawLine(26, 1 + DrawListKey * 6, 26, 7 + DrawListKey * 6)
+    ---------------EndDrawScrollBar
+
+
+
+    --------------SwittingWifi
+    temp = Wifi.Switch and 255 or 50
+    screen.setColor(temp, temp, temp)
+    screen.drawLine(28, 29, 28, 31)
+    screen.drawLine(29, 28, 31, 28)
+    screen.drawLine(30, 30, 30, 31) --無線ON/OFF
+
+    --------------EndSwittingWifi
+
+
+    receiveunit(DrawListKey * 2 - 1, 0, Wifi)
+    receiveunit(DrawListKey * 2, 1, Wifi)
 end
 
-
-
-
-
-function receiveunit(key, UnitNumber,Wifi)
+function receiveunit(key, UnitNumber, Wifi)
     --draw
-    key = Wifi.Freqlist[key] or 0
-    
+    Freq = Wifi.FreqList[key] or 0
+
     UnitNumber = UnitNumber * 12
-    local temp = key ~= 0 and 150 or 45 --freq
-    screen.setColor(temp, temp, temp)
+    local drawColorTemp = Freq ~= 0 and 150 or 45 --freq
+    screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
 
 
-    if Wifi.Passcode[key] == 4000 and radio.switch then--ReciveingCheck
+    if Wifi.Passcode[Freq] == MFMPassCode and Wifi.switch then --ReciveingCheck
         screen.setColor(50, 255, 50)
     end
 
-    screen.drawText(6, 8 + UnitNumber, string.format("%04d", key // 1))--drawFreq
+    screen.drawText(6, 8 + UnitNumber, string.format("%04d", Freq // 1)) --drawFreq
 
     screen.setColor(25, 25, 25)
 
@@ -145,31 +234,61 @@ function receiveunit(key, UnitNumber,Wifi)
         screen.drawRectF(1 + 6 * i, 14 + UnitNumber, 5, 5) --base
     end
 
-    temp = key ~= 0 and 255 or 80
-    screen.drawRectF(0, 8 + UnitNumber, 5, 5) --deleteCh
+    -------------------Delete
+    drawColorTemp = Freq ~= 0 and 255 or 80
+    screen.drawRectF(0, 8 + UnitNumber, 5, 5)
     screen.setColor(255, 255, 255)
     screen.drawText(1, 8 + UnitNumber, "-")
 
-    temp = Wifi.Visible[key] and 255 or 50 --vision
-    screen.setColor(temp, temp, temp)
-    DrawNewFont(2, 13 + UnitNumber, "v")
+    if PalseCollisionDetection(0, 8 + UnitNumber, 5, 5, Touch) then
+        Wifi.RemoveFreq(key)
+    end
+    ----------------EndDelete
 
-    temp = Wifi.DrawDirection[key] and 255 or 50 --direction
-    screen.setColor(temp, temp, temp)
+
+    ----------------Vision
+    drawColorTemp = Wifi.Visible[Freq] and 255 or 50 --vision
+    screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
+    screen.drawLine(2, 15 + UnitNumber, 2, 17 + UnitNumber)
+    screen.drawLine(3, 17 + UnitNumber, 3, 18 + UnitNumber)
+    screen.drawLine(4, 15 + UnitNumber, 4, 17 + UnitNumber)
+    --DrawNewFont(2, 13 + UnitNumber, "v")
+    if PalseCollisionDetection(1, 13 + UnitNumber, 5, 5, Touch) then
+        Wifi.Visible[Freq] = not Wifi.Visible[Freq]
+    end
+    ----------------EndVision
+
+
+    ----------------Direction
+    drawColorTemp = Wifi.DrawDirection[Freq] and 255 or 50 --direction
+    screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
     screen.drawLine(8, 15 + UnitNumber, 10, 15 + UnitNumber)
-    screen.drawLine(10, 16 + UnitNumber, 10, 17 + UnitNumber)
-    screen.drawLine(8, 17 + UnitNumber, 10, 17 + UnitNumber)
-    screen.drawLine(8, 16 + UnitNumber, 8, 17 + UnitNumber)
+    screen.drawLine(9, 18 + UnitNumber, 11, 16 + UnitNumber)
+    screen.drawLine(8, 16 + UnitNumber, 8, 18 + UnitNumber)
+    if PalseCollisionDetection(7, 13 + UnitNumber, 5, 5, Touch) then
+        Wifi.DrawDirection[Freq] = not Wifi.DrawDirection[Freq]
+    end
+    ----------------Direction
 
-    temp = Wifi.DrawWaypoint[key] and 255 or 50 --waypoint
-    screen.setColor(temp, temp, temp)
+    ----------------DrawWaypoint
+    drawColorTemp = Wifi.DrawWaypoint[Freq] and 255 or 50 --DrawWaypoint
+    screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
     screen.drawText(14, 14 + UnitNumber, "+")
+    if PalseCollisionDetection(13, 13 + UnitNumber, 5, 5, Touch) then
+        Wifi.DrawWaypoint[Freq] = not Wifi.DrawWaypoint[Freq]
+    end
+    ----------------EndDrawWaypoint
 
-    temp = (Wifi.setWaypointFreq == key and key ~= 0) and 255 or 50 --Set waypoint from wifi
-    screen.setColor(temp, temp, temp)
+    ----------------Set waypoint from wifi
+    drawColorTemp = (Wifi.SetWaypointFreq == Freq and Freq ~= 0) and 255 or 50 --Set waypoint from wifi
+    screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
     screen.drawRectF(20, 15 + UnitNumber, 3, 2)
     screen.drawLine(20, 17 + UnitNumber, 20, 18 + UnitNumber)
+    if PalseCollisionDetection(19, 13 + UnitNumber, 5, 5, Touch) then
+        Wifi.SetWaypointFreq = (Freq ~= Wifi.SetWaypointFreq) and Freq or 0
+    end
+    ----------------End Set waypoint from wifi
+
 
     --endDraw
-
 end
