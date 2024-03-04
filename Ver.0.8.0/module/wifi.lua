@@ -28,6 +28,7 @@ do
     simulator:setProperty("F4",
         "88ACA44446008EE00E6600EAE0EAE80EAE2006880EC6E04E4400AAE00AA400AEE00A4A0AA480E6CE6484644444C424CEEEEE")
     simulator:setProperty("Monitor Swap", false)
+    simulator:setProperty("MFMPassCode", 5000)
     simulator:setProperty("DefRecd.F.1", 1)
     simulator:setProperty("DefRecd.F.2", 2)
     simulator:setProperty("DefRecd.F.3", 3)
@@ -43,11 +44,11 @@ do
         -- touchscreen defaults
         local screenConnection = simulator:getTouchScreen(1)
         simulator:setInputBool(1, screenConnection.isTouched)
-        simulator:setInputBool(10, true)
+        simulator:setInputBool(10, simulator:getIsToggled(1))
         simulator:setInputNumber(1, screenConnection.touchX)
         simulator:setInputNumber(2, screenConnection.touchY)
-        simulator:setInputNumber(3, 5000)
-        simulator:setInputNumber(4, 0)
+        simulator:setInputNumber(3, 1)
+        simulator:setInputNumber(4, lerp(5000, 5001, simulator:getSlider(1)))
         simulator:setInputNumber(5, lerp(0, 50, simulator:getSlider(1)))       --Engine RPS
         simulator:setInputNumber(6, lerp(0, 120, simulator:getSlider(2)))      --Engine Temp
         simulator:setInputNumber(7, lerp(0, 1, simulator:getSlider(3)))        --Battery
@@ -160,8 +161,8 @@ function moduleUnit()
     screen.setColor(25, 25, 25)
     screen.drawRectF(27, 0, 5, 6) --送信ボタン
 
-    temp = MomentaryCollisionDetection(27, 0, 5, 5, Touch) and 255 or 50
-    if PalseCollisionDetection(27, 0, 5, 6, Touch) then
+    temp = Touch.MomentaryCollisionDetection(27, 0, 5, 5) and 255 or 50
+    if Touch.PalseCollisionDetection(27, 0, 5, 6) then
         Wifi.SetSendFreq(KeypadY)
     end
 
@@ -172,8 +173,8 @@ function moduleUnit()
     -------------EndSendSetting
 
     ---------------AddReceiveFreq
-    temp = MomentaryCollisionDetection(27, 7, 5, 5, Touch) and 255 or 50
-    if PalseCollisionDetection(27, 7, 5, 5, Touch) then
+    temp = Touch.MomentaryCollisionDetection(27, 7, 5, 5) and 255 or 50
+    if Touch.PalseCollisionDetection(27, 7, 5, 5) then
         Wifi.AddFreq(KeypadY)
     end
     screen.setColor(temp, temp, temp)
@@ -183,19 +184,19 @@ function moduleUnit()
 
 
     --------------ListUpDown
-    temp = MomentaryCollisionDetection(27, 14, 5, 5, Touch) and 255 or 50
-    DrawListKey = (PalseCollisionDetection(27, 14, 5, 5, Touch) and DrawListKey > 1) and DrawListKey - 1 or DrawListKey
+    temp = Touch.MomentaryCollisionDetection(27, 14, 5, 5) and 255 or 50
+    DrawListKey = Touch.PalseCollisionDetection(27, 14, 5, 5) and DrawListKey - 1 or DrawListKey
     screen.setColor(temp, temp, temp)
     screen.drawTriangleF(29, 15, 27, 18, 32, 18) --チャンネル上
 
 
-    temp = MomentaryCollisionDetection(27, 20, 5, 5, Touch) and 255 or 50
-    DrawListKey = (PalseCollisionDetection(27, 20, 5, 5, Touch) and DrawListKey < 4) and DrawListKey + 1 or DrawListKey
+    temp = Touch.MomentaryCollisionDetection(27, 20, 5, 5) and 255 or 50
+    DrawListKey = Touch.PalseCollisionDetection(27, 20, 5, 5) and DrawListKey + 1 or DrawListKey
     screen.setColor(temp, temp, temp)
     screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
     --------------EndListUpDown
 
-
+    Touch.Clamp(DrawListKey,4,1)
 
 
     ---------------DrawScrollBar
@@ -231,8 +232,9 @@ function receiveunit(key, UnitNumber, Wifi)
     screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
 
 
-    if Wifi.Passcode[Freq] == MFMPassCode and Wifi.switch then --ReciveingCheck
+    if Wifi.Passcode[Freq] == MFMPassCode and Wifi.Switch and Freq~=0 then --ReciveingCheck
         screen.setColor(50, 255, 50)
+        
     end
 
     screen.drawText(6, 8 + UnitNumber, string.format("%04d", Freq // 1)) --drawFreq
@@ -249,7 +251,7 @@ function receiveunit(key, UnitNumber, Wifi)
     screen.setColor(255, 255, 255)
     screen.drawText(1, 8 + UnitNumber, "-")
 
-    if PalseCollisionDetection(0, 8 + UnitNumber, 5, 5, Touch) then
+    if Touch.PalseCollisionDetection(0, 8 + UnitNumber, 5, 5) then
         Wifi.RemoveFreq(key)
     end
     ----------------EndDelete
@@ -262,7 +264,7 @@ function receiveunit(key, UnitNumber, Wifi)
     screen.drawLine(3, 17 + UnitNumber, 3, 18 + UnitNumber)
     screen.drawLine(4, 15 + UnitNumber, 4, 17 + UnitNumber)
     --DrawNewFont(2, 13 + UnitNumber, "v")
-    if PalseCollisionDetection(1, 13 + UnitNumber, 5, 5, Touch) then
+    if Touch.PalseCollisionDetection(1, 13 + UnitNumber, 5, 5) then
         Wifi.Visible[Freq] = not Wifi.Visible[Freq]
     end
     ----------------EndVision
@@ -274,7 +276,7 @@ function receiveunit(key, UnitNumber, Wifi)
     screen.drawLine(8, 15 + UnitNumber, 10, 15 + UnitNumber)
     screen.drawLine(9, 18 + UnitNumber, 11, 16 + UnitNumber)
     screen.drawLine(8, 16 + UnitNumber, 8, 18 + UnitNumber)
-    if PalseCollisionDetection(7, 13 + UnitNumber, 5, 5, Touch) then
+    if Touch.PalseCollisionDetection(7, 13 + UnitNumber, 5, 5) then
         Wifi.DrawDirection[Freq] = not Wifi.DrawDirection[Freq]
     end
     ----------------Direction
@@ -283,7 +285,7 @@ function receiveunit(key, UnitNumber, Wifi)
     drawColorTemp = Wifi.DrawWaypoint[Freq] and 255 or 50 --DrawWaypoint
     screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
     screen.drawText(14, 14 + UnitNumber, "+")
-    if PalseCollisionDetection(13, 13 + UnitNumber, 5, 5, Touch) then
+    if Touch.PalseCollisionDetection(13, 13 + UnitNumber, 5, 5) then
         Wifi.DrawWaypoint[Freq] = not Wifi.DrawWaypoint[Freq]
     end
     ----------------EndDrawWaypoint
@@ -293,7 +295,7 @@ function receiveunit(key, UnitNumber, Wifi)
     screen.setColor(drawColorTemp, drawColorTemp, drawColorTemp)
     screen.drawRectF(20, 15 + UnitNumber, 3, 2)
     screen.drawLine(20, 17 + UnitNumber, 20, 18 + UnitNumber)
-    if PalseCollisionDetection(19, 13 + UnitNumber, 5, 5, Touch) then
+    if Touch.PalseCollisionDetection(19, 13 + UnitNumber, 5, 5) then
         Wifi.SetWaypointFreq = (Freq ~= Wifi.SetWaypointFreq) and Freq or 0
     end
     ----------------End Set waypoint from wifi

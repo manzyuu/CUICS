@@ -18,12 +18,12 @@ Number
 14.phys compass
 15.KeypadA
 16.KeypadB
-17.////!!AnyData!!////
-18.////!!AnyData!!////
-19.beconX
-20.beconY
-21.waypointX
-22.waypointY
+17.beconX
+18.beconY
+19.///AnyData///
+20.waypointX
+21.waypointY
+22.WifiReceiveFreq
 23.WifiSendFreq
 24.Wifi01Freq+settingdata
 25.Wifi02Freq+settingdata
@@ -36,7 +36,7 @@ Number
 32.Wifi08Freq+settingdata
 
 settingdata 
-receive.now == 1 or 0
+receive.selectWaypoint == 1 or 0
 receive.vis == 2 or 0
 receive.dir == 4 or 0
 receive.way == 8 or 0
@@ -76,4 +76,13 @@ IDCode
 4.ex
 
 
+
+
+Bool
+
+1.Touch
+
+
+
+32.ErrorcheckClockSignal
 

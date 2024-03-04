@@ -42,7 +42,7 @@ do
             return (1 - data) * min + data * max
         end
         -- touchscreen defaults
-        local screenConnection = simulator:getTouchScreen(1)
+        local screenConnection = simulator:getTouchScreen(2)
         simulator:setInputBool(1, screenConnection.isTouched)
         simulator:setInputBool(10, simulator:getIsToggled(1))
         simulator:setInputNumber(1, screenConnection.touchX)
@@ -92,18 +92,10 @@ do
     MFMPassCode    = property.getNumber("MFMPassCode")
     monitorID      = false
     errorcheck     = false
-    ThisModuleID   = 2
     ModuleID       = 2
-    Map            = {}
-    Map.DrawPointX = 0
-    Map.DrawPointY = 0
-    Map.ZoomStage  = Funk.Split(property.getText("ZoomStage"), ",")
-    ZoomLevel=1
-    mapX, mapY =0,0
-    color          = {}
-    color.player   = Funk.Split(property.getText("MapPlayerColor"), ",")
-    color.another  = Funk.Split(property.getText("MapAnotherColor"), ",")
-    DrawWayointMenu = false
+    viewDataNumver = 0
+    autopilotDist  = 0
+    OldModuleID    = 1
 end
 
 
@@ -114,133 +106,137 @@ function onTick()
     ------endErrorcheckClockSignal
 
     ModuleID = input.getNumber(3)
-    
+
 
     Phys.Update()
     Wifi.Update()
     Touch.Update()
 
+    autopilotDist = math.sqrt((Phys.GpsX - input.getNumber(20)) ^ 2 + (Phys.GpsY - input.getNumber(21)) ^ 2)
 
 
+    OldModuleID = moduleID ~= 0 and moduleID or OldModuleID
+
+    moduleID = (moduleID == 0 and Touch.Palse) and OldModuleID or
+        moduleID~=0 and ( 
+            Touch.PalseCollisionDetection(10, 0, 22, 15) and 0 or
+            Touch.PalseCollisionDetection(00, 15, 12, 6) and 1 or
+            Touch.PalseCollisionDetection(15, 15, 06, 6) and 2 or
+            Touch.PalseCollisionDetection(00, 24, 16, 6) and 3 or
+            Touch.PalseCollisionDetection(15, 24, 16, 6) and 4 ) or moduleID
+
+
+    output.setNumber(3, moduleID)
 end
 
 function onDraw()
-    flag = ModuleID == ThisModuleID
-
-    if monitorID ~= monitorSwap then
+    if monitorID then
         monitorID = false
-        if monitorSwap and flag then
-            moduleUnit()
+
+        if not monitorSwap then
+            screen.setColor(10, 10, 10)
+            screen.drawClear()
+            drawdata()
+            drawbutton()
         end
     else
         monitorID = true
-        if not monitorSwap and flag then
-            moduleUnit()
+        if monitorSwap then
+            screen.setColor(10, 10, 10)
+            screen.drawClear()
+            drawdata()
+            drawbutton()
         end
     end
 end
 
-function moduleUnit()
+function drawdata()
+    screen.setColor(1, 1, 1)
+    screen.drawLine(0, 13, 32, 13)
+
+    screen.setColor(50, 50, 50)
+    screen.drawRectF(0, 0, 3, 13)
+    screen.setColor(150, 150, 150)
+    screen.drawTriangleF(0, 3, 3, 7, 0, 11)
+
+    viewDataNumver = (Touch.PalseCollisionDetection(0, 0, 4, 15) and viewDataNumver + 1 or viewDataNumver) % 3
+    if viewDataNumver == 0 then
+        DrawNewFont(3, 1, "ALT")
+        DrawNewFont(16, 1, string.format("%04d", Phys.Alt // 1))
+        DrawNewFont(3, 7, "SPD")
+        DrawNewFont(16, 7, string.format("%04d", Phys.Spd // 1))
+    elseif viewDataNumver == 1 then --GPSX,Y座標表示
+        screen.setColor(200, 50, 20)
+        DrawNewFont(8, 1, "X")
+        if Phys.GpsX < 0 then
+            DrawNewFont(12, 1, "-")
+        end
+
+        DrawNewFont(16, 1, string.format("%03d", math.abs(Phys.GpsX // 100))) --3桁表示し左を0埋め
+        screen.drawLine(28, 5, 29, 5)
+        screen.drawLine(30, 5, 31, 5)
 
 
-
-    ---move
-    DrawCurrentLocationFlag = Touch.MomentaryCollisionDetection(13, 13, 6, 6) and true or DrawCurrentLocationFlag
-    if DrawCurrentLocationFlag then
-        mapX, mapY = Phys.GpsX, Phys.GpsY
+        screen.setColor(20, 50, 200)
+        DrawNewFont(8, 7, "Y")
+        if Phys.GpsY < 0 then
+            DrawNewFont(12, 7, "-")
+        end
+        DrawNewFont(16, 7, string.format("%03d", math.abs(Phys.GpsY // 100)))
+        screen.drawLine(28, 11, 29, 11)
+        screen.drawLine(30, 11, 31, 11)
+    else --Target Distance
+        screen.setColor(255, 255, 255)
+        DrawNewFont(7, 1, string.format("%03d", math.min(math.abs(autopilotDist // 1000), 999)))
+        screen.drawText(18, 1, ".")
+        DrawNewFont(21, 1, string.format("%01d", math.abs(autopilotDist) // 100 % 10))
+        DrawNewFont(23, 7, "KM")
     end
+end
 
-    local temp = DrawWayointMenu and 23 or 6
-   
-    if Touch.Bool and not (Touch.MomentaryCollisionDetection(00, 00, 5, 10) or--zoom button
-                           Touch.MomentaryCollisionDetection(26, 00, 6, temp) or --weypointmenu
-                           Touch.MomentaryCollisionDetection(13, 13, 6, 6)) then ----center and zoomlv == false then
-        DrawCurrentLocationFlag = false
-        mapX = (Touch.X - 16) * tonumber(Map.ZoomStage[ZoomLevel]) / 2 + mapX
-        mapY = -(Touch.Y - 16) *tonumber(Map.ZoomStage[ZoomLevel]) / 2 + mapY
-    end
-
-
-
-    ---endmove
-
-    screen.drawMap(mapX, mapY, Map.ZoomStage[ZoomLevel])
-
-    
-
-    if Touch.PalseCollisionDetection(27, 0, 5, 4) then
-        DrawWayointMenu = not DrawWayointMenu
-    end
-    if DrawWayointMenu then --weypointmenu
-
-
-        local temp = 0
-        screen.setColor(5, 5, 5)
-        screen.drawRectF(27, 6, 5, 16) --
-
-
-        screen.setColor(20, 20, 20)
-
-        screen.drawRect(27, 6, 4, 5)  --waypoint from keypad
-        screen.drawRect(27, 11, 4, 5) --waypoint from wifi
-        screen.drawRect(27, 16, 4, 6) --waypoint from Becon
-
-
-        temp = Touch.MomentaryCollisionDetection(27, 6, 5, 4) and 100 or 255
-        screen.setColor(temp, temp, temp)
-        DrawNewFont(28, 6, "p") --waypoint from keypad
-
-        temp = Wifi.Switch and 255 or 50
-        temp = Touch.MomentaryCollisionDetection(27, 12, 5, 4) and 100 or temp
-        screen.setColor(temp, temp, temp)
-        screen.drawRectF(28, 13, 3, 2) --waypoint from keypad
-        screen.drawLine(28, 13, 28, 16)
-
-        temp = Touch.MomentaryCollisionDetection(27, 18, 5, 4) and 100 or 255
-        screen.setColor(temp, temp, temp)
-        DrawNewFont(28, 17, "B") --waypoint from keypad
-    end
-
-
-
-    --縮尺
-    screen.setColor(0, 0, 0,130)
-    DrawNewFont(0, 26, tostring(Map.ZoomStage[ZoomLevel]).."km")
-
-
-
-
-    ---zoom
-    screen.drawRect(0, 0, 4, 4) --Zoomボタン
-    screen.drawRect(0, 5, 4, 4)
-    screen.setColor(255, 255, 255)
-    screen.drawText(1, 0, "+") --Zoomボタン
-    screen.drawText(1, 5, "-")
-    
-    ZoomLevel = Touch.PalseCollisionDetection(0, 0, 5, 5) and ZoomLevel - 1 or
-    Touch.PalseCollisionDetection(0, 6, 5, 5)and ZoomLevel + 1 or ZoomLevel
-    ZoomLevel = Funk.Clamp(ZoomLevel, #Map.ZoomStage, 1)
-    ---endzoom
-
-
-
-
-
-
-
-
-    temp = Touch.MomentaryCollisionDetection(27, 0, 5, 4) and 100 or 255
+function drawbutton()
+    local temp = 0
+    --右モニタ操作用ボタン
+    --マップ
+    screen.setColor(30, 30, 30)
+    screen.drawRectF(0, 15, 13, 7)
+    screen.setColor(50, 50, 50)
+    screen.drawRect(0, 15, 12, 6)
+    temp = Touch.MomentaryCollisionDetection(0, 15, 12, 6) and 100 or 255
     screen.setColor(temp, temp, temp)
-    DrawNewFont(28, -1, "w") --waypointMenu
+    DrawNewFont(1, 16, "MAP")
 
+    --チャンネル設定
+    temp = radioswitch and 50 or 30
+    screen.setColor(30, temp, 30)
+    screen.drawRectF(15, 15, 7, 7)
+    screen.setColor(50, 50, 50)
+    screen.drawRect(15, 15, 6, 6)
 
-    if not DrawCurrentLocationFlag then
-        local CurrentLocationX,CurrentLocationY= map.mapToScreen(mapX,mapY,Map.ZoomStage[ZoomLevel],32,32,Phys.GpsX,Phys.GpsY)
-        screen.drawLine(16,16, CurrentLocationX,CurrentLocationY)
-        --print("X:"..tostring(CurrentLocationX).."      Y:"..tostring(CurrentLocationY))
-    end
+    temp = Touch.MomentaryCollisionDetection(15, 15, 6, 6) and 100 or 255
+    screen.setColor(temp, temp, temp)
+    screen.drawLine(16, 19, 16, 21)
+    screen.drawLine(16, 19, 19, 16)
+    screen.drawLine(19, 16, 21, 16)
 
-    screen.setColor(255, 255, 255, 140)
-    screen.drawCircle(16, 16, 4) --中心に戻る
+    screen.drawLine(18, 19, 18, 21)
+    screen.drawLine(19, 18, 21, 18)
 
+    screen.drawLine(20, 20, 21, 20)
+
+    screen.setColor(30, 30, 30)
+    screen.drawRectF(0, 24, 13, 7)
+    screen.setColor(50, 50, 50)
+    screen.drawRect(0, 24, 12, 6)
+    temp = Touch.MomentaryCollisionDetection(0, 24, 16, 6) and 100 or 255
+    screen.setColor(temp, temp, temp)
+    DrawNewFont(1, 25, "STA")
+
+    screen.setColor(30, 30, 30)
+    screen.drawRectF(16, 24, 17, 7)
+    screen.setColor(50, 50, 50)
+    screen.drawRect(15, 24, 16, 6)
+    temp = Touch.MomentaryCollisionDetection(15, 24, 16, 6) and 100 or 255
+    screen.setColor(temp, temp, temp)
+    DrawNewFont(16, 25, "EXTE")
 end
