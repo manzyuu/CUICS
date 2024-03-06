@@ -207,7 +207,7 @@ function drawbutton()
     DrawNewFont(1, 16, "MAP")
 
     --チャンネル設定
-    temp = radioswitch and 50 or 30
+    temp = Wifi.Switch and 50 or 30
     screen.setColor(30, temp, 30)
     screen.drawRectF(15, 15, 7, 7)
     screen.setColor(50, 50, 50)

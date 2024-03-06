@@ -25,6 +25,6 @@ sandboxEnv.simulator = simulator
 simulator:_beginSimulation(false, arg[1], arg[2])
 
 -- main require
-sandboxEnv.require("Ver.0.8.0.module.wifi")
+sandboxEnv.require("Ver.0.8.0.compressedTest.wifi")
 
 simulator:_giveControlToMainLoop()

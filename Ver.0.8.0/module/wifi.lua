@@ -85,10 +85,10 @@ end
 
 -- try require("Folder.Filename") to include code from another file in this, so you can store code in libraries
 -- the "LifeBoatAPI" is included by default in /_build/libs/ - you can use require("LifeBoatAPI") to get this, and use all the LifeBoatAPI.<functions>!
-
+require("Ver.0.8.0.lib.Data")
 
 do
-    require("Ver.0.8.0.lib.Data")
+
     monitorSwap  = property.getBool("Monitor Swap")
     MFMPassCode  = property.getNumber("MFMPassCode")
     monitorID    = false
@@ -196,7 +196,7 @@ function moduleUnit()
     screen.drawTriangleF(29, 25, 26, 21, 32, 21) --チャンネル下
     --------------EndListUpDown
 
-    Touch.Clamp(DrawListKey,4,1)
+    Funk.Clamp(DrawListKey,4,1)
 
 
     ---------------DrawScrollBar

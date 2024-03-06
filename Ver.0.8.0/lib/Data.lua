@@ -18,8 +18,9 @@ Phys = {
         CompassDeg = math.deg(input.getNumber(14) * (math.pi * 2))     -- -180~180 ((((1 - input.getNumber(14)) % 1) * (math.pi * 2)) / math.pi * 180)
         CompassRad = input.getNumber(14) * (math.pi * 2)               --  -pi~pi
     end,
-    ---@endsection Update
+    ---@endsection 
 
+    --[[
     ---@section printData
     printData = function()
         print(GpsX)
@@ -30,8 +31,9 @@ Phys = {
         print(CompassRad)
     end,
     ---@endsection printData
-}
----@endsection Phys
+    ]]
+} 
+---@endsection 
 
 
 
@@ -59,7 +61,7 @@ Touch = {
         return Touch.Palse and x <= Touch.X and Touch.X <= x + width and y <= Touch.Y and Touch.Y <= y + height
     end,
 
-    ---@endsection PalseCollisionDetection
+    ---@endsection 
 
 
     ---@section MomentaryCollisionDetection
@@ -67,10 +69,10 @@ Touch = {
         return Touch.Bool and x <= Touch.X and Touch.X <= x + width and y <= Touch.Y and Touch.Y <= y + height
     end,
 
-    ---@endsection MomentaryCollisionDetection
+    ---@endsection 
 
 }
----@endsection Touch
+---@endsection 
 
 
 ---@section Wifi
@@ -99,10 +101,10 @@ Wifi = {
         if Touch.ReloadTimer == 0 then
             Wifi.SendFreq = input.getNumber(23)
             for i = 1, 8, 1 do
-                Wifi.FreqList[i] = math.floor(input.getNumber(24 + i)) % interval or 0
+                Wifi.FreqList[i] = math.floor(input.getNumber(24 + i)) % Wifi.interval or 0
                 --receive.dispflag[Wifi.FreqList[i]] = receive.dispflag[Wifi.FreqList[i]] or false
                 if 0 ~= Wifi.FreqList[i] then     --設定情報更新
-                    local settingdata = math.floor(input.getNumber(24 + i) / interval)
+                    local settingdata = math.floor(input.getNumber(24 + i) / Wifi.interval)
                     Wifi.Receiveing = (settingdata & 1 == 1) and Wifi.FreqList[i] or Wifi.Receiveing
                     Wifi.Visible[Wifi.FreqList[i]] = settingdata & 2 == 2
                     Wifi.DrawDirection[Wifi.FreqList[i]] = settingdata & 4 == 4
@@ -126,7 +128,7 @@ Wifi = {
         Wifi.ListKey = Wifi.ReceiveFreqChangeTimer == 0 and Wifi.ListKey + 1 or Wifi.ListKey
         Wifi.ListKey = Wifi.ListKey > 8 and 1 or Wifi.ListKey
     end,
-    ---@endsection Update
+    ---@endsection 
 
 
     ---@section AddFreq
@@ -145,7 +147,7 @@ Wifi = {
             end
         end
     end,
-    ---@endsection AddFreq
+    ---@endsection 
 
     ---@section RemoveFreq
     RemoveFreq = function(key)
@@ -153,7 +155,7 @@ Wifi = {
             Wifi.FreqList[i] = Wifi.FreqList[i + 1]
         end
     end,
-    ---@endsection RemoveFreq
+    ---@endsection 
 
 
     ---@section SetSendFreq
@@ -162,7 +164,7 @@ Wifi = {
             Wifi.SendFreq = freq
         end
     end,
-    ---@endsection SetSendFreq
+    ---@endsection 
 
 
 
@@ -173,25 +175,29 @@ Wifi = {
         for i = 1, 8, 1 do
             local number = Wifi.FreqList[i]
             local temp = ((Wifi.SetWaypointFreq == number and 1 or 0) + (Wifi.Visible[number] and 2 or 0) + (Wifi.DrawDirection[number] and 4 or 0) + (Wifi.DrawWaypoint[number] and 8 or 0)) *
-                interval
+            Wifi.interval
             output.setNumber(24 + i, number + temp)
         end
     end,
-    ---@endsection Output
+    ---@endsection 
 }
----@endsection Wifi
+---@endsection 
 
 
 
 
 
 
-
+---@section Funk
 Funk = {
 
 
 
     ---@section DrawNewFont
+    ---@param NewFontX string|number
+    ---@param NewFontY string|number
+    ---@param NewFontText string|number
+    ---@return nil
     DrawNewFont = function(NewFontX, NewFontY, NewFontText)
         if type(NewFontText) == "number" then
             NewFontText = tostring(NewFontText)
@@ -211,20 +217,26 @@ Funk = {
             end
         end
     end,
-    ---@endsection DrawNewFont
+    ---@endsection 
 
 
 
 
     ---@section Clamp
+    ---@param value number
+    ---@param max number
+    ---@param min number
+    ---@return number
     Clamp = function(value, max, min)
         return math.min(math.max(value, min), max)
     end,
-
-    ---@endsection Clamp
+    ---@endsection 
 
 
     ---@section Split
+    ---@param str string
+    ---@param delim string
+    ---@return table
     Split = function(str, delim)
         if string.find(str, delim) == nil then
             return { str }
@@ -241,30 +253,37 @@ Funk = {
         return result
     end,
 
-    ---@endsection Split
+    ---@endsection 
 
 
 
 
     ---@section Colorconv16
+    ---@param name string
+    ---@return number,number,number
     Colorconv16 = function(name)                                       --16進数のカラーコードをRGBに変換する
         local Color = tonumber(property.getText(name), 16) or 0
         return (Color >> 16) & 0xff, (Color >> 8) & 0xff, Color & 0xff --R,G,B
     end,
-
-    ---@endsection Colorconv16
+    ---@endsection 
 
 
 
     ---@section lerp
+    ---@param MIN number
+    ---@param MAX number
+    ---@param X number
+    ---@return number
     lerp = function(MIN, MAX, X) --  0~1  f(x)と同じ挙動
         return (1 - X) * MIN + X * MAX
     end,
 
-    ---@endsection lerp
+    ---@endsection 
 
 
     ---@section Sign
+    ---@param x number
+    ---@return number
     Sign = function(x)
         if x < 0 then
             return -1
@@ -275,5 +294,6 @@ Funk = {
         end
     end,
 
-    ---@endsection Sign
+    ---@endsection 
 }
+---@endsection 
